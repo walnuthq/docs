@@ -182,7 +182,6 @@ function SearchResult({
     (x): x is string => typeof x === 'string',
   )
 
-  console.log(result.snippet);
 
   return (
     <li
