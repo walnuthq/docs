@@ -4,15 +4,17 @@ export const metadata = {
     '',
 }
 
-# Verifying Contract Classes
+# Verify Contract Classes on Walnut
 
 ## Overview
 
-Verification is the process of ensuring that your smart contract’s source code matches the declared class on the network. To debug your contracts at the function level and to step through transactions to see what Cairo code is executed at each step, it's essential to verify your contract classes.
+Verification is the process of ensuring that your smart contract’s source code matches the declared class on the network. To debug your contracts at the function level and to step through transactions to see what Cairo code is executed at each step, it's essential to verify your contract classes on Walnut.
 
 Walnut supports verification of contract classes through both the Starknet Foundry's `sncast verify` command and its own API. We currently support Cairo v2.6.3, v2.6.4, and v2.7.0. Contact us if you need support for a different version: [https://t.me/walnuthq](https://t.me/walnuthq).
 
 ## Mainnet and Sepolia
+
+In this section, learn how to verify contracts on Mainnet and Sepolia, using Foundry or Walnut Verification API. To verify contracts on custom Networks, refer to the [Custom Networks](#custom-networks) section.
 
 ### Verification with Starknet Foundry `sncast verify`
 
@@ -68,6 +70,8 @@ Using Walnut's API, you can directly verify contract classes. Here’s how a typ
 ## Custom Networks
 
 Verification is supported on custom networks compatible with Starknet JSON-RPC version ≥0.6.0. For custom networks, Walnut stores verified class data without an associated chain ID, allowing reuse across networks where the class shares the same source code.
+
+Verifying contracts on custom networks is only available through the Walnut Verification API.
 
 ### Custom Network Verification API
 
