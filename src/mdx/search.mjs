@@ -83,8 +83,8 @@ export default function Search(nextConfig = {}) {
                 tokenize: 'full',
                 document: {
                   id: 'url',
-                  index: 'content',
-                  store: ['title', 'pageTitle'],
+                  index: ['title', 'content'],
+                  store: ['title', 'pageTitle', 'content'],
                 },
                 context: {
                   resolution: 9,
@@ -100,7 +100,7 @@ export default function Search(nextConfig = {}) {
                   sectionIndex.add({
                     url: url + (hash ? ('#' + hash) : ''),
                     title,
-                    content: [title, ...content].join('\\n'),
+                    content: [...content].join('\\n'),
                     pageTitle: hash ? sections[0][0] : undefined,
                   })
                 }
@@ -114,11 +114,44 @@ export default function Search(nextConfig = {}) {
                 if (result.length === 0) {
                   return []
                 }
-                return result[0].result.map((item) => ({
-                  url: item.id,
-                  title: item.doc.title,
-                  pageTitle: item.doc.pageTitle,
-                }))
+                return result[0].result.map((item) => {
+                  const snippet = extractSnippet(item.doc.content, query);
+                  return {
+                    url: item.id,
+                    title: item.doc.title,
+                    pageTitle: item.doc.pageTitle,
+                    snippet: snippet,
+                  }
+                })
+              }
+
+              function extractSnippet(content, query) {
+                const words = query.toLowerCase().split(/\s+/);
+                const contentLower = content.toLowerCase();
+                let bestStartIndex = -1;
+                let bestEndIndex = -1;
+                let maxMatchCount = 0;
+
+                for (let i = 0; i < contentLower.length; i++) {
+                  let endIndex = i + 200;
+                  let matchCount = words.filter(word => contentLower.slice(i, endIndex).includes(word)).length;
+                  if (matchCount > maxMatchCount) {
+                    maxMatchCount = matchCount;
+                    bestStartIndex = i;
+                    bestEndIndex = endIndex;
+                  }
+                }
+
+                if (bestStartIndex === -1) {
+                  return content.slice(0, 200) + '...';
+                }
+
+                while (bestStartIndex > 0 && content[bestStartIndex - 1] !== ' ') bestStartIndex--;
+                while (bestEndIndex < content.length && content[bestEndIndex] !== ' ') bestEndIndex++;
+
+                let snippet = content.slice(bestStartIndex, bestEndIndex);
+
+                return (bestStartIndex > 0 ? '... ' : '') + snippet + (bestEndIndex < content.length ? ' ...' : '');
               }
             `
           }),
