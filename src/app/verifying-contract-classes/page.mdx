@@ -1,0 +1,97 @@
+export const metadata = {
+  title: 'Verifying Contract Classes',
+  description:
+    '',
+}
+
+# Verifying Contract Classes
+
+## Overview
+
+Verification is the process of ensuring that your smart contract’s source code matches the declared class on the network. To debug your contracts at the function level and to step through transactions to see what Cairo code is executed at each step, it's essential to verify your contract classes.
+
+Walnut supports verification of contract classes through both the Starknet Foundry's `sncast verify` command and its own API. We currently support Cairo v2.6.3, v2.6.4, and v2.7.0. Contact us if you need support for a different version: [https://t.me/walnuthq](https://t.me/walnuthq).
+
+## Mainnet and Sepolia
+
+### Verification with Starknet Foundry `sncast verify`
+
+To verify a contract on Mainnet or Sepolia using Walnut, follow these steps:
+
+1. Ensure your project has a `Scarb.toml` file, and the contract is already deployed to the target network.
+2. Execute the verification command:
+
+
+```shell {{ title: 'shell' }}
+sncast \
+    verify \
+    --contract-address 0x8448a68b5ea1affc45e3fd4b8b480ea36a51dc34e337a16d2567d32d0c6f8b \
+    --contract-name SimpleBalance \
+    --verifier walnut \
+    --network mainnet
+
+You are about to submit the entire workspace's code to the third-party chosen verifier at walnut, and the code will be publicly available through walnut's APIs. Are you sure? (Y/n) Y
+
+command: verify
+message: Contract has been successfully verified. You can check the verification status at the following link: https://api.walnut.dev/v1/sn_main/classes/0x03498e7edbc5f953315db118401fe7ea1eef637f63c56b45bd54e35150929ca3
+```
+
+Confirm the submission when prompted. Upon successful verification, you'll receive a message with a verification status link.
+
+### Verification via API
+
+Using Walnut's API, you can directly verify contract classes. Here’s how a typical request to the API looks:
+
+**Endpoint**: `POST /v1/{chain_id}/verify`
+
+**Request Body**:
+
+```json {{ title: 'json' }}
+{
+  "contract_name": "SimpleBalance",
+  "contract_address": "0x8448a68b5ea1affc45e3fd4b8b480ea36a51dc34e337a16d2567d32d0c6f8b",
+  "source_code": {
+    "src/lib.cairo": "// your lib.cairo source code here",
+    "src/utils/util1.cairo": "// your util1.cairo source code here"
+  }
+}
+```
+- **Chain ID**: The id of the chain where the contract class is declared. Possible values: sn\_mainnet, sn\_sepolia,
+- **Contract Name**: The name of the contract. The contract name is the part after the mod keyword in your contract file.
+- **Contract Address**: The address of the contract that is to be verified.
+- **Source Code**: A JSON object containing the file paths as keys and the corresponding source code as values.
+
+**Possible Responses**:
+- **200**: Contract successfully verified.
+- **400**: An error occurred during verification, such as a mismatch, returning an error message.
+
+## Custom Networks
+
+Verification is supported on custom networks compatible with Starknet JSON-RPC version ≥0.6.0. For custom networks, Walnut stores verified class data without an associated chain ID, allowing reuse across networks where the class shares the same source code.
+
+### Custom Network Verification API
+
+**Endpoint Example**: `POST /v1/verify`
+
+**Request Body**:
+
+```json {{ title: 'json' }}
+{
+  "class_name": "CustomClass",
+  "class_hash": "0xabc123...",
+  "rpc_url": "https://custom-rpc.example.com",
+  "source_code": {
+    "src/lib.cairo": "// your lib.cairo source code here",
+    "src/utils/util1.cairo": "// your util1.cairo source code here"
+  }
+}
+```
+
+- **Class Name**: The name of the contract. The contract name is the part after the mod keyword in your contract file.
+- **Class Hash**: The hash representing the declared class in the network.
+- **RPC URL**: The endpoint of the network's JSON-RPC service.
+- **Source Code**: A JSON object containing the file paths as keys and the corresponding source code as values.
+
+**Possible Responses**:
+- **200**: Class successfully verified.
+- **400**: An error during verification, providing an error message for diagnostics.
