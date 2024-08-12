@@ -89,7 +89,7 @@ function GitHubIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
-function DiscordIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
+function TelegramIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   return (
 <span className="[&>svg]:h-4 [&>svg]:w-4">
   <svg
@@ -136,7 +136,7 @@ function SmallPrint() {
         <SocialLink href="https://github.com/walnuthq" icon={GitHubIcon}>
           Follow us on GitHub
         </SocialLink>
-        <SocialLink href="https://t.me/walnutcorestars" icon={DiscordIcon}>
+        <SocialLink href="https://t.me/walnutcorestars" icon={TelegramIcon}>
           Our Telegram
         </SocialLink>
       </div>
