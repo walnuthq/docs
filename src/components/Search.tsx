@@ -149,10 +149,10 @@ function LoadingIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
   )
 }
 
-function HighlightQuery({ text, query }: { text: string; query: string }) {
+function HighlightQuery({ text, query}: { text: string; query: string; }) {
   return (
     <Highlighter
-      highlightClassName="underline bg-transparent text-pink-500"
+      highlightClassName={`underline bg-transparent text-pink-500`}
       searchWords={[query]}
       autoEscape={true}
       textToHighlight={text}
@@ -199,7 +199,12 @@ function SearchResult({
         aria-hidden="true"
         className="text-sm font-medium text-zinc-900 group-aria-selected:text-pink-500 dark:text-white"
       >
-        <HighlightQuery text={result.title} query={query} />
+        <div>
+          <HighlightQuery text={result.title} query={query} />
+        </div>
+        <div>
+          <HighlightQuery text={result.snippet} query={query} />
+        </div>
       </div>
       {hierarchy.length > 0 && (
         <div
