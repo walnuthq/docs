@@ -231,10 +231,17 @@ function NavigationGroup({
 
 export const navigation: Array<NavGroup> = [
   {
-    title: 'Guides',
+    title: 'Getting Started',
     links: [
-      { title: 'Introduction', href: '/' },
-      { title: 'Verifying Contract Classes', href: '/verifying-contract-classes' },
+      { title: 'About Walnut', href: '/' },
+      { title: 'Verify Contract Classes', href: '/verify-contract-classes' },
+    ],
+  },
+  {
+    title: 'Contact',
+    links: [
+      { title: 'Telegram', href: 'https://t.me/walnuthq' },
+      { title: 'Email', href: 'mailto:hi@walnut.dev' },
     ],
   },
 ]
