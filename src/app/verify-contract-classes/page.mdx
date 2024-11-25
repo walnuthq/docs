@@ -10,7 +10,7 @@ export const metadata = {
 
 Verification is the process of ensuring that your smart contract’s source code matches the declared class on the network. To debug your contracts at the function level and to step through transactions to see what Cairo code is executed at each step, it's essential to verify your contract classes on Walnut.
 
-Walnut supports verification of contract classes through both the Starknet Foundry's `sncast verify` command and its own API. We currently support Cairo v2.6.3, v2.6.4, and v2.7.0. Contact us if you need support for a different version: [https://t.me/walnuthq](https://t.me/walnuthq).
+Walnut supports verification of contract classes through both the Starknet Foundry's `sncast verify` command and its own API. Contact us if you need support for a different cairo version: [https://t.me/walnuthq](https://t.me/walnuthq).
 
 ## Mainnet and Sepolia
 
@@ -50,18 +50,21 @@ Using Walnut's API, you can directly verify contract classes. Here’s how a typ
 ```json {{ title: 'json' }}
 {
   "contract_name": "SimpleBalance",
-  "contract_address": "0x01e4ebe3278ab4633a9d0d3f5c4290001f29bc3179a70e570b6817dd7f8264fa",
+  "contract_address": "0x01e4ebe3278ab4633a9d0d3f5c4290001f29bc3179a70e570b6817dd7f8264fa", // This is optional to provide if the class_hash is not provided
+  "class_hash": "0x031966c9fe618bcee61d267750b9d46e3d71469e571e331f35f0ca26efe306dc", // This is optional to provide if the contract_address is not provided
   "source_code": {
     "src/lib.cairo": "// your lib.cairo source code here",
-    "src/utils/util1.cairo": "// your util1.cairo source code here"
+    "src/utils/util1.cairo": "// your util1.cairo source code here",
+    "Scarb.toml": "// your Scarb.toml code here"
   }
 }
 ```
 
-- **Chain ID**: The id of the chain where the contract class is declared. Possible values: sn_mainnet, sn_sepolia
-- **Contract Name**: The name of the contract. The contract name is the part after the mod keyword in your contract file.
-- **Contract Address**: The address of the contract that is to be verified.
-- **Source Code**: A JSON object containing the file paths as keys and the corresponding source code as values.
+- **Chain ID**: The id of the chain where the contract class is declared. Possible values: sn_mainnet, sn_sepolia. (_Mandatory_)
+- **Contract Name**: The name of the contract. The contract name is the part after the mod keyword in your contract file. (_Mandatory_)
+- **Contract Address**: The address of the contract that is to be verified. (_Optional_ if class hash is not provided)
+- **Class hash**: The hash of the class that is to be verified. (_Optional_ if contract address is not provided)
+- **Source Code**: A JSON object containing the file paths as keys and the corresponding source code as values. (_Mandatory_)
 
 **Possible Responses**:
 
@@ -86,20 +89,27 @@ Verifying contracts on custom networks is only available through the Walnut Veri
 
 ```json {{ title: 'json' }}
 {
-  "class_name": "CustomClass",
-  "class_hash": "0xabc123...",
+  "class_names": ["CustomClass1", "CustomClass2"],
+  "class_hashes": ["0xabc123...", "0xabc124..."],
+  "class_name": "CustomClass", // This is optional to provide if multiple class_names are not provided
+  "class_hash": "0xabc123...", // This is optional to provide if multiple class_hashes are not provided
   "rpc_url": "https://custom-rpc.example.com",
   "source_code": {
     "src/lib.cairo": "// your lib.cairo source code here",
-    "src/utils/util1.cairo": "// your util1.cairo source code here"
-  }
+    "src/utils/util1.cairo": "// your util1.cairo source code here",
+    "Scarb.toml": "// your Scarb.toml code here"
+  },
+  "cairo_version": "2.8.2"
 }
 ```
 
-- **Class Name**: The name of the contract. The contract name is the part after the mod keyword in your contract file.
-- **Class Hash**: The hash representing the declared class in the network.
-- **RPC URL**: The endpoint of the network's JSON-RPC service.
-- **Source Code**: A JSON object containing the file paths as keys and the corresponding source code as values.
+- **Class Names**: The names of the contracts. (_Optional_ if the class name of single class is not provided)
+- **Class Hashes**: The hash representing the declared class in the network. (_Optional_ is the class hash of single class is not provided)
+- **Class Name**: The name of the contract. The contract name is the part after the mod keyword in your contract file. (_Optional_ if the multiple clases are not provided)
+- **Class Hash**: The hash representing the declared class in the network. (_Optional_ if the multiple clases are not provided)
+- **RPC URL**: The endpoint of the network's JSON-RPC service. (_Optional_)
+- **Source Code**: A JSON object containing the file paths as keys and the corresponding source code as values. (_Mandatory_)
+- **Cairo version**: The version of Cairo being used. (_Optional_ if not provided, this value is extracted from the starknet field in your Scarb.toml file.)
 
 **Possible Responses**:
 
