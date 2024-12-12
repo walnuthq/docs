@@ -238,6 +238,13 @@ export const navigation: Array<NavGroup> = [
     ],
   },
   {
+    title: 'Simulation',
+    links: [
+      { title: 'Introduction', href: '/simulation' },
+      { title: 'Calldata preparation', href: '/calldata-preparation' },
+    ],
+  },
+  {
     title: 'Contact',
     links: [
       { title: 'Telegram', href: 'https://t.me/walnuthq' },
