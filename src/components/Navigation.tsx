@@ -234,6 +234,7 @@ export const navigation: Array<NavGroup> = [
     title: 'Getting Started',
     links: [
       { title: 'About Walnut', href: '/' },
+      { title: 'Call Trace Types', href: '/call-trace-types' },
       { title: 'Verify Contract Classes', href: '/verify-contract-classes' },
     ],
   },

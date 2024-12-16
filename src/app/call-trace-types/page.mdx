@@ -1,0 +1,69 @@
+import { Tag } from '@/components/Tag'
+import Image from 'next/image'
+import CallExample from '@/images/call_trace_types/call_example.png'
+import DelegateCallExample from '@/images/call_trace_types/delegate_example.png'
+import DCallExample from '@/images/call_trace_types/dcall_example.png'
+import FunctionCallExample from '@/images/call_trace_types/function_example.png'
+
+export const metadata = {
+  title: 'Call Trace Type',
+  description: 'Types of Calls in a Starknet Transaction Call Trace.',
+}
+
+# Starknet Call Trace Types
+
+## Overview
+
+In a Starknet transaction, each call is represented as a frame. These frames show the sequence of calls that happen during the transaction.
+When reading a Call Trace, you’ll encounter several key types of calls: `CALL`, `DELEGATE`, `DCALL`, and `FUNCTION`.
+These call types represent different ways contracts and logic interact within Starknet.
+By understanding these different call types - `CALL`, `DELEGATE`, `DCALL`, and `FUNCTION` - you can more effectively read and interpret call trace.
+Let’s break down what each type means.
+
+## CALL
+
+[Link to an example transaction with Call Trace containing a Call frame.](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x048b4b35ba6c85582dae9681aa38ea9abdbc1d4286152ca8e8d23951c80efb9e)
+
+<Image src={CallExample} alt="CALL Example" />
+
+In the call trace, **CALL** represents a regular call, which is a direct interaction between contracts or an external user and a contract.
+These interactions are higher-level calls that represent transactional operations between contracts.
+When you see [**CALL**](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x048b4b35ba6c85582dae9681aa38ea9abdbc1d4286152ca8e8d23951c80efb9e) in the trace,
+think of it as an external logic operation where one contract interacts directly with another.
+
+## DELEGATE CALL
+
+[Link to an example transaction with Call Trace containing a Delegate Call frame.](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x048b4b35ba6c85582dae9681aa38ea9abdbc1d4286152ca8e8d23951c80efb9e)
+
+<Image src={DelegateCallExample} alt="DELEGATE CALL Example" />
+
+**DELEGATE CALL** signifies a library call within the call trace. A library call invokes a function from another contract class while preserving the storage context
+of the calling contract. This means that any state changes made during the delegated function execution will affect the storage of the calling contract,
+not the library contract.
+When you see [**DELEGATE**](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x048b4b35ba6c85582dae9681aa38ea9abdbc1d4286152ca8e8d23951c80efb9e) in the trace,
+it indicates that the contract is reusing logic from another contract class without duplicating code.
+
+## DCALL
+
+[Link to an example transaction with Call Trace containing a DCALL frame.](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x048b4b35ba6c85582dae9681aa38ea9abdbc1d4286152ca8e8d23951c80efb9e)
+
+<Image src={DCallExample} alt="DCALL Example" />
+
+**DCALL** appears in the call trace when a regular call wraps a delegate call, and both operate with the same storage context and entry point function.
+Essentially, the regular call collapses into the delegate call, ensuring the delegated logic is represented as a single unified trace.
+Appears as [**DCALL**](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x048b4b35ba6c85582dae9681aa38ea9abdbc1d4286152ca8e8d23951c80efb9e) in the trace,
+providing better clarity on reused logic.
+
+## FUNCTION
+
+[Link to an example transaction with Call Trace containing a FUNCTION frame.](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x07bb1d7f7a1c496347475e24e9156edc92640d37bb488cf9181f551a89a37aa2)
+
+<Image src={FunctionCallExample} alt="FUNCTION CALL Example" />
+
+Within the call trace, **FUNCTION** represents function calls that are internal to a given contract. Since these calls happen within the contract logic,
+FUNCTION frames provide fine-grained visibility into what occurs during the contract's execution.
+Public explorers typically do not show these calls because the data is not available through the nodes.
+However, Walnut provides this level of detail by resimulating transactions and extracting the complete trace information.
+This capability allows Walnut to present the entire execution flow, including internal operations.
+When you see [**FUNCTION**](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x07bb1d7f7a1c496347475e24e9156edc92640d37bb488cf9181f551a89a37aa2) in the trace, it provides insights into the internal workings and computations happening within the contract—valuable for debugging,
+auditing, or understanding the transaction in depth.
