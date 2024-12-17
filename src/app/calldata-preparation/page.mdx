@@ -1,47 +1,52 @@
+import Image from 'next/image'
+import SimulationFormFilled from '@/images/simulation/simulation_form_filled.png'
+
 export const metadata = {
   title: 'Calldata preparation',
   description: 'Calldata preparation for Walnut simulation',
 }
 
-# Preparing Calldata for Walnut Simulations
+# Preparing Calldata for Walnut Simulation
 
-Calldata is an essential component of transaction simulations, representing the input data sent to a smart contract. This section will guide you through the process of preparing and managing calldata for Walnut simulations effectively.
+Calldata is an essential component of transaction simulations, representing the input data sent to a smart contract.
+This section guides through the process of preparing and managing calldata for Walnut simulations effectively.
 
 ## Filling the Calldata in Walnut Simulation Form
 
-For Walnut simulations, the calldata format is slightly different from typical contract interactions. Walnut simulations specifically require the following data encoded in hexadecimal format:
+For Walnut simulation, the calldata format is slightly different from typical contract interactions.
+Walnut simulation specifically require the following data encoded in hexadecimal format:
 
-- Contract Address: The address of the smart contract you are interacting with.
-- Function Selector: A unique identifier for the contract's entry point function. This is derived from the function's name with:
+- **Contract Address**: The address of the smart contract being interacted with.
+- **Function Selector**: A unique identifier for the contract's entry point function. This is derived from the function's name with:
 
   ```bash {{title: 'bash'}}
   starkli selector <function_name>
   ```
 
-- Number of Arguments: The count of the arguments being passed to the function.
-- Call Data: The actual function arguments.
+- **Number of Arguments**: The count of the arguments passed to the function.
+- **Calldata**: The actual function arguments.
 
 The general format for preparing calldata for Walnut simulations is as follows:
 
-- Number of Contract Calls: The total number of contract calls you are making.
-- Contract Address: The address of the smart contract being invoked.
-- Function Selector: The uniquely hexadecimal identifier of the contract’s entry point.
-- Number of Arguments: The number of arguments being passed to the function.
-- Call Data (Contract Function Arguments): The function arguments, encoded in hexadecimal format.
+- **Number of Contract Calls**: The total number of contract calls.
+- **Contract Address**: Address of the invoked contract.
+- **Function Selector:** The uniquely hexadecimal identifier of the contract’s entry point.
+- **Number of Arguments**: The number of arguments being passed to the function.
+- **Calldata** (Contract Function Arguments): The function arguments, encoded in hexadecimal format.
 
-All of these components are necessary for Walnut to invoke the `__execute__` entrypoint.
+All of these components are necessary for Walnut to invoke the **execute** entrypoint.
 
 ### Example: Constructing Calldata for Walnut Simulation
 
-Here’s an example to help you understand how to construct the calldata for Walnut simulations:
+Here’s an example to explain how to construct the calldata for Walnut simulation.
 
-Let’s assume you are interacting with only `1` contract deployed on `sepolia` at address:
+Assume interaction with only `1` contract deployed on `sepolia` at the address:
 
 ```bash {{title: 'Contract address'}}
   0x03f09656761d212cdcc05f1479c914491f6096a9396fe8a6acfb6bb2351b845c
 ```
 
-And you are interacting with a the following function:
+And interacting with the following function:
 
 ```rust {{title: 'Starknet funciton'}}
     fn increase_balance(ref self: TContractState, amount: felt252)
@@ -59,7 +64,7 @@ The result is:
     0x0362398bec32bc0ebb411203221a35a0301193a96f317ebe5e40be9f60d15320
 ```
 
-For the `increase_balance` function, there are `1` argument with name `amount` of type `felt252`. So the valid Call Data is:
+For the `increase_balance` function, there are `1` argument with name `amount` of type `felt252`. So the valid calldata is:
 
 ```bash {{title: 'amount'}}
     0x5
@@ -77,7 +82,8 @@ The final calldata, when combined, would look like this:
 
 ## JavaScript Tips for Walnut Calldata
 
-To simplify this process, we provide a JavaScript code snippet that transforms the call’s calldata into a format that Walnut accpets. The code snippet will work for the [starknet.js](https://starknetjs.com/docs/API/) version `6.11.0`.
+To simplify this process, we provide a JavaScript code snippet that transforms the call’s calldata into a format that Walnut accepts.
+The code snippet will work for the starknet.js version 6.11.0.
 
 ```javascript {{ title: 'Calldata preparation script' }}
 const { RpcProvider, selector } = require('starknet')
@@ -163,16 +169,16 @@ This will output the required calldata in the console, looking like:
 
 ### Step 2: Fill in the Simulation Form
 
-Once you have the calldata from Step 1, you're ready to run the simulation. Here's how to do it:
+With the calldata from Step 1, proceed to run the simulation by following these steps:
 
-- Go to Walnut's Simulation Page: Navigate to [app.walnut.dev](https://app.walnut.dev) and click the "Simulate Transaction" button to open the simulation form.
+- Go to Walnut's Simulation Page: Navigate to [**app.walnut.dev**](https://app.walnut.dev/) and click the "Simulate Transaction" button to open the simulation form.
 - Fill in the Form Fields:
 
-  - Sender Address: Input your account address.
-  - Calldata: Paste the calldata that was printed by the script in Step 1.
-  - Block Number: Optionally, specify the block number. If you leave it blank, Walnut will simulate the transaction on the latest block.
-  - Chain: Chose `SN_SEPOLIA`, as contract is deployed on sepolia
-  - Transaction Version: Set to 1 or 3, refer to the [Starknet documentation](https://docs.starknet.io/architecture-and-concepts/network-architecture/transactions/).
-  - Click "Run Simulation" and wait for the result.
+  - **Sender Address**: Enter the account address.
+  - **Calldata**: Paste the calldata that was printed by the script in Step 1.
+  - **Block Number**: Optionally, specify the block number. If left blank, Walnut will use the latest block for the simulation.
+  - **Chain**: Chose `SN_SEPOLIA`, as the contract is deployed on Sepolia
+  - **Transaction Version:** Set to 1 or 3, refer to the [Starknet documentation](https://docs.starknet.io/architecture-and-concepts/network-architecture/transactions/) for guidance.
+  - **Click "Run Simulation"** and wait for the result.
 
-  IMAGE OF FILLED FORM
+  <Image src={SimulationFormFilled} alt="Simulation Form Filled" />
