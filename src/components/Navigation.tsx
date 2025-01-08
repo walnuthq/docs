@@ -239,6 +239,16 @@ export const navigation: Array<NavGroup> = [
     ],
   },
   {
+    title: 'Transaction Simulations',
+    links: [
+      { title: 'Introduction', href: '/simulation' },
+      { title: 'Calldata', href: '/calldata' },
+      { title: 'Example: Simulate Transaction', href: '/example-simulate-transaction' },
+      { title: 'Example: Re-simulate Transaction', href: '/example-re_simulate-transaction' },
+      { title: 'Calldata encoding script', href: '/calldata-script' },
+    ],
+  },
+  {
     title: 'Contact',
     links: [
       { title: 'Telegram', href: 'https://t.me/walnuthq' },
