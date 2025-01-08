@@ -13,7 +13,7 @@ export const metadata = {
 
 Walnut Call Trace supports three different types of calls: `CALL`, `DELEGATE`, and `FUNCTION`, each representing a specific type of  contract interaction on Starknet. Here’s a breakdown of what each type entails.
 
-*What are Frames: In a Call Trace component on Walnut, each call item is referred to as a “Frame.” Frames represent the sequence of calls within a transaction.*
+&nbsp;&nbsp;&nbsp;&nbsp;*What are Frames: In a Call Trace component on Walnut, each call item is referred to as a “Frame.” Frames represent the sequence of calls within a transaction.*
 
 ## CALL
 
@@ -49,6 +49,6 @@ the logic for the swap. Any state changes made during this swap execution affect
 FUNCTION represents function calls that are internal to a given contract. These calls provide insights into the internal workings 
 and computations within the contract, which are valuable for debugging, auditing, or gaining a deeper understanding of the transaction.
 
-*Public explorers typically don’t display FUNCTION calls in their Call Trace components because blockchain nodes don’t provide this data. 
+&nbsp;&nbsp;&nbsp;&nbsp;*Public explorers typically don’t display FUNCTION calls in their Call Trace components because blockchain nodes don’t provide this data. 
 Walnut overcomes this limitation by resimulating each transaction using its own infrastructure. This enables Walnut to generate the full trace, 
 including internal operations, and display the entire execution flow.*
