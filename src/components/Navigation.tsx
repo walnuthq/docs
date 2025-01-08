@@ -231,15 +231,15 @@ function NavigationGroup({
 
 export const navigation: Array<NavGroup> = [
   {
-    title: 'Getting Started',
+    title: 'Overview',
     links: [
       { title: 'About Walnut', href: '/' },
+      { title: 'Contracts Verification', href: '/verify-starknet-contracts-in-walnut' },
       { title: 'Call Trace Types', href: '/call-trace-types' },
-      { title: 'Verify Contract Classes', href: '/verify-contract-classes' },
     ],
   },
   {
-    title: 'Transaction Simulations',
+    title: 'Simulations',
     links: [
       { title: 'Introduction', href: '/simulation' },
       { title: 'Calldata', href: '/calldata' },
