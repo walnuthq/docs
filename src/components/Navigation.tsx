@@ -238,10 +238,13 @@ export const navigation: Array<NavGroup> = [
     ],
   },
   {
-    title: 'Simulation',
+    title: 'Transaction Simulations',
     links: [
       { title: 'Introduction', href: '/simulation' },
-      { title: 'Calldata preparation', href: '/calldata-preparation' },
+      { title: 'Calldata', href: '/calldata' },
+      { title: 'Example: Simulate Transaction', href: '/example-simulate-transaction' },
+      { title: 'Example: Re-simulate Transaction', href: '/example-re_simulate-transaction' },
+      { title: 'Calldata encoding script', href: '/calldata-script' },
     ],
   },
   {

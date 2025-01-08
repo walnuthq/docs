@@ -1,0 +1,65 @@
+import Image from 'next/image'
+import SimulationForm from '@/images/simulation/simulation_form.png'
+
+export const metadata = {
+  title: 'Calldata',
+  description: 'Calldata for Walnut simulation',
+}
+
+# Calldata 
+
+The Walnut Simulation Form contains multiple form fields, see screenshot below.
+This document contains information on how to construct the raw calldata for Walnut Simulations.
+
+*For step-by-step guide to fill this form, proceed to [Example: Simulate new Transaction](https://docs.walnut.dev/example-simulate-transaction) or [Example: Re-simulate existing Transaction](https://docs.walnut.dev/example-re_simulate-transaction).*
+
+<Image src={SimulationForm} alt="Simulation Form" />
+
+The generic format of the calldata field on Walnut (all values in hexadecimal format) is:
+
+```json
+  <number of contract calls, in hexadecimal format>
+  <contract address, in hexadecimal format>
+  <function selector, in hexadecimal format>
+  <number of function arguments, in hexadecimal format>
+  [argument 0 in hexadecimal format]
+  [argument 1 in hexadecimal format]
+  [argument n in hexadecimal format]
+```
+
+Where:
+
+- **Number of Contract Calls**: The total number of contract calls being made during the simulation.
+- **Contract Address**: Address of the invoked contract.
+- **Function Selector:** A unique hexadecimal identifier for the contract’s entry point. This can be generated using:
+    
+    ```json
+    starkli selector <function_name>
+    ```
+    
+- **Number of Arguments**: The number of arguments expected by the Function Selector.
+- **Calldata** (Contract Function Arguments): The Function Selector arguments, encoded in hexadecimal format.
+
+## Example
+
+Open this [example](https://app.walnut.dev/transactions?chainId=SN_SEPOLIA&txHash=0x0585e1f350644eed83204c59f7fe205dccde37840ddbe0de56ca2ecc572a42f5) on Walnut (click re-simulate) to open the simulation form with the raw calldata.
+
+
+```shell 
+  0x1
+  0x4718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d
+  0x83afd3f4caedc6eebf44246fe54e38c95e3179a5ec9ea81740eca5b482d12e
+  0x3
+  0x5b8a53ea75b7bf0a881fe99de9f52eab6c0b995578ae8dbd3c533458b347dc6
+  0x4563918244f40000
+  0x0
+```
+
+Example explanation:
+
+- Line 1: `0x1` represents that transaction is invoking one contract.
+- Line 2: `0x4718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d` represents the address of the `Starknet Token (STRK)` contract being invoked.
+- Line 3: `0x83afd3f4caedc6eebf44246fe54e38c95e3179a5ec9ea81740eca5b482d12e` represents the function selector for the `transfer` function of the `Starknet Token (STRK)` contract.
+- Line 4: `0x3` represents that this function accept 3 raw arguments.
+- Line 5: `0x5b8a53ea75b7bf0a881fe99de9f52eab6c0b995578ae8dbd3c533458b347dc6` represents the `recipient` address, the first argument of the `transfer` function.
+- Line 6 and 7: `0x4563918244f40000` and `0x0` represent the `amount` to transfer, serialized as low 128 bits and high 128 bits of a `u256`. Since the value fits within 128 bits, the high part is `0`. For more details on how Cairo serialize types, see [Serialization of Cairo Types](https://docs.starknet.io/architecture-and-concepts/smart-contracts/serialization-of-cairo-types/).

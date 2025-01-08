@@ -1,99 +1,38 @@
 import Image from 'next/image'
 import SimulationForm from '@/images/simulation/simulation_form.png'
-import RevertedTx from '@/images/simulation/reverted_tx.png'
-import CalldataAnalyze from '@/images/simulation/calldata_analyze.png'
-import ResimulateTx from '@/images/simulation/re_simulation_change_calldata.png'
 
 export const metadata = {
-  title: 'Introduction to simulation',
-  description: 'The introduction and overview of Walnut Simulation',
+  title: 'Introduction to Transaction Simulations',
+  description: 'The introduction and overview of Transaction Simulations on Walnut',
 }
 
-# Introduction to Walnut Simulation
+# Introduction
 
-## What is Transaction Simulation?
+Transaction simulations help understand transaction effects without the need to executed it on the blockchain. 
+Simulations provide a way to preview how a transaction interacts with smart contracts and observe changes 
+in the blockchain state without impacting the actual network.
 
-Transaction simulation helps understand how a transaction will behave without it being executed and committed to the blockchain.
-It allows testing how a transaction interacts with smart contracts and observing changes in the blockchain state without affecting the actual network.
+## Why Simulations Matter?
 
-## Why Simulation Matter?
+Simulations are invaluable for testing, debugging, and ensuring that transactions perform as intended. They help identify security risks, 
+unexpected behaviors, and potential errors before deployment, providing confidence in transaction outcomes.
 
-Simulation is invaluable for testing, debugging, and ensuring transactions perform as intended.
-It helps identify security risks, unexpected behaviors, and potential errors before deployment, providing confidence in a transaction outcome.
+## Re-Simulations vs. Simulations
 
-## Types of Walnut Simulations: Re-Simulation vs. Simulation
+- **Re-Simulation:** Allow rerunning transactions that already exist on the blockchain. Re-simulations provide an option to modify parameters and 
+preview different outcomes for existing transactions.
+- **New Simulation:** Allows to create a brand-new transaction with custom parameters and preview the outcome without sending the transaction on-chain.
 
-- **Re-Simulation** - Test an already executed transaction with the option to modify parameters for further analysis.
-- **Simulation** - Test a new transaction with custom parameters to evaluate a different scenario.
-  This simulation helps visualize how the transaction will behave and allows for checking the execution before invoking it.
+## Walnut Simulation Form
 
-### Fields in the Walnut Simulation Form
-
-The Walnut simulation form contains several fields used when configuring the simulation.
+The Walnut simulation form contains several fields used when configuring the simulation. See the following screenshot:
 
 <Image src={SimulationForm} alt="Simulation Form Field" />
 
 Here’s a breakdown of each field:
 
-- **Sender address** - Use a different sender address to test how the transaction behaves when initiated by another account.
-- **Calldata** - Change the input data to test different contract function and parameters. For more details, see the [**Calldata Preparation page**](https://mm-simulation-docs.walnut-docs.pages.dev/calldata-preparation).
-- **Block number** - Adjust the block number to simulate how the transaction would behave on a different block (or leave it empty to simulate with the latest block).
-- **Chain** - Switch to a different network, such as Mainnet, Sepolia, or a custom network that is configured. For more details how to set up custom network, see the [**Settings page**](https://mm-simulation-docs.walnut-docs.pages.dev/settings).
-- **Transaction version** - Specify the transaction version to simulate its behavior on different versions of the Starknet protocol. Each version introduces updates or improvements to the transaction format. For more details, refer to the official [**Starknet documentation**](https://docs.starknet.io/architecture-and-concepts/network-architecture/transactions/).
-
-### How Re-Simulate an Existing Transaction with Walnut?
-
-To re-simulate a transaction:
-
-- **Find the Transaction**: Open Walnut and use the Search to locate the transaction by its hash.
-- **Click "Re-Simulate"**: On the transaction page, click the Re-Simulate button.
-- **Adjust Parameters**: Modify the parameters such as sender, calldata, block number, chain and/or transaction version to test different scenarios.
-
-Adjusting these parameters helps explore application logic, identify issues, and assess changes before re-executing the transaction on the blockchain.
-
-### How to Simulate an Arbitrary Transaction on Walnut?
-
-To simulate a transaction:
-
-- **Click "Simulate Transaction"**: Start a new simulation by selecting Simulate Transaction.
-- **Enter Parameters**: Fill in the required fields such as sender, calldata, chain and transaction version.
-- **Choose the Network**: Select the network for the simulation (e.g., Mainnet, Sepolia, or custom network).
-
-This allows testing custom transactions and analysis, providing the flexibility to predict how they will execute.
-
-## Example: Practical Use of Transaction Re-Simulation
-
-In this example, we'll walk through how to re-simulate a transaction that initially failed due to a problem in the calldata.
-
-- **Find the Transaction**:
-
-  To start, open the [Walnut](http://app.walnut.dev) and use the Search to find the following transaction hash:
-  `0x04e9aaf268efe3fd9a328f5d40867231dfae14549126db8ed5471d3b3ed4da78`
-
-- **Inspect the Transaction Result**:
-
-  The transaction is reverted with the following error message:
-  `"Number must be greater than 0"`
-
-  <Image src={RevertedTx} alt="Reverted transaction" />
-  The error was triggered in the is_positive function, and this indicates that
-  the transaction failed because invalid number is passed.{' '}
-
-- **Analyze the Calldata**:
-
-  <Image src={CalldataAnalyze} alt="Alayze calldata" />
-  The number that was sent as part of the transaction is `0x0` (which equals `0`
-  in decimal). The `is_positive` function expects the number to be greater than
-  zero, but it received `0`.
-
-- **Re-Simulate the Transaction**:
-
-  <Image src={ResimulateTx} alt="Change calldata and re-simulate" />
-  To resolve this issue, we can re-simulate the transaction by modifying the
-  calldata. In this case, we change the number from `0x0` to `0x5` (which is a
-  valid positive number). Click "Run Simulation" to execute the modified
-  transaction.
-
-- **Check the Simulation Result**:
-
-  After running the simulation, the transaction succeed. Check the simulation result [link](https://app.walnut.dev/simulations?senderAddress=0x0565f25d19b517d45793b664084d02d5629cdda04e9a57ff44c36b2da157e65f&calldata=0x1%2C0x1d9afc66bb8bf890fd3395e85da7e7173236cb36eb4d33360bc21552d2865e5%2C0xad6422d28af18f3ff5089f6ba5268de9ba155aca3e2e38f5aec314fb140845%2C0x1%2C0x5&transactionVersion=1&blockNumber=395442&chainId=SN_SEPOLIA).
+- **Sender address** - Use any sender address to test how the transaction behaves when initiated by another account. Private keys are not required for simulations, making simulations more flexible.
+- **Calldata** - Calldata to be passed to the transaction. For details about the format, see [Constructing Calldata](https://docs.walnut.dev/calldata).
+- **Block number** - Block number on which the simulation will be performed. If empty, latest block number will be used.
+- **Chain** - Chain where the transaction will be executed, such as Mainnet, Sepolia, or a custom network which is often useful in the context of appchains.
+- **Transaction version** - For more details, refer to the official [**Starknet documentation**](https://docs.starknet.io/architecture-and-concepts/network-architecture/transactions/).
