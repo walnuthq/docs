@@ -1,0 +1,38 @@
+import Image from 'next/image'
+import SimulationForm from '@/images/simulation/simulation_form.png'
+
+export const metadata = {
+  title: 'Introduction to Transaction Simulations',
+  description: 'The introduction and overview of Transaction Simulations on Walnut',
+}
+
+# Introduction
+
+Transaction simulations help understand transaction effects without the need to executed it on the blockchain. 
+Simulations provide a way to preview how a transaction interacts with smart contracts and observe changes 
+in the blockchain state without impacting the actual network.
+
+## Why Simulations Matter?
+
+Simulations are invaluable for testing, debugging, and ensuring that transactions perform as intended. They help identify security risks, 
+unexpected behaviors, and potential errors before deployment, providing confidence in transaction outcomes.
+
+## Re-Simulations vs. Simulations
+
+- **Re-Simulation:** Allow rerunning transactions that already exist on the blockchain. Re-simulations provide an option to modify parameters and 
+preview different outcomes for existing transactions.
+- **New Simulation:** Allows to create a brand-new transaction with custom parameters and preview the outcome without sending the transaction on-chain.
+
+## Walnut Simulation Form
+
+The Walnut simulation form contains several fields used when configuring the simulation. See the following screenshot:
+
+<Image src={SimulationForm} alt="Simulation Form Field" />
+
+Here’s a breakdown of each field:
+
+- **Sender address** - Use any sender address to test how the transaction behaves when initiated by another account. Private keys are not required for simulations, making simulations more flexible.
+- **Calldata** - Calldata to be passed to the transaction. For details about the format, see [Constructing Calldata](/calldata).
+- **Block number** - Block number on which the simulation will be performed. If empty, latest block number will be used.
+- **Chain** - Chain where the transaction will be executed, such as Mainnet, Sepolia, or a custom network which is often useful in the context of appchains.
+- **Transaction version** - For more details, refer to the official [**Starknet documentation**](https://docs.starknet.io/architecture-and-concepts/network-architecture/transactions/).

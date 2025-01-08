@@ -1,0 +1,59 @@
+import Image from 'next/image'
+import EncodedCalldata from '@/images/simulation/encoded_calldata.png'
+
+export const metadata = {
+  title: 'Calldata encoding script',
+  description: 'Script to help encoding transaction Calldata for Walnut Simulation Form.',
+}
+
+# Calldata encoding script
+
+To simplify transaction simulations on Walnut, we prepared a Node.js script to help encoding transaction Calldata for Walnut Simulation Form.
+
+## Use it online
+
+You can use the script [online]( https://onecompiler.com/nodejs/434uyqwkc).
+
+Please modify the input `data` payload. Click `RUN`. Generated script will output the Calldata needed for Walnut Simulation Form. Just copy&paste into the form:
+
+<Image src={EncodedCalldata} alt="Encoded Calldata" />
+
+## The script
+
+Here is the Node.js encoding script. It requires `starknet` as a dependency.
+
+``` js
+  const { selector } = require("starknet");
+
+  // ------------------------------------------------- EDIT HERE  ------------------------------------------------------------
+  const data = {
+    // Number of contracts being called
+    numberOfContractsToCall: "1",
+    // Contracts to call address
+    contractAddress: "0x4718f5a0fc34cc1af16a1cdee98ffb20c31f5cd61d6ab07201858f4287c938d",
+    // Function name to invoke
+    entrypoint: "transfer",
+    // Function call arguments (raw, serialized). Below example data: recipient_address, amount, amount
+    calldata: [
+      "0x5b8a53ea75b7bf0a881fe99de9f52eab6c0b995578ae8dbd3c533458b347dc6", 
+      "50000", 
+      "0",
+    ],
+  };
+  // --------------------------------------------------------------------------------------------------------------------------
+
+  function printCalldataForWalnut(data) {
+    const contractCalldata = data.calldata.map((numStr) => "0x" + Number(numStr).toString(16));
+    // Generate the complete calldata array in the required format
+    const calldata = [
+      "0x" + data.numberOfContractsToCall, // Number of contracts involved (in hex format)
+      data.contractAddress, // Contract address to interact with
+      selector.getSelectorFromName(data.entrypoint), // Function selector derived from entrypoint name
+      "0x" + contractCalldata.length.toString(16), // Length of calldata in hex
+      ...contractCalldata, // Serialized calldata arguments
+    ];
+    console.log(calldata.join("\n"));
+  }
+
+  printCalldataForWalnut(data);
+```
