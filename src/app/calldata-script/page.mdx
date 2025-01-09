@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import EncodedCalldata from '@/images/simulation/encoded_calldata.png'
+import {Screenshot} from '@/components/Screenshot'
 
 export const metadata = {
   title: 'Calldata encoding script',
@@ -16,7 +17,7 @@ You can use the script [online]( https://onecompiler.com/nodejs/434uyqwkc).
 
 Please modify the input `data` payload. Click `RUN`. Generated script will output the Calldata needed for Walnut Simulation Form. Just copy&paste into the form:
 
-<Image src={EncodedCalldata} alt="Encoded Calldata" />
+<Screenshot src={EncodedCalldata} alt="Encoded Calldata" />
 
 ## The script
 
