@@ -234,8 +234,16 @@ export const navigation: Array<NavGroup> = [
     title: 'Overview',
     links: [
       { title: 'About Walnut', href: '/' },
-      { title: 'Contracts Verification', href: '/verify-starknet-contracts-in-walnut' },
+      {
+        title: 'Contracts Verification',
+        href: '/verify-starknet-contracts-in-walnut',
+      },
       { title: 'Call Trace Types', href: '/call-trace-types' },
+      { title: 'Custom Networks', href: '/custom-networks' },
+      {
+        title: 'Debug Dojo With Walnut',
+        href: '/debug-dojo-with-walnut',
+      },
     ],
   },
   {
@@ -243,8 +251,14 @@ export const navigation: Array<NavGroup> = [
     links: [
       { title: 'Introduction', href: '/simulations' },
       { title: 'Calldata', href: '/calldata' },
-      { title: 'Example: Simulate Transaction', href: '/example-simulate-transaction' },
-      { title: 'Example: Re-simulate Transaction', href: '/example-resimulate-transaction' },
+      {
+        title: 'Example: Simulate Transaction',
+        href: '/example-simulate-transaction',
+      },
+      {
+        title: 'Example: Re-simulate Transaction',
+        href: '/example-resimulate-transaction',
+      },
       { title: 'Calldata encoding script', href: '/calldata-script' },
     ],
   },

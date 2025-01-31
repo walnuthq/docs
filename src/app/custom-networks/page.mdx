@@ -1,0 +1,36 @@
+import Image from 'next/image'
+import AddCustomNetworkData from '@/images/custom_networks/add_custom_network_data.png'
+import ConfirmAddingCustomNetwork from '@/images/custom_networks/confirm_adding_custom_network.png'
+import DebugTx from '@/images/custom_networks/debug_tx.png'
+import { Screenshot } from '@/components/Screenshot'
+
+export const metadata = {
+  title: 'Custom Networks',
+  description: 'Custom networks setup for Walnut debuger',
+}
+
+# Custom Networks
+
+Custom Networks let you use Walnut for debugging and simulations on any RPC, for example custom appchains like [Slot deployments](https://book.dojoengine.org/toolchain/slot).
+
+## Setup
+
+With Walnut, easily search and debug transactions on your custom network.
+
+1. Go to [Walnut](https://app.walnut.dev), click on your account profile (top right) and select settings.
+   On the Settings page select "Custom networks" in the left navigation pane. Type your network name and the RPC URL.
+
+<Screenshot src={AddCustomNetworkData} alt="Add custom network data" />
+
+2. Click "Add Network" to save your changes.
+
+<Screenshot
+  src={ConfirmAddingCustomNetwork}
+  alt="Confirm adding custom network"
+/>
+
+## Search for transactions on a custom RPC
+
+Use the Walnut Search bar to find and debug transactions on your custom network.
+
+<Screenshot src={DebugTx} alt="DebugTx" />
