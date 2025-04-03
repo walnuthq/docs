@@ -1,6 +1,5 @@
 import Image from 'next/image'
-import TransactionResult from '@/images/simulation/transaction_result.png'
-import AnalyzeFunctionCalldata from '@/images/simulation/analyze_function_calldata.png'
+import ReSimulationAnalyze from '@/images/simulation/re-simulation_analyze.png'
 import ReSimulationExample from '@/images/simulation/re-simulation_example.png'
 import { Screenshot } from '@/components/Screenshot'
 
@@ -13,25 +12,16 @@ export const metadata = {
 
 In this example, we'll walk through how to re-simulate a transaction that initially failed due to a problem in the calldata.
 
-**Step 1: Find the Transaction**
+**Step 1: Locate and Analyze the Failed Transaction**
 
-To start, open [Walnut](http://app.walnut.dev) and use the search to find the transaction with the following hash: `0x04e9aaf268efe3fd9a328f5d40867231dfae14549126db8ed5471d3b3ed4da78`
+To start, open [Walnut](http://app.walnut.dev) and use search to find the transaction with hash: `0x04e9aaf268efe3fd9a328f5d40867231dfae14549126db8ed5471d3b3ed4da78` .
 
-**Step 2: Inspect the Transaction Result**
+<Screenshot src={ReSimulationAnalyze} alt="Analyze Transaction" />
 
-The transaction has reverted with the following error message: `"Number must be greater than 0"`
+The transaction has reverted with the following error message: `"Number must be greater than 0"`, originating from `is_positive` function.
+The calldata reveals that the function received `0`, which violates the function's requirement for a positive number.
 
-<Screenshot src={TransactionResult} alt="TransactionResult" />
-
-The error originates from the `is_positive` function, which expects a positive number but instead received `0`. This indicates the transaction failed because an invalid argument (`0`) was passed.
-
-**Step 3: Analyze the Calldata**
-
-<Screenshot src={AnalyzeFunctionCalldata} alt="Analyze Transaction Calldata" />
-
-The input params reveals that the problematic value is `0x0`, which corresponds to the number `0` in decimal. This value was passed as an argument to the `is_positive` function, violating its requirement for the number to be greater than zero.
-
-**Step 4: Re-Simulate the Transaction**
+**Step 2: Re-Simulate the Transaction**
 
 <Screenshot src={ReSimulationExample} alt="Re-Simulation Example Form Field" />
 
