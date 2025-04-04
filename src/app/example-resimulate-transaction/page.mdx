@@ -1,42 +1,37 @@
 import Image from 'next/image'
-import TransactionResult from '@/images/simulation/transaction_result.png'
-import AnalyzeFunctionCalldata from '@/images/simulation/analyze_function_calldata.png'
+import ReSimulationAnalyze from '@/images/simulation/re-simulation_analyze.png'
 import ReSimulationExample from '@/images/simulation/re-simulation_example.png'
-import {Screenshot} from '@/components/Screenshot'
+import { Screenshot } from '@/components/Screenshot'
 
 export const metadata = {
-  title: 'Example: Re-simulate existing Transaction',
-  description: 'Example of re-simulation existing transaction on Walnut',
+  title: 'Example: Re-simulate Existing Transaction',
+  description: 'Example of re-simulating an existing transaction on Walnut',
 }
 
-# Example: Re-simulate existing Transaction
+# Example: Re-simulate Existing Transaction
 
-In this example, we'll walk through how to re-simulate a transaction that initially failed due to a problem in the calldata. 
+In this example, we’ll walk through how to re-simulate a transaction that initially failed due to an issue with the calldata.
 
-**Step 1: Find the Transaction**
+## Step 1: Locate and Analyze the Failed Transaction
 
-To start, open [Walnut](http://app.walnut.dev) and use the search to find the transaction with the following hash: `0x04e9aaf268efe3fd9a328f5d40867231dfae14549126db8ed5471d3b3ed4da78` 
+Open [Walnut](http://app.walnut.dev) and use the search to find the transaction with hash: `0x04e9aaf268efe3fd9a328f5d40867231dfae14549126db8ed5471d3b3ed4da78`.
 
-**Step 2: Inspect the Transaction Result**
+<Screenshot src={ReSimulationAnalyze} alt="Analyze Transaction" />
 
-The transaction has reverted with the following error message: `"Number must be greater than 0"` 
+The transaction reverted with the following error message: `"Number must be greater than 0"`, which originates from `is_positive` function call.
 
-<Screenshot src={TransactionResult} alt="TransactionResult" />
+Reviewing the calldata shows the function received `0`, which violates the function's requirement for a positive number.
 
-The error originates from the `is_positive` function, which expects a positive number but instead received `0`. This indicates the transaction failed because an invalid argument (`0`) was passed.
+## Step 2: Re-Simulate the Transaction
 
-**Step 3: Analyze the Calldata**
-
-<Screenshot src={AnalyzeFunctionCalldata} alt="Analyze Transaction Calldata" />
-
-The input params reveals that the problematic value is `0x0`, which corresponds to the number `0` in decimal. This value was passed as an argument to the `is_positive` function, violating its requirement for the number to be greater than zero.
-
-**Step 4: Re-Simulate the Transaction**
+To resolve the issue, modify the calldata by replacing the invalid value `0x0` with a valid positive number, such as `0x5`. This satisfies the `is_positive` function's requirement. 
 
 <Screenshot src={ReSimulationExample} alt="Re-Simulation Example Form Field" />
 
-To resolve the issue, we modify the calldata by replacing the invalid value `0x0` with a valid positive number, such as `0x5`. This change satisfies the `is_positive` function's requirement. Other parameters remain unchanged because they are correct and unrelated to the error. Focusing only on the problematic value avoids introducing new issues. Click **"Run Simulation"** to execute the transaction with the updated calldata.
+Click **"Run Simulation"** to execute the transaction with the updated calldata.
 
-**Step 5: Check the Simulation Result**
+## Step 3: Check the Simulation Result
 
-After running the simulation with the updated calldata, the transaction succeeds. The error is resolved because the modified argument (`0x5`) satisfies the `is_positive` function's requirement. Check the simulation results [link](https://app.walnut.dev/simulations?senderAddress=0x0565f25d19b517d45793b664084d02d5629cdda04e9a57ff44c36b2da157e65f&calldata=0x1%2C0x1d9afc66bb8bf890fd3395e85da7e7173236cb36eb4d33360bc21552d2865e5%2C0xad6422d28af18f3ff5089f6ba5268de9ba155aca3e2e38f5aec314fb140845%2C0x1%2C0x5&transactionVersion=1&blockNumber=395442&chainId=SN_SEPOLIA).
+After running the simulation with the updated calldata, the transaction succeeds. The error is resolved because the updated argument (`0x5`) satisfies the `is_positive` function's requirement. 
+
+You can view the results [here](https://app.walnut.dev/simulations?senderAddress=0x0565f25d19b517d45793b664084d02d5629cdda04e9a57ff44c36b2da157e65f&calldata=0x1%2C0x1d9afc66bb8bf890fd3395e85da7e7173236cb36eb4d33360bc21552d2865e5%2C0xad6422d28af18f3ff5089f6ba5268de9ba155aca3e2e38f5aec314fb140845%2C0x1%2C0x5&transactionVersion=1&blockNumber=395442&chainId=SN_SEPOLIA).
