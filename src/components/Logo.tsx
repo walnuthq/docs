@@ -1,7 +1,7 @@
 import Image, { type ImageProps } from 'next/image'
 
 import logoWalnut from '@/images/logos/walnut.svg'
-import logoWalnutWhite from '@/images/logos/walnut_white.svg'
+import logoWalnutWhite from '@/images/logos/walnut_white.png'
 import { useTheme } from 'next-themes'
 
 export function Logo({ src, alt, ...props }: Partial<ImageProps>) {
