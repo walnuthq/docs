@@ -9,6 +9,7 @@
     --shiki-token-function: theme('colors.blue.400');
     --shiki-token-string-expression: theme('colors.orange.300');
     --shiki-token-punctuation: theme('colors.gray.400');
+    --BLUE: #3c3fe7;
   }
 
   [inert] ::-webkit-scrollbar {
