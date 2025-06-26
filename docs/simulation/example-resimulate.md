@@ -13,7 +13,7 @@ In this example, we’ll walk through how to re-simulate a transaction that init
 
 Open [Walnut](http://app.walnut.dev) and use the search to find the transaction with hash: `0x04e9aaf268efe3fd9a328f5d40867231dfae14549126db8ed5471d3b3ed4da78`.
 
-> ![Analyze Transaction](/img/simulation/re-simulation_analyze.png "Analyze Transaction")
+![Analyze Transaction](/img/simulation/re-simulation_analyze.png "Analyze Transaction")
 <!-- <Screenshot src={ReSimulationAnalyze} alt="Analyze Transaction" /> -->
 
 The transaction reverted with the following error message: `"Number must be greater than 0"`, which originates from `is_positive` function call.
@@ -24,7 +24,7 @@ Reviewing the calldata shows the function received `0`, which violates the funct
 
 To resolve the issue, modify the calldata by replacing the invalid value `0x0` with a valid positive number, such as `0x5`. This satisfies the `is_positive` function's requirement. 
 
-> ![Re-Simulation Example Form Field](/img/simulation/re-simulation_example.png "Re-Simulation Example Form Field")
+![Re-Simulation Example Form Field](/img/simulation/re-simulation_example.png "Re-Simulation Example Form Field")
 <!-- <Screenshot src={ReSimulationExample} alt="Re-Simulation Example Form Field" /> -->
 
 Click **"Run Simulation"** to execute the transaction with the updated calldata.

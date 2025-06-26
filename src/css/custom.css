@@ -182,7 +182,7 @@
   }
 }
 
-.theme-admonition.theme-admonition-tip {
+.theme-admonition {
   background-color: #3c3fe719;
   border-left: 4px solid #3c3fe7;  
 }
@@ -194,3 +194,4 @@
 .theme-admonition.theme-admonition-tip .admonitionIcon_Rf37 svg path {
   fill: #3c3fe7;
 }
+

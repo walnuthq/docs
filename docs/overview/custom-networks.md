@@ -16,15 +16,15 @@ With Walnut, easily search and debug transactions on your custom network.
 1. Go to [Walnut](https://app.walnut.dev), click on your account profile (top right) and select settings.
    On the Settings page select "Custom networks" in the left navigation pane. Type your network name and the RPC URL.
 
-> ![Add custom network data](/img/custom_networks/add_custom_network_data.png "Add custom network data")
+![Add custom network data](/img/custom_networks/add_custom_network_data.png "Add custom network data")
 
 
 2. Click "Add Network" to save your changes.
 
-> ![Confirm adding custom network](/img/custom_networks/confirm_adding_custom_network.png "Confirm adding custom network")
+![Confirm adding custom network](/img/custom_networks/confirm_adding_custom_network.png "Confirm adding custom network")
 
 ## Search for transactions on a custom RPC
 
 Use the Walnut Search bar to find and debug transactions on your custom network.
 
-> ![DebugTx](/img/custom_networks/debug_tx.png "DebugTx")
+![DebugTx](/img/custom_networks/debug_tx.png "DebugTx")

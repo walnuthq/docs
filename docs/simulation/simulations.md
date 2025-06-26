@@ -23,8 +23,8 @@ Simulations are essential for testing, debugging, and verifying transaction beha
 
 The Simulation page in Walnut lets you configure the details of a transaction simulation. Here’s what each field does:
 
-> ![Screenshot of the Simulation Form Page on Walnut](/img/simulation/simulation_page.png "Screenshot of the Simulation Form Page on Walnut")
-<!-- <Screenshot src={SimulationPage} alt="Screenshot of the Simulation Form Page on Walnut" /> -->
+![Screenshot of the Simulation Form Page on Walnut](/img/simulation/simulation_page.png "Screenshot of the Simulation Form Page on Walnut")
+
 
 Form Breakdown:
 
@@ -37,4 +37,6 @@ Form Breakdown:
 - **Block number** - Block number on which the simulation will run. If left blank, latest block number will be used.
 - **Transaction version** - In most cases, just use 3. For more details, refer to the official [**Starknet documentation**](https://docs.starknet.io/architecture-and-concepts/network-architecture/transactions/).
 
-_For a step-by-step guide how to fill this form, see [Example: Simulate new Transaction](/example-simulate-transaction) or [Example: Re-simulate existing Transaction](/example-resimulate-transaction)._
+:::tip
+For a step-by-step guide how to fill this form, see [Example: Simulate new Transaction](example-simulate) or [Example: Re-simulate existing Transaction](example-resimulate).
+:::

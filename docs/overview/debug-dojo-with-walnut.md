@@ -15,11 +15,11 @@ To get the step-by-step debugger working, you need to verify your contracts on W
 
 ## Debug transactions on Slot
 
-1. Add your custom network by following the steps in the [Custom Network section](../custom-networks/).
+1. Add your custom network by following the steps in the [Custom Network section](custom-networks/).
 
 2. Once the network is added, search for your transaction using the Walnut search bar at the top.
 
-> ![Search tx](/img/debug_dojo_with_walnut/search_tx.png "Search tx")
+![Search tx](/img/debug_dojo_with_walnut/search_tx.png "Search tx")
 
 ## Debug with `sozo execute`
 

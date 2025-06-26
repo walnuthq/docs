@@ -37,5 +37,5 @@ Go to [**Walnut**](https://app.walnut.dev/) and click on **"Simulate Transaction
 
 Click **"Run Simulation"** and wait for the results.
 
-> ![Simulation Example Form Field](/img/simulation/simulation_example.png "Simulation Example Form Field")
-<!-- <Screenshot src={SimulationExample} alt="Simulation Example Form Field" /> -->
+![Simulation Example Form Field](/img/simulation/simulation_example.png "Simulation Example Form Field")
+
