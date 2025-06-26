@@ -9,7 +9,9 @@ hide_title: true
 
 _Note: We assume that the Dojo environment is set up with a running Slot instance. For setup guidance, refer to the [docs](https://www.dojoengine.org/)._
 
-💡 _To get the step-by-step debugger working, you need to verify your contracts on Walnut. Check the [Verification Sozo Docs](../verify-starknet-contracts-in-walnut#sozo-verification) for more information._
+:::tip   
+To get the step-by-step debugger working, you need to verify your contracts on Walnut. Check the [Verification Sozo Docs](verify-starknet-contracts-in-walnut#sozo-verification) for more information.
+:::
 
 ## Debug transactions on Slot
 
@@ -18,7 +20,6 @@ _Note: We assume that the Dojo environment is set up with a running Slot instanc
 2. Once the network is added, search for your transaction using the Walnut search bar at the top.
 
 > ![Search tx](/img/debug_dojo_with_walnut/search_tx.png "Search tx")
-<!-- <Screenshot src={SearchTx} alt="Search tx" /> -->
 
 ## Debug with `sozo execute`
 

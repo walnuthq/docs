@@ -17,7 +17,6 @@ Walnut Call Trace supports three different types of calls: `CALL`, `DELEGATE`, a
 [Link to an example transaction with Call Trace containing a `CALL` frame.](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x078297c72690f36059621b68b33d207999be7fcc296586f6fda7d7b5fc9b0698)
 
 > ![CALL Example](/img/call_trace_types/call_example.png "CALL Example")
-<!-- <Screenshot src={CallExample} alt="CALL Example" /> -->
 
 CALL represents a regular contract call, which is a direct interaction between two contracts.
 
@@ -30,7 +29,6 @@ which creates the NFT, updates its own storage, and returns the newly minted tok
 [Link to an example transaction with Call Trace containing a `DELEGATE` frame.](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x048b4b35ba6c85582dae9681aa38ea9abdbc1d4286152ca8e8d23951c80efb9e)
 
 > ![DELEGATE Example](/img/call_trace_types/delegate_example.png "DELEGATE Example")
-<!-- <Screenshot src={DelegateExample} alt="DELEGATE Example" /> -->
 
 DELEGATE represents a call to a function in a library from another contract class, using the storage of the caller contract. 
 Any state changes made during this call affect the caller’s storage, not the callee’s—in this case, the library.
@@ -45,7 +43,6 @@ the logic for the swap. Any state changes made during this swap execution affect
 
 
 > ![FUNCTION Example](/img/call_trace_types/delegate_example.png "FUNCTION Example")
-<!-- <Screenshot src={FunctionExample} alt="FUNCTION Example" /> -->
 
 FUNCTION represents function calls that are internal to a given contract. These calls provide insights into the internal workings 
 and computations within the contract, which are valuable for debugging, auditing, or gaining a deeper understanding of the transaction.
