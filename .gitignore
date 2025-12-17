@@ -6,6 +6,8 @@
 *.code-workspace
 .changelog
 .history
+.env
+.env.local
 
 node_modules
 .yarn

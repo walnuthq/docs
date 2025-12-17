@@ -1,6 +1,9 @@
-import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+
+// Load environment variables from .env file
+require('dotenv').config();
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 const siteUrl = process.env.SITE_URL || 'https://docs.walnut.dev/';
@@ -10,7 +13,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url:  siteUrl,
+  url: siteUrl,
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -51,17 +54,33 @@ const config: Config = {
     mermaid: true,
   },
   themes: ['@docusaurus/theme-mermaid'],
-  plugins: [require.resolve('docusaurus-lunr-search')],
+  plugins: [
+    require.resolve('docusaurus-lunr-search'),
+    [
+      '@scalar/docusaurus',
+      {
+        label: 'API',
+        route: '/api',
+        showNavLink: false,
+        configuration: {
+          url:
+            process.env.OPENAPI_URL ||
+            'https://evm.walnut.dev/api/openapi.json',
+          showDeveloperTools: 'never',
+        },
+      },
+    ],
+  ],
 
   presets: [
     [
       '@docusaurus/preset-classic',
       {
         docs: {
-          routeBasePath: '/'
+          routeBasePath: '/',
         },
         blog: false,
-        
+
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -91,45 +110,50 @@ const config: Config = {
           property: 'og:image',
           content: `${siteUrl}img/metadata-preview.png`,
         },
-      }
+      },
     ],
     metadata: [
-      {          
+      {
         name: 'type',
-        content: 'website' 
+        content: 'website',
       },
-      {          
+      {
         property: 'og:type',
-        content: 'website' 
+        content: 'website',
       },
       {
         name: 'image',
-        content: 'img/metadata-preview.png'
+        content: 'img/metadata-preview.png',
       },
       {
         property: 'og:image',
-        content: `${siteUrl}img/metadata-preview.png`
+        content: `${siteUrl}img/metadata-preview.png`,
       },
       {
         property: 'og:image:alt',
-        content: 'Walnut logo'
+        content: 'Walnut logo',
       },
       {
         property: 'og:image:width',
-        content: '1200'
+        content: '1200',
       },
       {
-        property: 'og:image:height', 
-        content: '309'
+        property: 'og:image:height',
+        content: '309',
       },
     ],
     navbar: {
       logo: {
         alt: 'Walnut logo',
         src: 'img/logos/walnut.svg',
-        srcDark: 'img/logos/walnut_white.svg'
+        srcDark: 'img/logos/walnut_white.svg',
       },
       items: [
+        {
+          to: '/api',
+          label: 'API',
+          position: 'left',
+        },
         {
           href: 'https://github.com/walnuthq',
           label: 'GitHub',
@@ -140,7 +164,8 @@ const config: Config = {
     footer: {
       style: 'dark',
       links: [
-        { html: `
+        {
+          html: `
           <div class='footer-wrapper'>
             <div class='footer-content'>
               <div class='footer-love'>
@@ -171,8 +196,8 @@ const config: Config = {
                 </a>
               </div>
             </div>
-          </div>`
-        }
+          </div>`,
+        },
       ],
     },
     prism: {

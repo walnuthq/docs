@@ -35,14 +35,32 @@ sncast \
     verify \
     --contract-address 0x01e4ebe3278ab4633a9d0d3f5c4290001f29bc3179a70e570b6817dd7f8264fa \
     --contract-name SimpleBalance \
+    --verifier walnut \
     --network sepolia
 ```
+
+You can also use `--class-hash` instead of `--contract-address`:
+
+```shell {{ title: 'shell' }}
+sncast \
+    verify \
+    --class-hash 0x031966c9fe618bcee61d267750b9d46e3d71469e571e331f35f0ca26efe306dc \
+    --contract-name SimpleBalance \
+    --verifier walnut \
+    --network sepolia
+```
+
 The `sncast verify` command requires the following parameters:
-- `contract-address`: The address of the contract that is to be verified. (_Required Parameter_)
 - `contract-name`: The name of the contract. The contract name is the part after the `mod` keyword in your contract source code file. (_Required Parameter_)
-- `network`: network where contract to be verified is deployed (_Required Parameter_). Possible values are:
+- `verifier`: The verification provider to use. Set to `walnut` to use Walnut verification service. (_Required Parameter_). Possible values are:
+  - `walnut` - to verify contracts on Walnut
+  - `voyager` - to verify contracts on Voyager
+- `network`: Network where contract to be verified is deployed (_Required Parameter_). Possible values are:
   - `mainnet` - when you verify contracts deployed to Starknet Mainnet network
   - `sepolia` - when you verify contracts deployed Starknet Sepolia testnet network
+- Either `contract-address` or `class-hash` (_Mutually Exclusive_):
+  - `contract-address`: The address of the contract that is to be verified. (_Required if class-hash is not provided_)
+  - `class-hash`: The class hash of the contract that is to be verified. (_Required if contract-address is not provided_)
 
 3. Confirm the code submission
 If everything is correct, the command will start the verification process.
