@@ -195,3 +195,41 @@
   fill: #3c3fe7;
 }
 
+.menu__list-item.hidden {
+  display: none;
+}
+
+.navbar-button {
+  background-color: var(--ifm-color-gray-200);
+  color: var(--ifm-color-gray-800) !important;
+  padding: 6px 16px !important;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  margin: 0 4px;
+}
+
+.navbar-button:hover {
+  background-color: var(--ifm-color-gray-300);
+  text-decoration: none;
+}
+
+[data-theme='dark'] .navbar-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--ifm-color-gray-200) !important;
+}
+
+[data-theme='dark'] .navbar-button:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.navbar-button.navbar__link--active {
+  background-color: var(--ifm-color-gray-400);
+}
+
+[data-theme='dark'] .navbar-button.navbar__link--active {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+

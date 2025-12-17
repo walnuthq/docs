@@ -20,6 +20,9 @@ yarn-error.log
 website/build
 coverage
 .docusaurus
+
+# Generated OpenAPI docs
+docs/api/
 .cache-loader
 types
 test-website

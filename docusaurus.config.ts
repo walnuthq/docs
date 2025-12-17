@@ -53,20 +53,22 @@ const config: Config = {
   markdown: {
     mermaid: true,
   },
-  themes: ['@docusaurus/theme-mermaid'],
+  themes: ['@docusaurus/theme-mermaid', 'docusaurus-theme-openapi-docs'],
   plugins: [
     require.resolve('docusaurus-lunr-search'),
     [
-      '@scalar/docusaurus',
+      'docusaurus-plugin-openapi-docs',
       {
-        label: 'API',
-        route: '/api',
-        showNavLink: false,
-        configuration: {
-          url:
-            process.env.OPENAPI_URL ||
-            'https://evm.walnut.dev/api/openapi.json',
-          showDeveloperTools: 'never',
+        id: 'API',
+        docsPluginId: 'classic',
+        config: {
+          walnut: {
+            specPath: 'https://evm.walnut.dev/api/openapi.json',
+            outputDir: 'docs/api',
+            sidebarOptions: {
+              groupPathsBy: 'tag',
+            },
+          },
         },
       },
     ],
@@ -78,6 +80,7 @@ const config: Config = {
       {
         docs: {
           routeBasePath: '/',
+          docItemComponent: '@theme/ApiItem',
         },
         blog: false,
 
@@ -150,9 +153,18 @@ const config: Config = {
       },
       items: [
         {
-          to: '/api',
+          to: '/',
+          label: 'Home',
+          position: 'left',
+          className: 'navbar-button',
+          activeBaseRegex: '^(?!/api).*$',
+        },
+        {
+          to: '/api/walnut-evm-simulation-api',
           label: 'API',
           position: 'left',
+          className: 'navbar-button',
+          activeBasePath: '/api',
         },
         {
           href: 'https://github.com/walnuthq',
