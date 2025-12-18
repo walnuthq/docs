@@ -232,4 +232,32 @@
   background-color: rgba(255, 255, 255, 0.25);
 }
 
+/* Hide the Request and Response on the right side */
+.openapi-explorer__request-form {
+  display: none !important;
+}
 
+.openapi-explorer__response-container {
+  display: none !important;
+}
+
+/* Hide all languages except Curl, JavaScript, Rust, Go */
+.openapi-tabs__code-item--python,
+.openapi-tabs__code-item--r,
+.openapi-tabs__code-item--csharp,
+.openapi-tabs__code-item--php,
+.openapi-tabs__code-item--java,
+.openapi-tabs__code-item--powershell,
+.openapi-tabs__code-item--kotlin,
+.openapi-tabs__code-item--swift,
+.openapi-tabs__code-item--objective-c,
+.openapi-tabs__code-item--clojure,
+.openapi-tabs__code-item--c,
+.openapi-tabs__code-item--http,
+.openapi-tabs__code-item--nodejs,
+.openapi-tabs__code-item--dart,
+.openapi-tabs__code-item--shell,
+.openapi-tabs__code-item--ruby,
+.openapi-tabs__code-item--ocaml {
+  display: none !important;
+}
