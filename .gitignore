@@ -23,6 +23,7 @@ coverage
 
 # Generated OpenAPI docs
 docs/api/
+api-docs/
 .cache-loader
 types
 test-website

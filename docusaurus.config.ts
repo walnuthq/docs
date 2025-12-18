@@ -57,17 +57,27 @@ const config: Config = {
   plugins: [
     require.resolve('docusaurus-lunr-search'),
     [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'api',
+        path: 'api-docs',
+        routeBasePath: 'api',
+        docItemComponent: '@theme/ApiItem',
+        sidebarPath: './sidebarsApi.ts',
+      },
+    ],
+    [
       'docusaurus-plugin-openapi-docs',
       {
         id: 'API',
-        docsPluginId: 'classic',
+        docsPluginId: 'api',
         config: {
           walnut: {
             specPath: 'https://evm.walnut.dev/api/openapi.json',
-            outputDir: 'docs/api',
-            sidebarOptions: {
-              groupPathsBy: 'tag',
-            },
+            outputDir: 'api-docs',
+            // sidebarOptions: {
+            //   groupPathsBy: 'tag',
+            // },
           },
         },
       },

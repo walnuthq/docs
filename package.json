@@ -5,7 +5,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
-    "build": "npm run gen-api && docusaurus build",
+    "build": "mkdir -p api-docs && npm run gen-api && docusaurus build",
     "gen-api": "docusaurus gen-api-docs all",
     "clean-api": "docusaurus clean-api-docs all",
     "swizzle": "docusaurus swizzle",
