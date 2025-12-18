@@ -170,7 +170,7 @@ const config: Config = {
           activeBaseRegex: '^(?!/api).*$',
         },
         {
-          to: '/api/walnut-evm-simulation-api',
+          to: '/api/walnut-simulation-api',
           label: 'API',
           position: 'left',
           className: 'navbar-button',
