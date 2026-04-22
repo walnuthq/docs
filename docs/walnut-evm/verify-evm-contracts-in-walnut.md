@@ -36,7 +36,7 @@ Our verification UI offers several ways to verify your contracts:
 
 1. Standard JSON Input (recommended) - Upload a file using standard JSON input format.
 2. Source code upload - Upload your project source code using file uploads.
-3. Foundry: It is also possible to verify your contracts on the command line using Founrdry, [contact us](https://t.me/walnuthq) if you'd like to enable this workflow.
+3. Foundry: It is also possible to verify your contracts on the command line using Foundry, [contact us](https://t.me/walnuthq) if you'd like to enable this workflow.
 
 ![Verification methods](/img/verify-evm-contracts-in-walnut/verification-methods.png "Standard JSON input is the easiest way to verify your contract, simply drop your standard-json-input.json in the file input.")
 

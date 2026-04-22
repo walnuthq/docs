@@ -44,7 +44,7 @@ the logic for the swap. Any state changes made during this swap execution affect
 [Link to an example transaction with Call Trace containing a `FUNCTION` frame.](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x07bb1d7f7a1c496347475e24e9156edc92640d37bb488cf9181f551a89a37aa2)
 
 
-![FUNCTION Example](/img/call_trace_types/delegate_example.png "FUNCTION represents function calls that are internal to a given contract. These calls provide insights into the internal workings 
+![FUNCTION Example](/img/call_trace_types/function_example.png "FUNCTION represents function calls that are internal to a given contract. These calls provide insights into the internal workings 
 and computations within the contract, which are valuable for debugging, auditing, or gaining a deeper understanding of the transaction.")
 
 

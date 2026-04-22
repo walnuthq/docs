@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "docusaurus": "docusaurus",
-    "start": "docusaurus start",
+    "start": "mkdir -p api-docs && npm run gen-api && docusaurus start",
     "build": "rm -rf api-docs && mkdir -p api-docs && npm run gen-api && docusaurus build",
     "gen-api": "docusaurus gen-api-docs all",
     "clean-api": "docusaurus clean-api-docs all",

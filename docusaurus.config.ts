@@ -23,14 +23,14 @@ const config: Config = {
       tagName: 'meta',
       attributes: {
         name: 'description',
-        content: 'Walnut description',
+        content: 'Walnut is a transaction debugger and simulator for Starknet, EVM, and custom networks. Step through transactions at the source level, verify smart contracts, and simulate execution.',
       },
     },
     {
       tagName: 'meta',
       attributes: {
         property: 'og:description',
-        content: 'Walnut description',
+        content: 'Walnut is a transaction debugger and simulator for Starknet, EVM, and custom networks. Step through transactions at the source level, verify smart contracts, and simulate execution.',
       },
     },
   ],
@@ -107,14 +107,14 @@ const config: Config = {
         tagName: 'meta',
         attributes: {
           name: 'description',
-          content: 'Walnut description',
+          content: 'Walnut is a transaction debugger and simulator for Starknet, EVM, and custom networks. Step through transactions at the source level, verify smart contracts, and simulate execution.',
         },
       },
       {
         tagName: 'meta',
         attributes: {
           property: 'og:description',
-          content: 'Walnut description',
+          content: 'Walnut is a transaction debugger and simulator for Starknet, EVM, and custom networks. Step through transactions at the source level, verify smart contracts, and simulate execution.',
         },
       },
       {
