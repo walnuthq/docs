@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 title: 'Verifying Starknet contracts on Walnut'
 description: 'Smart Contract Verification involves uploading your source code to Walnut to debug it step by step.'
 hide_title: true

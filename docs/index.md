@@ -11,6 +11,6 @@ This documentation is a guide to help getting started with Walnut.
 
 ## Quick Links
 
-- [Contract Verification](overview/verify-starknet-contracts-in-walnut): Learn how to verify Starknet contracts in Walnut. Verification is essential to debug smart contracts source in Walnut.
-- [Call Trace Types](overview/call-trace-types): Learn about the different types of call traces in Walnut Debugger. Understanding the call trace types will help you interpret the data in the debugger.
-- [Simulations](simulation/simulations): Learn how to use Walnut to debug smart contracts simulating the transaction execution. Simulation is a powerful tool for debugging smart contracts.
+- [Contract Verification](guides/starknet/verify): Learn how to verify Starknet contracts in Walnut. Verification is essential to debug smart contracts source in Walnut.
+- [Call Trace Types](concepts/call-traces): Learn about the different types of call traces in Walnut Debugger. Understanding the call trace types will help you interpret the data in the debugger.
+- [Simulations](guides/simulations/intro): Learn how to use Walnut to debug smart contracts simulating the transaction execution. Simulation is a powerful tool for debugging smart contracts.
