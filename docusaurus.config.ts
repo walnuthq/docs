@@ -164,14 +164,14 @@ const config: Config = {
       items: [
         {
           to: '/',
-          label: 'Home',
+          label: 'Documentation',
           position: 'left',
           className: 'navbar-button',
           activeBaseRegex: '^(?!/api).*$',
         },
         {
           to: '/api/walnut-simulation-api',
-          label: 'API',
+          label: 'API Reference',
           position: 'left',
           className: 'navbar-button',
           activeBasePath: '/api',

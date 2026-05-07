@@ -1,12 +1,12 @@
 ---
 sidebar_position: 1
-title: 'Call trace types'
+title: 'Call Traces'
 description: 'Types of calls in a Starknet transaction call trace.'
 hide_title: true
 ---
 
 
-# Call Trace Types
+# Call Traces
 
 Walnut Call Trace supports three different types of calls: `CALL`, `DELEGATE`, and `FUNCTION`, each representing a specific type of contract interaction on Starknet. Here's a breakdown of what each type entails.
 

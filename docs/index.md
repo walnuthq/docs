@@ -1,16 +1,16 @@
 ---
 sidebar_position: 1
-title: 'Welcome to Walnut Documentation'
+title: 'Welcome'
 hide_title: true
 ---
 
-# Welcome to Walnut Documentation
-[Walnut](https://app.walnut.dev/) is a powerful web transaction debugger and simulator for Starknet, designed to help inspecting transactions execution, debug source code, and simulate execution scenarios.
+# Welcome
+[Walnut](https://app.walnut.dev/) is a powerful web transaction debugger and simulator for Starknet and EVM, designed to help inspecting transactions execution, debug source code, and simulate execution scenarios.
 
 This documentation is a guide to help getting started with Walnut.
 
 ## Quick Links
 
-- [Contract Verification](guides/starknet/verify): Learn how to verify Starknet contracts in Walnut. Verification is essential to debug smart contracts source in Walnut.
-- [Call Trace Types](concepts/call-traces): Learn about the different types of call traces in Walnut Debugger. Understanding the call trace types will help you interpret the data in the debugger.
-- [Simulations](guides/simulations/intro): Learn how to use Walnut to debug smart contracts simulating the transaction execution. Simulation is a powerful tool for debugging smart contracts.
+- [Contract Verification](verification/verify-starknet): Learn how to verify Starknet and EVM contracts in Walnut. Verification is essential to debug smart contracts source in Walnut.
+- [Call Traces](debugging/call-traces): Learn about the different types of call traces in Walnut Debugger. Understanding the call trace types will help you interpret the data in the debugger.
+- [Simulations](simulations/overview): Learn how to use Walnut to debug smart contracts simulating the transaction execution. Simulation is a powerful tool for debugging smart contracts.

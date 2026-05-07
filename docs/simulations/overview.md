@@ -1,12 +1,12 @@
 ---
 sidebar_position: 1
-title: 'Introduction to Transaction Simulations'
+title: 'Overview'
 description:
-    'Introduction and overview of Transaction Simulations on Starknet using Walnut'
+    'Overview of Transaction Simulations on Starknet using Walnut'
 hide_title: true
 ---
 
-# Introduction
+# Overview
 
 Transaction simulations let you understand what a transaction will do—without actually executing it on-chain. They provide a way to preview how a transaction interacts with smart contracts and how it affects blockchain state, all without touching the real network.
 
@@ -38,5 +38,5 @@ Form Breakdown:
 - **Transaction version** - In most cases, just use 3. For more details, refer to the official [**Starknet documentation**](https://docs.starknet.io/architecture-and-concepts/network-architecture/transactions/).
 
 :::tip
-For a step-by-step guide how to fill this form, see [Example: Simulate new Transaction](example-simulate) or [Example: Re-simulate existing Transaction](example-resimulate).
+For a step-by-step guide how to fill this form, see [Simulate New Transactions](simulate-new) or [Re-simulate Existing Transactions](resimulate-existing).
 :::

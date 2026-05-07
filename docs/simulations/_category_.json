@@ -1,6 +1,6 @@
 {
-  "label": "EVM",
-  "position": 2,
+  "label": "Simulations",
+  "position": 4,
   "link": {
     "type": "generated-index"
   }
