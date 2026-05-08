@@ -1,11 +1,11 @@
 ---
 sidebar_position: 3
-title: 'Example: Re-simulate Existing Transaction'
+title: 'Re-simulate Existing Transactions'
 description: 'Example of re-simulating an existing transaction on Walnut'
 hide_title: true
 ---
 
-# Example: Re-simulate Existing Transaction
+# Re-simulate Existing Transactions
 
 In this example, we’ll walk through how to re-simulate a transaction that initially failed due to an issue with the calldata.
 

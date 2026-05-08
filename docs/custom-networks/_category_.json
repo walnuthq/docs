@@ -1,6 +1,6 @@
 {
-  "label": "Starknet",
-  "position": 1,
+  "label": "Custom Networks",
+  "position": 5,
   "link": {
     "type": "generated-index"
   }

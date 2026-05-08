@@ -1,11 +1,11 @@
 ---
 sidebar_position: 2
-title: 'Example: Simulate new transaction'
+title: 'Simulate New Transactions'
 description: 'Example of simulating a new transaction on Walnut'
 hide_title: true
 ---
 
-# Example: Simulate new transaction
+# Simulate New Transactions
 
 Let’s walk through an example of simulating an arbitrary transaction in Walnut.
 

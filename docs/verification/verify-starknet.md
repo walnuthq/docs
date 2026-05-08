@@ -1,11 +1,11 @@
 ---
 sidebar_position: 1
-title: 'Verifying Starknet contracts on Walnut'
+title: 'Verify Starknet Contracts'
 description: 'Smart Contract Verification involves uploading your source code to Walnut to debug it step by step.'
 hide_title: true
 ---
 
-# Verify Starknet Contracts on Walnut
+# Verify Starknet Contracts
 
 To debug your contracts in Walnut and step through transactions at the source code level, start by verifying your contract classes by uploading your source code.
 

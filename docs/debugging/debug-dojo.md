@@ -1,21 +1,21 @@
 ---
 sidebar_position: 2
-title: 'Debug Dojo with Walnut'
-description: 'How to debug dojo with Walnut'
+title: 'Debug Dojo Transactions'
+description: 'How to debug Dojo transactions with Walnut'
 hide_title: true
 ---
 
-# Debugging Dojo with Walnut
+# Debug Dojo Transactions
 
 _Note: We assume that the Dojo environment is set up with a running Slot instance. For setup guidance, refer to the [docs](https://www.dojoengine.org/)._
 
 :::tip   
-To get the step-by-step debugger working, you need to verify your contracts on Walnut. Check the [Verification Sozo Docs](verify#sozo-verification) for more information.
+To get the step-by-step debugger working, you need to verify your contracts on Walnut. Check the [Verification Sozo Docs](../verification/verify-starknet#sozo-verification) for more information.
 :::
 
-## Debug transactions on Slot
+## Debug Transactions on Slot
 
-1. Add your custom network by following the steps in the [Custom Network section](../custom-networks).
+1. Add your custom network by following the steps in the [Custom Networks section](../custom-networks/overview).
 
 2. Once the network is added, search for your transaction using the Walnut search bar at the top.
 

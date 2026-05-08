@@ -1,11 +1,11 @@
 ---
-sidebar_position: 1
-title: "Verifying EVM contracts on Walnut"
+sidebar_position: 2
+title: "Verify EVM Contracts"
 description: "Verify your EVM Smart Contracts using Walnut Verification UI."
 hide_title: true
 ---
 
-# Verify EVM Contracts on Walnut
+# Verify EVM Contracts
 
 To debug your contracts in Walnut and step through transactions at the source code level, start by verifying your contracts on our [verification UI](https://verify.walnut.dev).
 
