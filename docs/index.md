@@ -13,6 +13,6 @@ This documentation covers setup and first steps.
 
 These guides cover the basics of working with Walnut and will help you use the debugger more effectively.
 
-- [Contract Verification](https://docs.walnut.dev/category/contract-verification): Learn how to verify your Starknet and EVM contracts to enable debugging.
+- [Contract Verification](category/contract-verification): Learn how to verify your Starknet and EVM contracts to enable debugging.
 - [Call Traces](debugging/call-traces): Learn the call trace types so you can interpret the data in the debugger.
 - [Simulations](simulations/overview): Learn how to simulate transactions to understand their behavior without executing on the real network.
