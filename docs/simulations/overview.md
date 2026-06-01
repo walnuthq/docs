@@ -33,9 +33,9 @@ Form Breakdown:
 - **Number of contract calls** - Number of contract calls to perform by the simulation execution. For each call, you'll specify:
   - **Contract address** - Address of the contract being called.
   - **Entrypoint** - The function to call from the contract. Available options are auto-populated from the contract’s ABI.
-  - **Calldata** - Data passed to the entrypoint, formatted according to Cairo serialization. For more details, see [Serialization of Cairo Types](https://docs.starknet.io/architecture-and-concepts/smart-contracts/serialization-of-cairo-types/).
+  - **Calldata** - Data passed to the entrypoint, formatted according to Cairo serialization. For more details, see [Serialization of Cairo Types](https://www.starknet.io/cairo-book/ch102-04-serialization-of-cairo-types.html).
 - **Block number** - Block number on which the simulation will run. If left blank, latest block number will be used.
-- **Transaction version** - In most cases, just use 3. For more details, refer to the official [**Starknet documentation**](https://docs.starknet.io/architecture-and-concepts/network-architecture/transactions/).
+- **Transaction version** - In most cases, just use 3. For more details, refer to the official [Starknet documentation](https://docs.starknet.io/learn/protocol/transactions).
 
 :::tip
 For a step-by-step guide how to fill this form, see [Simulate New Transactions](simulate-new) or [Re-simulate Existing Transactions](resimulate-existing).

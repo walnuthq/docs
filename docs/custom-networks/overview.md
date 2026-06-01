@@ -7,7 +7,7 @@ hide_title: true
 
 # Overview
 
-Custom Networks let you use Walnut for debugging and simulations on any RPC, for example custom appchains like [Slot deployments](https://book.dojoengine.org/toolchain/slot).
+Custom Networks let you use Walnut for debugging and simulations on any RPC, for example custom appchains like [Slot deployments](https://github.com/cartridge-gg/slot).
 
 ## Setup
 
