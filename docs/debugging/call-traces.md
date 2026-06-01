@@ -22,7 +22,7 @@ In a Call Trace component on Walnut, each call item is referred to as a "Frame."
 
 `CALL` represents a regular contract call — a direct interaction between two contracts.
 
-[See an example transaction with a `CALL` frame.](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x078297c72690f36059621b68b33d207999be7fcc296586f6fda7d7b5fc9b0698)
+[See an example transaction with a `CALL` frame.](https://app.walnut.dev/transactions?chainId=SN_MAINNET&txHash=0x078297c72690f36059621b68b33d207999be7fcc296586f6fda7d7b5fc9b0698)
 
 ![CALL Example](/img/call_trace_types/call_example.png)
 
@@ -32,7 +32,7 @@ For example, in the screenshot above, the function `mint_and_deposit` on the `Ek
 
 `DELEGATE` represents a call to a function in a library from another contract class, using the storage of the caller contract. Any state changes made during this call affect the caller's storage, not the callee's — in this case, the library.
 
-[See an example transaction with a `DELEGATE` frame.](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x048b4b35ba6c85582dae9681aa38ea9abdbc1d4286152ca8e8d23951c80efb9e)
+[See an example transaction with a `DELEGATE` frame.](https://app.walnut.dev/transactions?chainId=SN_MAINNET&txHash=0x048b4b35ba6c85582dae9681aa38ea9abdbc1d4286152ca8e8d23951c80efb9e)
 
 ![DELEGATE Example](/img/call_trace_types/delegate_example.png)
 
@@ -42,7 +42,7 @@ For example, in the screenshot above, `IExchange.multi_route_swap` initiates a s
 
 `FUNCTION` represents function calls that are internal to a given contract. These calls provide insights into the internal workings and computations within the contract, which are valuable for debugging, auditing, or gaining a deeper understanding of the transaction.
 
-[See an example transaction with a `FUNCTION` frame.](https://app.walnut.dev/transactions?chainId=SN_MAIN&txHash=0x07bb1d7f7a1c496347475e24e9156edc92640d37bb488cf9181f551a89a37aa2)
+[See an example transaction with a `FUNCTION` frame.](https://app.walnut.dev/transactions?chainId=SN_MAINNET&txHash=0x07bb1d7f7a1c496347475e24e9156edc92640d37bb488cf9181f551a89a37aa2)
 
 ![FUNCTION Example](/img/call_trace_types/function_example.png)
 
