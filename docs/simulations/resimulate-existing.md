@@ -7,7 +7,7 @@ hide_title: true
 
 # Re-simulate Existing Transactions
 
-In this example, we’ll walk through how to re-simulate a transaction that initially failed due to an issue with the calldata.
+Here's an example of how to re-simulate a transaction that failed from incorrect calldata.
 
 ## Step 1: Locate and Analyze the Failed Transaction
 
@@ -16,13 +16,13 @@ Open [Walnut](http://app.walnut.dev) and use the search to find the transaction 
 ![Analyze Transaction](/img/simulation/re-simulation_analyze.png "Analyze Transaction")
 <!-- <Screenshot src={ReSimulationAnalyze} alt="Analyze Transaction" /> -->
 
-The transaction reverted with the following error message: `"Number must be greater than 0"`, which originates from `is_positive` function call.
+The transaction reverted with this error: `"Number must be greater than 0"`. It originates from the `is_positive` function call.
 
 Reviewing the calldata shows the function received `0`, which violates the function's requirement for a positive number.
 
 ## Step 2: Re-Simulate the Transaction
 
-To resolve the issue, modify the calldata by replacing the invalid value `0x0` with a valid positive number, such as `0x5`. This satisfies the `is_positive` function's requirement. 
+To resolve the issue, modify the calldata by replacing the invalid `0x0` with a valid positive number like `0x5`. This satisfies the `is_positive` requirement.
 
 ![Re-Simulation Example Form Field](/img/simulation/re-simulation_example.png "Re-Simulation Example Form Field")
 <!-- <Screenshot src={ReSimulationExample} alt="Re-Simulation Example Form Field" /> -->
@@ -31,7 +31,7 @@ Click **"Run Simulation"** to execute the transaction with the updated calldata.
 
 ## Step 3: Check the Simulation Result
 
-After running the simulation with the updated calldata, the transaction succeeds. The error is resolved because the updated argument (`0x5`) satisfies the `is_positive` function's requirement. 
+With the updated calldata, the transaction succeeds. The argument `0x5` satisfies the `is_positive` requirement.
 
 You can view the results [here](https://app.walnut.dev/simulations?senderAddress=0x0565f25d19b517d45793b664084d02d5629cdda04e9a57ff44c36b2da157e65f&calldata=0x1%2C0x1d9afc66bb8bf890fd3395e85da7e7173236cb36eb4d33360bc21552d2865e5%2C0xad6422d28af18f3ff5089f6ba5268de9ba155aca3e2e38f5aec314fb140845%2C0x1%2C0x5&transactionVersion=1&blockNumber=395442&chainId=SN_SEPOLIA).
 

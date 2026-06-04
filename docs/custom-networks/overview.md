@@ -7,11 +7,11 @@ hide_title: true
 
 # Overview
 
-Custom Networks let you use Walnut for debugging and simulations on any RPC, for example custom appchains like [Slot deployments](https://github.com/cartridge-gg/slot).
+Custom Networks let you use Walnut for debugging and simulations on any RPC, including custom appchains like [Slot deployments](https://github.com/cartridge-gg/slot).
 
 ## Setup
 
-With Walnut, easily search and debug transactions on your custom network.
+Search and debug transactions on your custom network directly from Walnut.
 
 1. Go to [Walnut](https://app.walnut.dev), click on your account profile (top right) and select settings.
    On the Settings page select "Custom networks" in the left navigation pane. Type your network name and the RPC URL.

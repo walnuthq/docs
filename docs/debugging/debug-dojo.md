@@ -23,7 +23,7 @@ To get the step-by-step debugger working, you need to verify your contracts on W
 
 ## Debug with `sozo execute`
 
-To debug transactions with `sozo` run `sozo execute --walnut` :
+To debug transactions with `sozo`, run `sozo execute --walnut`:
 
 ```shell
   sozo execute dojo_starter-actions move_character 2 --wait --walnut

@@ -7,9 +7,11 @@ hide_title: true
 
 # Simulate New Transactions
 
-Let’s walk through an example of simulating an arbitrary transaction in Walnut.
+Here's how to simulate a new transaction in Walnut.
 
-Suppose we want to simulate a transaction that calls the `increase_balance` method on the following contract deployed on the Sepolia network: `0x03f09656761d212cdcc05f1479c914491f6096a9396fe8a6acfb6bb2351b845c`.
+Suppose we want to simulate a transaction calling `increase_balance` on this contract deployed on Sepolia:
+
+`0x03f09656761d212cdcc05f1479c914491f6096a9396fe8a6acfb6bb2351b845c`
 
 The entrypoint we intend to call:
 
@@ -28,9 +30,9 @@ Go to [**Walnut**](https://app.walnut.dev/) and click on **"Simulate Transaction
 - **Number of contract calls**: Set to `1`, as we are invoking a single contract.
   - **Contract address**: Paste `0x03f09656761d212cdcc05f1479c914491f6096a9396fe8a6acfb6bb2351b845c`. This will auto-load the list of available entrypoints.
   - **Entrypoint**: Select `increase_balance` from the list of available functions.
-  - **Entrypoint signature**: Displays the function signature, showing the expected input arguments. This is a read-only field to help you with the next calldata field.
+  - **Entrypoint signature**: Shows the function signature and expected input arguments. This field is read-only; use it as a reference for the calldata field below.
   - **Calldata**: The `increase_balance` function takes one argument named `amount` of type `felt252`. You can input a value like `3`, encoded as `0x3`.
-- **Block Number**: Optionally specify a block number. If left blank, Walnut will use the latest block.
+- **Block Number**: Specify a block number, or leave it blank to use the latest block.
 - **Transaction Version**: Set to `Version 3`.
 
 ## Step 3: Run the Simulation
