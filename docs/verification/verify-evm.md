@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
-title: "Verify EVM Contracts"
-description: "Verify your EVM Smart Contracts using Walnut Verification UI."
+title: 'Verify EVM Contracts'
+description: 'Verify your EVM smart contracts in the Walnut verification UI'
 hide_title: true
 ---
 

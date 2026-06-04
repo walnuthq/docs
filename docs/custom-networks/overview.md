@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 title: 'Overview'
-description: 'Custom networks setup for Walnut debugger'
+description: 'Set up custom networks to debug and simulate on any RPC in Walnut'
 hide_title: true
 ---
 

@@ -1,8 +1,7 @@
 ---
 sidebar_position: 1
 title: 'Overview'
-description:
-    'Overview of Transaction Simulations on Starknet using Walnut'
+description: 'Overview of transaction simulations on Starknet with Walnut'
 hide_title: true
 ---
 

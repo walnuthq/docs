@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 title: 'Call Traces'
-description: 'Types of calls in a Starknet transaction call trace.'
+description: 'Types of calls in a Starknet transaction call trace'
 hide_title: true
 ---
 

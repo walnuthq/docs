@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 title: 'Debug Dojo Transactions'
-description: 'How to debug Dojo transactions with Walnut'
+description: 'Debug Dojo transactions with Walnut'
 hide_title: true
 ---
 

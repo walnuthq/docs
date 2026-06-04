@@ -1,5 +1,8 @@
 ---
 sidebar_position: 6
+title: 'Support'
+description: 'Get help and contact the Walnut team'
+hide_title: true
 ---
 
 # Support

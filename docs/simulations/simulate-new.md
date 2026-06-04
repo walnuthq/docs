@@ -1,7 +1,7 @@
 ---
 sidebar_position: 2
 title: 'Simulate New Transactions'
-description: 'Example of simulating a new transaction on Walnut'
+description: 'Simulate a new transaction on Walnut'
 hide_title: true
 ---
 

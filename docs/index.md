@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 title: 'Welcome'
+description: 'Welcome to the Walnut transaction debugger and simulator docs'
 hide_title: true
 ---
 

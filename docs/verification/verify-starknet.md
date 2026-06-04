@@ -1,7 +1,7 @@
 ---
 sidebar_position: 1
 title: 'Verify Starknet Contracts'
-description: 'Upload your source code to Walnut to debug Starknet contracts step by step.'
+description: 'Upload your source code to Walnut to debug Starknet contracts step by step'
 hide_title: true
 ---
 

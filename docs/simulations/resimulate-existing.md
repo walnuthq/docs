@@ -1,7 +1,7 @@
 ---
 sidebar_position: 3
 title: 'Re-simulate Existing Transactions'
-description: 'Example of re-simulating an existing transaction on Walnut'
+description: 'Re-simulate an existing transaction on Walnut'
 hide_title: true
 ---
 
