@@ -12,15 +12,15 @@ To debug your contracts and step through transactions at the source code level, 
 Once verified, you can replay blockchain transactions and analyze execution line by line.
 
 :::info
-Contract verification is available on **Mainnet**, **Sepolia**, and **custom networks**, making the Walnut Verification Service ready for any upcoming Starknet appchains.
+Contract verification is available on **Mainnet**, **Sepolia**, and **custom networks**, so it works with current and upcoming Starknet appchains.
 :::
 
 ## Verification Methods
 Walnut offers several ways to verify your contracts:
 
-1. `sncast verify` – Use the [sncast](https://foundry-rs.github.io/starknet-foundry/starknet/sncast-overview.html) command-line tool to verify Foundry projects.
-2. `sozo walnut verify` – Use the [sozo](https://book.dojoengine.org/toolchain/sozo) command-line tool to verify Dojo Worlds.
-3. Walnut Verification API – Ideal for programmatic use cases.
+1. [sncast Verification](#sncast-verification): Use the [sncast](https://foundry-rs.github.io/starknet-foundry/starknet/sncast-overview.html) command-line tool to verify Foundry projects.
+2. [sozo Verification](#sozo-verification): Use the [sozo](https://book.dojoengine.org/toolchain/sozo) command-line tool to verify Dojo Worlds.
+3. [Walnut Verification API](#walnut-verification-api): Ideal for programmatic use cases.
 
 ## sncast Verification
 
@@ -110,9 +110,9 @@ sozo walnut verify
 
 3. Monitor your verification status using the link above.
 
-## Walnut API Verification
+## Walnut Verification API
 
-You can also verify contracts through Walnut's API. This method currently supports two endpoints: one for mainnet/sepolia and one for custom networks.
+You can also verify contracts through Walnut's API. This method currently supports two endpoints: one for Mainnet/Sepolia and one for custom networks.
 
 The base API URL for Walnut is: https://api.walnut.dev
 
@@ -151,7 +151,7 @@ The base API URL for Walnut is: https://api.walnut.dev
 
 - **Responses**:
 
-  - **200**: Contract verification started. Response body contains the string payload with a verification check status link (e.g. `"Contract verification has started. You can check the verification status at the following link: https://app.walnut.dev/verification/status/<UUID>"`).
+  - **200**: Contract verification started. Response body contains the string payload with a verification check status link (e.g. `"Contract verification has started. You can check the verification status at the following link: https://app.walnut.dev/verification/status/<uuid>"`).
   - **400**: An error occurred during verification, such as a mismatch. Response error body payload contains the error message for diagnostics.
 
 ### 2. Verify Contracts on Custom Networks
@@ -202,5 +202,5 @@ Custom network verification is available only through the Walnut Verification AP
 
 **Possible Responses**:
 
-- **200**: Contract verification started. Response body contains the string payload with a verification check status link (e.g. `"Contract verification has started. You can check the verification status at the following link: https://app.walnut.dev/verification/status/<UUID>"`).
+- **200**: Contract verification started. Response body contains the string payload with a verification check status link (e.g. `"Contract verification has started. You can check the verification status at the following link: https://app.walnut.dev/verification/status/<uuid>"`).
 - **400**: An error occurred during verification, such as a mismatch. Response error body payload contains the error message for diagnostics.

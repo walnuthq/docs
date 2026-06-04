@@ -26,7 +26,7 @@ Each call item in a Walnut Call Trace is a "Frame." Frames represent the sequenc
 
 ![CALL Example](/img/call_trace_types/call_example.png)
 
-For example, in the screenshot above, the function `mint_and_deposit` on the `Ekubo:Positions` contract calls the `mint` function on the `Ekubo:PositionsNFT` contract. This interaction delegates the process of minting a new NFT to the `Ekubo:PositionsNFT` contract, which creates the NFT, updates its own storage, and returns the newly minted token ID (type `u64`).
+For example, in the screenshot above, the function `mint_and_deposit` on the `Ekubo:Positions` contract calls the `mint` function on the `Ekubo:PositionsNFT` contract and lets it do the minting. The `Ekubo:PositionsNFT` contract creates the NFT, updates its own storage, and returns the newly minted token ID (type `u64`).
 
 ## DELEGATE
 
@@ -47,5 +47,5 @@ For example, in the screenshot above, `IExchange.multi_route_swap` initiates a s
 ![FUNCTION Example](/img/call_trace_types/function_example.png)
 
 :::info
-Public explorers typically don't display `FUNCTION` calls in their Call Trace components because blockchain nodes don't provide this data. Walnut overcomes this limitation by re-simulating each transaction using its own infrastructure. This enables Walnut to generate the full trace, including internal operations, and display the entire execution flow.
+Public explorers typically don't display `FUNCTION` calls in their Call Trace components because blockchain nodes don't provide this data. Walnut works around this by re-simulating each transaction to reconstruct the full trace, including internal operations, and displays the entire execution flow.
 :::

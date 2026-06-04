@@ -7,7 +7,7 @@ hide_title: true
 
 # Debug Dojo Transactions
 
-_Note: We assume that the Dojo environment is set up with a running Slot instance. For setup guidance, refer to the [docs](https://www.dojoengine.org/)._
+_Note: We assume that the Dojo environment is set up with a running Slot instance. For setup guidance, refer to the [docs](https://www.dojoengine.org)._
 
 :::tip   
 To get the step-by-step debugger working, you need to verify your contracts on Walnut. Check the [Verification Sozo Docs](../verification/verify-starknet#sozo-verification) for more information.

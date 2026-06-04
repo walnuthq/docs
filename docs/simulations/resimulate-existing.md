@@ -20,12 +20,12 @@ The transaction reverted with this error: `"Number must be greater than 0"`. It 
 
 Reviewing the calldata shows the function received `0`, which violates the function's requirement for a positive number.
 
-## Step 2: Re-Simulate the Transaction
+## Step 2: Re-simulate the Transaction
 
 To resolve the issue, modify the calldata by replacing the invalid `0x0` with a valid positive number like `0x5`. This satisfies the `is_positive` requirement.
 
-![Re-Simulation Example Form Field](/img/simulation/re-simulation_example.png "Re-Simulation Example Form Field")
-<!-- <Screenshot src={ReSimulationExample} alt="Re-Simulation Example Form Field" /> -->
+![Re-simulation Example Form Field](/img/simulation/re-simulation_example.png "Re-simulation Example Form Field")
+<!-- <Screenshot src={ReSimulationExample} alt="Re-simulation Example Form Field" /> -->
 
 Click **"Run Simulation"** to execute the transaction with the updated calldata.
 

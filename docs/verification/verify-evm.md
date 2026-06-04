@@ -19,8 +19,8 @@ Contract verification is available on **OP Mainnet**, **OP Sepolia**, and **cust
 
 Walnut offers two modes for smart contract verification:
 
-- Public verification: Log in with a GitHub account and verify contracts publicly on any chain supported by Walnut. Verified contracts are available on the [Contract Viewer repo](https://repo.walnut.dev).
-- Private verification: Log in with a GitHub account and verify your contracts privately on custom networks. Only users within your organization can access privately verified contracts.
+- **Public verification**: Log in with a GitHub account and verify contracts publicly on any chain supported by Walnut. Verified contracts are available on the [Contract Viewer repo](https://repo.walnut.dev).
+- **Private verification**: Log in with a GitHub account and verify your contracts privately on custom networks. Only users within your organization can access privately verified contracts.
 
 ![Verification modes](/img/verify-evm-contracts-in-walnut/verification-modes.png "Click on the switch to toggle between private verification and public verification.")
 
@@ -34,22 +34,22 @@ First, select the EVM chain where your contract is deployed and provide the cont
 
 The verification UI offers several ways to verify your contracts:
 
-1. Standard JSON Input (recommended) - Upload a file using standard JSON input format.
-2. Source code upload - Upload your project source code using file uploads.
-3. Foundry: Verify contracts on the command line with Foundry. [Contact us](https://t.me/walnuthq) if you'd like to enable this workflow.
+1. **Standard JSON Input (recommended)**: Upload a file using standard JSON input format.
+2. **Source code upload**: Upload your project source code using file uploads.
+3. **Foundry**: Verify contracts on the command line with Foundry. [Contact us](https://t.me/walnuthq) if you'd like to enable this workflow.
 
 ![Verification methods](/img/verify-evm-contracts-in-walnut/verification-methods.png "Standard JSON input is the easiest way to verify your contract, simply drop your standard-json-input.json in the file input.")
 
 Use Foundry's forge to generate the Standard JSON input using this command:
 
-```sh
+```shell
 forge verify-contract --show-standard-json-input 0x5059c7F4e62Ce813f79c1F59f3924DDc6347Ce31 \
     src/Counter.sol:Counter > standard-json-input.json
 ```
 
 ## Verification Settings
 
-Choose the compiler version your contract was compiled with, provide the contract identifier, and click Verify Contract.
+Choose the compiler version your contract was compiled with, provide the contract identifier, and click **"Verify Contract"**.
 
 ![Verification settings](/img/verify-evm-contracts-in-walnut/verification-settings.png "If your chain has no explorer configured you can optionally specify the creation transaction hash.")
 
@@ -57,13 +57,13 @@ Choose the compiler version your contract was compiled with, provide the contrac
 
 After submitting, our Sourcify server will start the verification. It will recompile your contract sources and compare the resulting bytecode against the on-chain deployed bytecode.
 
-Click View Job Status to monitor the verification process.
+Click **"View Job Status"** to monitor the verification process.
 
 ![Verification submitted](/img/verify-evm-contracts-in-walnut/verification-submitted.png "You can access a list of the recent verifications you submitted directly in the verification UI.")
 
 ## View Job Status
 
-When logged in, click View in Repository on the job status page to find your verified contract in the [Contract Viewer repo](https://repo.walnut.dev).
+When logged in, click **"View in Repository"** on the job status page to find your verified contract in the [Contract Viewer repo](https://repo.walnut.dev).
 
 ![View job status](/img/verify-evm-contracts-in-walnut/view-job-status.png "The job status page gives you additional info on the verification process.")
 

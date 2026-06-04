@@ -21,7 +21,7 @@ The entrypoint we intend to call:
 
 ## Step 1: Navigate to the Simulation Page
 
-Go to [**Walnut**](https://app.walnut.dev/) and click on **"Simulate Transaction"**.
+Go to [Walnut](https://app.walnut.dev) and click on **"Simulate Transaction"**.
 
 ## Step 2: Fill in the Form Fields
 
