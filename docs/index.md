@@ -1,11 +1,12 @@
 ---
 sidebar_position: 1
 title: 'Welcome'
+description: 'Welcome to the Walnut transaction debugger and simulator docs'
 hide_title: true
 ---
 
 # Welcome
-[Walnut](https://app.walnut.dev/) is a full-featured web transaction debugger and simulator for Starknet and EVM. It lets you inspect transaction execution, step through source code, and simulate transactions.
+[Walnut](https://app.walnut.dev) is a full-featured web transaction debugger and simulator for Starknet and EVM. It lets you inspect transaction execution, step through source code, and simulate transactions.
 
 This documentation covers setup and first steps.
 

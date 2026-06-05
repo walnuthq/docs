@@ -1,10 +1,13 @@
 ---
 sidebar_position: 6
+title: 'Support'
+description: 'Get help and contact the Walnut team'
+hide_title: true
 ---
 
 # Support
 
-For support or inquiries about Walnut, please contact us via the channels below:
+For support or questions about Walnut, reach us through:
 
 <div class="support-social-container">
     <a href="https://x.com/walnut_dev" class="support-social-link" target='_blank'>
@@ -25,4 +28,4 @@ For support or inquiries about Walnut, please contact us via the channels below:
     </a>
 </div>
 
-We’re here to help with any Walnut-related questions or issues.
+We're here to help with any Walnut-related questions or issues.

@@ -1,13 +1,13 @@
 ---
 sidebar_position: 2
 title: 'Debug Dojo Transactions'
-description: 'How to debug Dojo transactions with Walnut'
+description: 'Debug Dojo transactions with Walnut'
 hide_title: true
 ---
 
 # Debug Dojo Transactions
 
-_Note: We assume that the Dojo environment is set up with a running Slot instance. For setup guidance, refer to the [docs](https://www.dojoengine.org/)._
+_Note: We assume that the Dojo environment is set up with a running Slot instance. For setup guidance, refer to the [docs](https://www.dojoengine.org)._
 
 :::tip   
 To get the step-by-step debugger working, you need to verify your contracts on Walnut. Check the [Verification Sozo Docs](../verification/verify-starknet#sozo-verification) for more information.
@@ -23,7 +23,7 @@ To get the step-by-step debugger working, you need to verify your contracts on W
 
 ## Debug with `sozo execute`
 
-To debug transactions with `sozo` run `sozo execute --walnut` :
+To debug transactions with `sozo`, run `sozo execute --walnut`:
 
 ```shell
   sozo execute dojo_starter-actions move_character 2 --wait --walnut
