@@ -6,7 +6,7 @@
     "docusaurus": "docusaurus",
     "start": "mkdir -p api-docs && npm run gen-api && docusaurus start",
     "build": "rm -rf api-docs && mkdir -p api-docs && npm run gen-api && docusaurus build",
-    "gen-api": "docusaurus gen-api-docs all",
+    "gen-api": "docusaurus gen-api-docs all && cp openapi/simulation-category.json api-docs/simulation/_category_.json",
     "clean-api": "docusaurus clean-api-docs all",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",

@@ -79,6 +79,10 @@ const config: Config = {
             //   groupPathsBy: 'tag',
             // },
           },
+          walnutStarknet: {
+            specPath: 'openapi/walnut-starknet-simulation.json',
+            outputDir: 'api-docs/simulation',
+          },
         },
       },
     ],

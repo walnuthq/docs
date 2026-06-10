@@ -1,0 +1,451 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Walnut Starknet Simulation API",
+    "description": "Simulate Starknet transactions from raw calldata, decoded calls, or an existing transaction hash. Every simulation returns a full execution trace and a deep link to open the result in the Walnut web app.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.walnut.dev",
+      "description": "Walnut API"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Transaction simulation",
+      "description": "Simulate and re-simulate Starknet transactions."
+    }
+  ],
+  "paths": {
+    "/v1/simulate-transaction": {
+      "post": {
+        "operationId": "simulateTransaction",
+        "tags": ["Transaction simulation"],
+        "summary": "Simulate a transaction",
+        "description": "Simulates a Starknet transaction from raw felt calldata, human-readable decoded calls, or an existing transaction hash. The request body is an externally tagged union: the variant name (`WithCalldata`, `WithDecodedCalldata`, or `WithTxHash`) is the outer JSON key.",
+        "parameters": [
+          {
+            "name": "skip_tracking",
+            "in": "query",
+            "required": false,
+            "description": "Set to `\"true\"` to skip tracking notifications for this simulation.",
+            "schema": { "type": "string" },
+            "example": "true"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SimulationArgs" },
+              "examples": {
+                "WithCalldata": {
+                  "summary": "Simulate from raw felt calldata",
+                  "value": {
+                    "WithCalldata": {
+                      "chain_id": "SN_MAIN",
+                      "rpc_url": null,
+                      "block_number": null,
+                      "nonce": null,
+                      "sender_address": "0x04a4e3c4f2b1d5e6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0",
+                      "calldata": ["0x1", "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7", "0x2"],
+                      "transaction_version": 3,
+                      "transaction_signature": null
+                    }
+                  }
+                },
+                "WithDecodedCalldata": {
+                  "summary": "Simulate from decoded calls",
+                  "value": {
+                    "WithDecodedCalldata": {
+                      "chain_id": "SN_MAIN",
+                      "rpc_url": null,
+                      "block_number": null,
+                      "nonce": null,
+                      "sender_address": "0x04a4e3c4f2b1d5e6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0",
+                      "decoded_calldata": [
+                        {
+                          "contract_address": "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7",
+                          "function_selector": "0x83afd3f4caedc6eebf44246fe54e38c95e3179a5ec9ea81740eca5b482d12e",
+                          "function_name": "transfer",
+                          "parameters": []
+                        }
+                      ],
+                      "transaction_version": 3,
+                      "transaction_signature": null
+                    }
+                  }
+                },
+                "WithTxHash": {
+                  "summary": "Re-simulate an existing transaction via a custom RPC",
+                  "value": {
+                    "WithTxHash": {
+                      "rpc_url": "https://your-starknet-rpc",
+                      "tx_hash": "0x6a4a9c4f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Simulation successful.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TransactionSimulationResult" }
+              }
+            }
+          },
+          "400": {
+            "description": "The simulation failed. The original request body is echoed back in `simulation_args`.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/SimulationErrorResponse" },
+                "example": {
+                  "error": "Transaction execution error: insufficient balance",
+                  "simulation_args": {
+                    "WithTxHash": {
+                      "rpc_url": "https://your-starknet-rpc",
+                      "tx_hash": "0x6a4a9c4f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/{chain_id}/simulate-transaction/{tx_hash}": {
+      "get": {
+        "operationId": "simulateTransactionByHash",
+        "tags": ["Transaction simulation"],
+        "summary": "Re-simulate a transaction by hash",
+        "description": "Re-simulates an existing transaction by hash using Walnut's built-in RPC for the given chain.",
+        "parameters": [
+          {
+            "name": "chain_id",
+            "in": "path",
+            "required": true,
+            "description": "Chain identifier. Case-insensitive. Accepts `SN_MAIN` / `SN_MAINNET` (mainnet) and `SN_SEPOLIA` (sepolia).",
+            "schema": { "type": "string" },
+            "example": "SN_MAIN"
+          },
+          {
+            "name": "tx_hash",
+            "in": "path",
+            "required": true,
+            "description": "Transaction hash to re-simulate.",
+            "schema": { "type": "string" },
+            "example": "0x6a4a9c4f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d"
+          },
+          {
+            "name": "skip_tracking",
+            "in": "query",
+            "required": false,
+            "description": "Set to `\"true\"` to skip tracking notifications for this simulation.",
+            "schema": { "type": "string" },
+            "example": "true"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Simulation successful.",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/TransactionSimulationResult" }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid `chain_id` or transaction hash. The body is a plain JSON string containing the error message.",
+            "content": {
+              "application/json": {
+                "schema": { "type": "string" },
+                "example": "Invalid chain_id: SN_FOO"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SimulationArgs": {
+        "title": "SimulationArgs",
+        "description": "Externally tagged union. Provide exactly one of `WithCalldata`, `WithDecodedCalldata`, or `WithTxHash`.",
+        "oneOf": [
+          {
+            "type": "object",
+            "title": "WithCalldata",
+            "required": ["WithCalldata"],
+            "properties": {
+              "WithCalldata": { "$ref": "#/components/schemas/WithCalldataArgs" }
+            }
+          },
+          {
+            "type": "object",
+            "title": "WithDecodedCalldata",
+            "required": ["WithDecodedCalldata"],
+            "properties": {
+              "WithDecodedCalldata": { "$ref": "#/components/schemas/WithDecodedCalldataArgs" }
+            }
+          },
+          {
+            "type": "object",
+            "title": "WithTxHash",
+            "required": ["WithTxHash"],
+            "properties": {
+              "WithTxHash": { "$ref": "#/components/schemas/WithTxHashArgs" }
+            }
+          }
+        ]
+      },
+      "WithCalldataArgs": {
+        "title": "WithCalldataArgs",
+        "description": "Simulate from raw felt calldata.",
+        "type": "object",
+        "required": ["sender_address", "calldata", "transaction_version"],
+        "properties": {
+          "chain_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "Chain to simulate against, e.g. `SN_MAIN` or `SN_SEPOLIA`. Use `rpc_url` instead to target a custom RPC.",
+            "example": "SN_MAIN"
+          },
+          "rpc_url": {
+            "type": "string",
+            "nullable": true,
+            "description": "Custom Starknet RPC URL to simulate against, used instead of `chain_id`."
+          },
+          "block_number": {
+            "type": "integer",
+            "format": "uint64",
+            "nullable": true,
+            "description": "Block number to simulate at. Omit or set to `null` to use the latest block."
+          },
+          "nonce": {
+            "type": "integer",
+            "format": "uint64",
+            "nullable": true,
+            "description": "Account nonce to use for the simulated transaction."
+          },
+          "sender_address": {
+            "type": "string",
+            "description": "Address of the account sending the transaction.",
+            "example": "0x04a4e3c4f2b1d5e6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0"
+          },
+          "calldata": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Raw transaction calldata as an array of hex (felt) strings.",
+            "example": ["0x1", "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7", "0x2"]
+          },
+          "transaction_version": {
+            "type": "integer",
+            "description": "Starknet transaction version.",
+            "example": 3
+          },
+          "transaction_signature": {
+            "type": "array",
+            "items": { "type": "string" },
+            "nullable": true,
+            "description": "Transaction signature as an array of hex (felt) strings."
+          }
+        }
+      },
+      "WithDecodedCalldataArgs": {
+        "title": "WithDecodedCalldataArgs",
+        "description": "Simulate from human-readable decoded calls. The server encodes them to felts before execution.",
+        "type": "object",
+        "required": ["sender_address", "decoded_calldata", "transaction_version"],
+        "properties": {
+          "chain_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "Chain to simulate against, e.g. `SN_MAIN` or `SN_SEPOLIA`. Use `rpc_url` instead to target a custom RPC.",
+            "example": "SN_MAIN"
+          },
+          "rpc_url": {
+            "type": "string",
+            "nullable": true,
+            "description": "Custom Starknet RPC URL to simulate against, used instead of `chain_id`."
+          },
+          "block_number": {
+            "type": "integer",
+            "format": "uint64",
+            "nullable": true,
+            "description": "Block number to simulate at. Omit or set to `null` to use the latest block."
+          },
+          "nonce": {
+            "type": "integer",
+            "format": "uint64",
+            "nullable": true,
+            "description": "Account nonce to use for the simulated transaction."
+          },
+          "sender_address": {
+            "type": "string",
+            "description": "Address of the account sending the transaction.",
+            "example": "0x04a4e3c4f2b1d5e6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0"
+          },
+          "decoded_calldata": {
+            "type": "array",
+            "description": "List of contract calls to encode and simulate.",
+            "items": { "$ref": "#/components/schemas/DecodedCall" }
+          },
+          "transaction_version": {
+            "type": "integer",
+            "description": "Starknet transaction version.",
+            "example": 3
+          },
+          "transaction_signature": {
+            "type": "array",
+            "items": { "type": "string" },
+            "nullable": true,
+            "description": "Transaction signature as an array of hex (felt) strings."
+          }
+        }
+      },
+      "DecodedCall": {
+        "title": "DecodedCall",
+        "type": "object",
+        "required": ["contract_address", "function_selector", "parameters"],
+        "properties": {
+          "contract_address": {
+            "type": "string",
+            "description": "Address of the contract being called.",
+            "example": "0x49d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7"
+          },
+          "function_selector": {
+            "type": "string",
+            "description": "Selector of the function being called.",
+            "example": "0x83afd3f4caedc6eebf44246fe54e38c95e3179a5ec9ea81740eca5b482d12e"
+          },
+          "function_name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Human-readable name of the function being called.",
+            "example": "transfer"
+          },
+          "parameters": {
+            "type": "array",
+            "description": "Decoded argument values for the call. Each item is an opaque JSON value.",
+            "items": {}
+          }
+        }
+      },
+      "WithTxHashArgs": {
+        "title": "WithTxHashArgs",
+        "description": "Re-simulate an existing transaction via a custom RPC.",
+        "type": "object",
+        "required": ["rpc_url", "tx_hash"],
+        "properties": {
+          "rpc_url": {
+            "type": "string",
+            "description": "Custom Starknet RPC URL to fetch and re-simulate the transaction against.",
+            "example": "https://your-starknet-rpc"
+          },
+          "tx_hash": {
+            "type": "string",
+            "description": "Hash of the transaction to re-simulate.",
+            "example": "0x6a4a9c4f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0b1c2d3e4f5a6b7c8d"
+          }
+        }
+      },
+      "TransactionSimulationResult": {
+        "title": "TransactionSimulationResult",
+        "type": "object",
+        "properties": {
+          "l1_transaction_data": {
+            "allOf": [{ "$ref": "#/components/schemas/L1TransactionData" }],
+            "nullable": true,
+            "description": "L1 transaction data, when the simulation touches L1. `null` otherwise."
+          },
+          "l2_transaction_data": {
+            "allOf": [{ "$ref": "#/components/schemas/L2TransactionData" }],
+            "nullable": true,
+            "description": "L2 transaction data, including the full execution trace. `null` if unavailable."
+          },
+          "walnut_webapp_url": {
+            "type": "string",
+            "nullable": true,
+            "description": "Deep link to open this simulation in the Walnut web app. Calldata-based simulations point to `https://app.walnut.dev/simulations?...`; tx-hash simulations point to `https://app.walnut.dev/transactions?chainId=...&txHash=...`.",
+            "example": "https://app.walnut.dev/simulations?chainId=SN_MAIN&senderAddress=0x04a4..."
+          }
+        }
+      },
+      "L1TransactionData": {
+        "title": "L1TransactionData",
+        "type": "object",
+        "properties": {
+          "chain_id": { "type": "string" },
+          "block_number": { "type": "integer", "format": "uint64", "nullable": true },
+          "sender_address": { "type": "string" },
+          "receiver_address": { "type": "string", "nullable": true },
+          "transaction_type": { "type": "string", "nullable": true },
+          "status": { "type": "string", "nullable": true },
+          "message_hashes": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "l1_tx_hash": { "type": "string", "nullable": true }
+        }
+      },
+      "L2TransactionData": {
+        "title": "L2TransactionData",
+        "type": "object",
+        "properties": {
+          "simulation_result": {
+            "type": "object",
+            "description": "Full execution trace and call maps. Opaque object."
+          },
+          "chain_id": { "type": "string" },
+          "block_number": {
+            "description": "Block number, or a block tag/hash.",
+            "oneOf": [{ "type": "integer" }, { "type": "string" }]
+          },
+          "block_timestamp": { "type": "integer", "format": "uint64" },
+          "nonce": { "type": "integer", "format": "uint64", "nullable": true },
+          "sender_address": { "type": "string" },
+          "calldata": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "transaction_version": { "type": "integer" },
+          "transaction_type": { "type": "string" },
+          "transaction_index_in_block": { "type": "integer", "nullable": true },
+          "total_transactions_in_block": { "type": "integer", "nullable": true },
+          "l1_tx_hash": { "type": "string", "nullable": true },
+          "l2_tx_hash": { "type": "string", "nullable": true },
+          "flamechart": { "type": "object", "nullable": true, "description": "Execution flamechart. Opaque object." },
+          "l1_data_flamechart": { "type": "object", "nullable": true, "description": "L1 data flamechart. Opaque object." },
+          "actual_fee": { "type": "string", "nullable": true },
+          "execution_resources": { "type": "object", "nullable": true, "description": "Execution resources consumed. Opaque object." },
+          "latest_block": {
+            "type": "boolean",
+            "description": "Whether the request targeted the latest block."
+          }
+        }
+      },
+      "SimulationErrorResponse": {
+        "title": "SimulationErrorResponse",
+        "type": "object",
+        "required": ["error", "simulation_args"],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Human-readable error message."
+          },
+          "simulation_args": {
+            "allOf": [{ "$ref": "#/components/schemas/SimulationArgs" }],
+            "description": "The original request body, echoed back."
+          }
+        }
+      }
+    }
+  }
+}
