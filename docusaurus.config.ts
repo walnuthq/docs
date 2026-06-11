@@ -74,14 +74,14 @@ const config: Config = {
         config: {
           walnut: {
             specPath: 'https://evm.walnut.dev/api/openapi.json',
-            outputDir: 'api-docs',
+            outputDir: 'api-docs/evm-simulation',
             // sidebarOptions: {
             //   groupPathsBy: 'tag',
             // },
           },
           walnutStarknet: {
             specPath: 'openapi/walnut-starknet-simulation.json',
-            outputDir: 'api-docs/simulation',
+            outputDir: 'api-docs/starknet-simulation',
           },
         },
       },
@@ -174,7 +174,7 @@ const config: Config = {
           activeBaseRegex: '^(?!/api).*$',
         },
         {
-          to: '/api/walnut-simulation-api',
+          to: '/api/introduction',
           label: 'API Reference',
           position: 'left',
           className: 'navbar-button',

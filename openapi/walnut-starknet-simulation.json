@@ -22,7 +22,7 @@
       "post": {
         "operationId": "simulateTransaction",
         "tags": ["Transaction simulation"],
-        "summary": "Simulate a transaction",
+        "summary": "Simulate transaction with calldata",
         "description": "Simulates a Starknet transaction from raw felt calldata, human-readable decoded calls, or an existing transaction hash. The request body is an externally tagged union: the variant name (`WithCalldata`, `WithDecodedCalldata`, or `WithTxHash`) is the outer JSON key.",
         "parameters": [
           {
@@ -123,7 +123,7 @@
       "get": {
         "operationId": "simulateTransactionByHash",
         "tags": ["Transaction simulation"],
-        "summary": "Re-simulate a transaction by hash",
+        "summary": "Simulate transaction by hash",
         "description": "Re-simulates an existing transaction by hash using Walnut's built-in RPC for the given chain.",
         "parameters": [
           {
