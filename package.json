@@ -6,7 +6,7 @@
     "docusaurus": "docusaurus",
     "start": "mkdir -p api-docs && npm run gen-api && docusaurus start",
     "build": "rm -rf api-docs && mkdir -p api-docs && npm run gen-api && docusaurus build",
-    "gen-api": "docusaurus gen-api-docs all && cp openapi/evm-simulation-category.json api-docs/evm-simulation/_category_.json && cp openapi/starknet-simulation-category.json api-docs/starknet-simulation/_category_.json && rm -f api-docs/evm-simulation/walnut-simulation-api.info.mdx api-docs/starknet-simulation/walnut-starknet-simulation-api.info.mdx",
+    "gen-api": "docusaurus gen-api-docs all && node scripts/postprocess-api.mjs",
     "clean-api": "docusaurus clean-api-docs all",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
