@@ -174,7 +174,7 @@ const config: Config = {
           activeBaseRegex: '^(?!/api).*$',
         },
         {
-          to: '/api/introduction',
+          to: '/api/category/evm-simulation-api',
           label: 'API Reference',
           position: 'left',
           className: 'navbar-button',
