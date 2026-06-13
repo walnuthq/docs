@@ -1,0 +1,9 @@
+{
+  "label": "Starknet Simulation API",
+  "position": 2,
+  "collapsible": true,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index"
+  }
+}
