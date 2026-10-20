@@ -51,7 +51,9 @@ jobs:
         run: pnpm typecheck
 
       - name: Upload a preview version
-        run: pnpm run upload -- --preview-alias "$ALIAS"
+        # pnpm forwards flags after the script name; a `--` would reach
+        # wrangler as-is and end its option parsing, dropping the alias.
+        run: pnpm run upload --preview-alias "$ALIAS"
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
