@@ -42,7 +42,7 @@
     "@docusaurus/module-type-aliases": "3.10.2",
     "@docusaurus/tsconfig": "3.10.2",
     "@docusaurus/types": "3.10.2",
-    "typescript": "5.9.3",
+    "typescript": "7.0.2",
     "wrangler": "4.151.2"
   },
   "browserslist": {
