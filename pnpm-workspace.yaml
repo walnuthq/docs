@@ -1,0 +1,12 @@
+allowBuilds:
+  esbuild: true
+  workerd: true
+  # Never ran under npm either (the old .npmrc set ignore-scripts): core-js
+  # only prints a banner, @parcel/watcher ships prebuilt binaries, and the site
+  # does not need postman-code-generators' per-language installs.
+  "@parcel/watcher": false
+  core-js: false
+  core-js-pure: false
+  postman-code-generators: false
+
+savePrefix: ''
