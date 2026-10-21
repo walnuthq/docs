@@ -1,0 +1,6 @@
+{
+  "canton": true,
+  "walnut": false,
+  "evmApi": false,
+  "starknetApi": false
+}

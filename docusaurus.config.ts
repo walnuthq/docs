@@ -1,12 +1,23 @@
 import { themes as prismThemes } from 'prism-react-renderer';
-import type { Config } from '@docusaurus/types';
+import type { Config, PluginConfig } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 // Load environment variables from .env file
 require('dotenv').config();
 
+// Which docs sections are published. Edit docs.features.json:
+//   canton      - dpm trace docs (docs-canton/)
+//   walnut      - Starknet/EVM debugger docs (docs/)
+//   evmApi      - EVM simulation API reference (needs https://evm.walnut.dev to be reachable)
+//   starknetApi - Starknet simulation API reference (openapi/)
+const features: { canton: boolean; walnut: boolean; evmApi: boolean; starknetApi: boolean } = require('./docs.features.json');
+const apiEnabled = features.evmApi || features.starknetApi;
+
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 const siteUrl = process.env.SITE_URL || 'https://docs.walnut.dev/';
+const siteDescription = features.walnut
+  ? 'Walnut is a transaction debugger and simulator for Starknet, EVM, and custom networks. Step through transactions at the source level, verify smart contracts, and simulate execution.'
+  : 'dpm trace shows what a Canton transaction did as a tree of events, reads rejected submissions, previews and compares transactions, and runs Daml Script tests in CI.';
 const config: Config = {
   title: 'Walnut docs',
   tagline: 'Walnut Documentation',
@@ -23,14 +34,14 @@ const config: Config = {
       tagName: 'meta',
       attributes: {
         name: 'description',
-        content: 'Walnut is a transaction debugger and simulator for Starknet, EVM, and custom networks. Step through transactions at the source level, verify smart contracts, and simulate execution.',
+        content: siteDescription,
       },
     },
     {
       tagName: 'meta',
       attributes: {
         property: 'og:description',
-        content: 'Walnut is a transaction debugger and simulator for Starknet, EVM, and custom networks. Step through transactions at the source level, verify smart contracts, and simulate execution.',
+        content: siteDescription,
       },
     },
   ],
@@ -56,30 +67,52 @@ const config: Config = {
   themes: ['@docusaurus/theme-mermaid', 'docusaurus-theme-openapi-docs'],
   plugins: [
     require.resolve('docusaurus-lunr-search'),
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'api',
-        path: 'api-docs',
-        routeBasePath: 'api',
-        docItemComponent: '@theme/ApiItem',
-        sidebarPath: './sidebarsApi.ts',
-      },
-    ],
+    // dpm trace docs live at / when they are the only section, else at /canton
+    ...(features.canton
+      ? [
+          [
+            '@docusaurus/plugin-content-docs',
+            {
+              id: 'canton',
+              path: 'docs-canton',
+              routeBasePath: features.walnut ? 'canton' : '/',
+              sidebarPath: './sidebarsCanton.ts',
+            },
+          ] satisfies PluginConfig,
+        ]
+      : []),
+    ...(apiEnabled
+      ? [
+          [
+            '@docusaurus/plugin-content-docs',
+            {
+              id: 'api',
+              path: 'api-docs',
+              routeBasePath: 'api',
+              docItemComponent: '@theme/ApiItem',
+              sidebarPath: './sidebarsApi.ts',
+            },
+          ] satisfies PluginConfig,
+        ]
+      : []),
     [
       'docusaurus-plugin-openapi-docs',
       {
         id: 'API',
         docsPluginId: 'api',
         config: {
-          walnut: {
-            specPath: 'https://evm.walnut.dev/api/openapi.json',
-            outputDir: 'api-docs/reference/evm-simulation',
-          },
-          walnutStarknet: {
-            specPath: 'openapi/walnut-starknet-simulation.json',
-            outputDir: 'api-docs/reference/starknet-simulation',
-          },
+          ...(features.evmApi && {
+            walnut: {
+              specPath: 'https://evm.walnut.dev/api/openapi.json',
+              outputDir: 'api-docs/reference/evm-simulation',
+            },
+          }),
+          ...(features.starknetApi && {
+            walnutStarknet: {
+              specPath: 'openapi/walnut-starknet-simulation.json',
+              outputDir: 'api-docs/reference/starknet-simulation',
+            },
+          }),
         },
       },
     ],
@@ -89,10 +122,12 @@ const config: Config = {
     [
       '@docusaurus/preset-classic',
       {
-        docs: {
-          routeBasePath: '/',
-          docItemComponent: '@theme/ApiItem',
-        },
+        docs: features.walnut
+          ? {
+              routeBasePath: '/',
+              docItemComponent: '@theme/ApiItem',
+            }
+          : false,
         blog: false,
 
         theme: {
@@ -108,14 +143,14 @@ const config: Config = {
         tagName: 'meta',
         attributes: {
           name: 'description',
-          content: 'Walnut is a transaction debugger and simulator for Starknet, EVM, and custom networks. Step through transactions at the source level, verify smart contracts, and simulate execution.',
+          content: siteDescription,
         },
       },
       {
         tagName: 'meta',
         attributes: {
           property: 'og:description',
-          content: 'Walnut is a transaction debugger and simulator for Starknet, EVM, and custom networks. Step through transactions at the source level, verify smart contracts, and simulate execution.',
+          content: siteDescription,
         },
       },
       {
@@ -163,22 +198,42 @@ const config: Config = {
         srcDark: 'img/logos/walnut_white.svg',
       },
       items: [
+        // Buttons only show for sections that are enabled; with a single section there is nothing to switch.
+        ...(features.walnut
+          ? [
+              {
+                to: '/',
+                label: 'Documentation',
+                position: 'left' as const,
+                className: 'navbar-button',
+                activeBaseRegex: '^(?!/api|/canton).*$',
+              },
+            ]
+          : []),
+        ...(features.walnut && features.canton
+          ? [
+              {
+                to: '/canton',
+                label: 'DPM Trace',
+                position: 'left' as const,
+                className: 'navbar-button',
+                activeBasePath: '/canton',
+              },
+            ]
+          : []),
+        ...(apiEnabled
+          ? [
+              {
+                to: '/api/category/api-reference',
+                label: 'API Reference',
+                position: 'left' as const,
+                className: 'navbar-button',
+                activeBasePath: '/api',
+              },
+            ]
+          : []),
         {
-          to: '/',
-          label: 'Documentation',
-          position: 'left',
-          className: 'navbar-button',
-          activeBaseRegex: '^(?!/api).*$',
-        },
-        {
-          to: '/api/category/api-reference',
-          label: 'API Reference',
-          position: 'left',
-          className: 'navbar-button',
-          activeBasePath: '/api',
-        },
-        {
-          href: 'https://github.com/walnuthq',
+          href: features.walnut ? 'https://github.com/walnuthq' : 'https://github.com/walnuthq/dpm-trace',
           label: 'GitHub',
           position: 'right',
         },
