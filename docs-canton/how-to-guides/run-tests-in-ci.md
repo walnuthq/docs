@@ -6,7 +6,7 @@ description: 'Run tests in CI'
 
 `dpm trace test` runs your Daml Script tests, prints each test's transaction tree, points every failure to the Daml line that caused it, and exits with a non-zero code when a test fails, so the CI job fails too.
 
-It needs a Daml package with Script tests and DPM installed. It does not need the example ledger.
+It needs a Daml package with Script tests and DPM installed. It does not need the example ledger. The examples below run it on [examples/asset](https://github.com/walnuthq/dpm-trace/tree/main/examples/asset), whose tests are in `daml/Test.daml`.
 
 Run the tests from the package directory:
 ```bash
@@ -17,30 +17,19 @@ The `--daml dpm` flag runs the tests with DPM, because without it `dpm trace tes
 DPM trace test
   package:  <package-dir>
   command:  dpm test
-  result:   1 failed, 3 passed, 4 total
+  result:   all 10 passed (10 total)
 
 Results
-  PASS  testCannotIssueZero  1 tx  !1 expected-fail
-  PASS  testSplit            2 tx  +3 create  >1 exercise  x1 archive
-  FAIL  testSplitTooMuch
-        message: Script execution failed on commit at Asset:123:3: Failed with status: UNHANDLED_EXCEPTION/DA.Exception.AssertionFailed:AssertionFailed: splitQuantity must be between 1 and quantity - 1 Using Canton Error Category InvalidGivenCurrentSystemStateOther
-        <package-dir>/daml/Asset.daml:123:3
-        basis: daml test: Asset
-          121 |   cid <- submit issuer do
-          122 |     createCmd Asset with issuer; owner = alice; name = "GOLD"; quantity = 100
-        > 123 |   submit alice do
-                  ^
-          124 |     exerciseCmd cid Split with splitQuantity = 100
-          125 |   pure ()
-        <package-dir>/daml/Asset.daml:40:20
-        basis: local source
-          38 |       controller owner
-          39 |       do
-        > 40 |         assertMsg "splitQuantity must be between 1 and quantity - 1"
-                                  ^
-          41 |           (splitQuantity > 0 && splitQuantity < quantity)
-          42 |         kept <- create this with quantity = quantity - splitQuantity
-  PASS  testTransfer         2 tx  +2 create  >1 exercise  x1 archive
+  PASS  setup                       no transactions
+  PASS  testAuthFail                2 tx  +1 create  !1 expected-fail
+  PASS  testBadSplitFails           2 tx  +1 create  !1 expected-fail
+  PASS  testCannotIssueZero         1 tx  !1 expected-fail
+  PASS  testDoubleSpending          3 tx  +2 create  >1 exercise  x1 archive  !1 expected-fail
+  PASS  testIssue                   1 tx  +1 create
+  PASS  testSplit                   2 tx  +3 create  >1 exercise  x1 archive
+  PASS  testStrangerCannotTransfer  2 tx  +1 create  !1 expected-fail
+  PASS  testTransfer                2 tx  +2 create  >1 exercise  x1 archive
+  PASS  testDuplicateKey            3 tx  +3 create  >1 exercise  x1 archive  !1 expected-fail
 ```
 Each line shows the test result and the number of transactions, with the events they produced:
 
@@ -49,7 +38,28 @@ Each line shows the test result and the number of transactions, with the events 
 - `x`: archive
 - `!`: a command that was expected to fail
 
-For a failed test, `message` is the error. The code snippets point to the Daml line where the command was submitted (`Asset.daml:123:3`) and to the assertion that rejected it (`Asset.daml:40:20`).
+When a test fails, `message` is the error, and the code snippets point to the Daml line where the command was submitted and to the assertion that rejected it. The example package has no failing test, but a test that splits an asset with `splitQuantity = 0` would be reported like this:
+```bash
+  FAIL  testOverSplitRejected
+        message: Script execution failed on commit at FailureDemo:25:8: Failed with status: UNHANDLED_EXCEPTION/DA.Exception.AssertionFailed:AssertionFailed: splitQuantity must be between 1 and quantity - 1 Using Canton Error Category InvalidGivenCurrentSystemStateOther
+        <package-dir>/daml/FailureDemo.daml:25:8
+        basis: daml test: FailureDemo
+          23 |   cid <- submit issuer do
+          24 |     createCmd Asset with issuer; owner = alice; name = "GOLD"; quantity = 100
+        > 25 |   _ <- submit alice do
+                      ^
+          26 |     exerciseCmd cid Split with splitQuantity = 0
+          27 |   pure ()
+        <package-dir>/daml/Asset.daml:37:20
+        basis: local source
+          35 |       controller owner
+          36 |       do
+        > 37 |         assertMsg "splitQuantity must be between 1 and quantity - 1"
+                                  ^
+          38 |           (splitQuantity > 0 && splitQuantity < quantity)
+          39 |         kept <- create this with quantity = quantity - splitQuantity
+```
+The first snippet is the command that was submitted, and the second is the assertion in `Asset.daml` that rejected it.
 
 Without `--no-trees` the command also prints the transaction tree of every test after the results, for example, this one for `testSplit`:
 ```bash
@@ -57,33 +67,33 @@ Transaction trees
 
   ── testSplit ──
   Transactions:
-    TX 0 1970-01-01T00:00:00Z (Asset:85:10)
+    TX 0 1970-01-01T00:00:00Z (Test:50:10)
     #0:0
     │   consumed by: #1:0
     │   referenced by #1:0
-    │   disclosed to (since): 'Alice-1df42503' (0), 'Issuer-4f1df03a' (0)
-    └─> 'Issuer-4f1df03a' creates Asset:Asset
+    │   disclosed to (since): 'Alice-9b3970be' (0), 'Issuer-d4d95138' (0)
+    └─> 'Issuer-d4d95138' creates Asset:Asset
                           with
-                            issuer = 'Issuer-4f1df03a'; owner = 'Alice-1df42503'; name = "GOLD"; quantity = 100
+                            issuer = 'Issuer-d4d95138'; owner = 'Alice-9b3970be'; name = "GOLD"; quantity = 100
 
-    TX 1 1970-01-01T00:00:00Z (Asset:87:20)
+    TX 1 1970-01-01T00:00:00Z (Test:52:20)
     #1:0
-    │   disclosed to (since): 'Alice-1df42503' (1), 'Issuer-4f1df03a' (1)
-    └─> 'Alice-1df42503' exercises Split on #0:0 (Asset:Asset)
+    │   disclosed to (since): 'Alice-9b3970be' (1), 'Issuer-d4d95138' (1)
+    └─> 'Alice-9b3970be' exercises Split on #0:0 (Asset:Asset)
                          with
                            splitQuantity = 30
         children:
         #1:1
-        │   disclosed to (since): 'Alice-1df42503' (1), 'Issuer-4f1df03a' (1)
-        └─> 'Issuer-4f1df03a' creates Asset:Asset
+        │   disclosed to (since): 'Alice-9b3970be' (1), 'Issuer-d4d95138' (1)
+        └─> 'Issuer-d4d95138' creates Asset:Asset
                               with
-                                issuer = 'Issuer-4f1df03a'; owner = 'Alice-1df42503'; name = "GOLD"; quantity = 70
+                                issuer = 'Issuer-d4d95138'; owner = 'Alice-9b3970be'; name = "GOLD"; quantity = 70
 
         #1:2
-        │   disclosed to (since): 'Alice-1df42503' (1), 'Issuer-4f1df03a' (1)
-        └─> 'Issuer-4f1df03a' creates Asset:Asset
+        │   disclosed to (since): 'Alice-9b3970be' (1), 'Issuer-d4d95138' (1)
+        └─> 'Issuer-d4d95138' creates Asset:Asset
                               with
-                                issuer = 'Issuer-4f1df03a'; owner = 'Alice-1df42503'; name = "GOLD"; quantity = 30
+                                issuer = 'Issuer-d4d95138'; owner = 'Alice-9b3970be'; name = "GOLD"; quantity = 30
 
   Active contracts:  #1:1, #1:2
 
@@ -140,14 +150,14 @@ dpm trace test . --integration itests \
 Output:
 ```bash
 building DAR ...
-booting local Canton (participant1 :56875, participant2 :56878); deploying asset-tests-1.0.0.dar ...
-Canton ready: Alice=Alice::1220e1e0...12cbd8, Bob=Bob::1220bdff...c5e509
+booting local Canton (participant1 :51505, participant2 :51508); deploying asset-1.0.0.dar ...
+Canton ready: Alice=Alice::122031e3...3d38be, Bob=Bob::122040eb...00e6a8
 running integration suite: <package-dir>/itests
 
 -- Testing: 1 tests, 1 workers --
 PASS: dpm-trace-integration :: asset-create.test (1 of 1)
 
-Testing Time: 1.96s
+Testing Time: 1.30s
 
 Total Discovered Tests: 1
   Passed: 1 (100.00%)

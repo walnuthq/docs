@@ -9,7 +9,7 @@ description: 'Preview a command'
 dpm trace prepare \
   --submitter "$LEDGER" \
   --act-as "$ISSUER" \
-  --template '#asset-tests:Asset:Asset' \
+  --template '#asset:Asset:Asset' \
   --arg issuer="$ISSUER" --arg owner="$ALICE" \
   --arg name=GOLD --arg quantity=100
 ```
@@ -19,20 +19,20 @@ Prepared command
   schema:       dpm-trace/prepared-artifact/v0
   endpoint:     http://127.0.0.1:6113/v2/interactive-submission/prepare
   committed:    no
-  command id:   dpm-trace-prepare-a8ee6bb81452
-  act-as:       Issuer::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e
+  command id:   dpm-trace-prepare-92595333d86e
+  act-as:       Issuer::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7
   read-as:      -
   commands:     1
-  prepared hash:Sa3REz6E0wsRMtgjsbLwPtIgxmh0JZg4VlbuhlDBe+o=
+  prepared hash:JfftGcIwY6Z5aD34EqGD6dAgpVL4TBss2fikQROkWFc=
   hashing:      HASHING_SCHEME_VERSION_V2
   cost:         0 traffic (request 0, response 0)
 
 Commands
-  [0] create Asset:Asset  issuer=Issuer::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e  owner=Alice::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e  name=GOLD
+  [0] create Asset:Asset  issuer=Issuer::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7  owner=Alice::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7  name=GOLD
 
 Transaction (as the participant would commit it)
   └── [0] CREATE Asset:Asset
-      ├── contract: 009631faa94e5ee5b9ef4acec4698e1c4da505908c45c8b61cb84e578ee522ad3a
+      ├── contract: 000c639f05c7feb119c59cd8b96203225f7d703d7822da9812787b7d8e334231b6 (local; assigned at commit)
       ├── signatories: Issuer
       ├── observers: Alice
       └── payload: { issuer: Issuer, owner: Alice, name: GOLD, quantity: 100 }
@@ -43,3 +43,4 @@ In the output:
 
 - `committed: no`: the command was only prepared. It was not sent to the ledger, so there is no update ID and no contract was created.
 - `prepared hash`: identifies the prepared command. It is not an update ID.
+- `(local; assigned at commit)`: the contract ID shown is a local one, because a prepared contract only gets its real ID when the transaction is committed.
