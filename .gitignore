@@ -53,3 +53,7 @@ website/i18n/**/*
 
 .netlify
 .tool-versions
+
+# cloudflare
+.wrangler
+.dev.vars*

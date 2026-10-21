@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "walnut-docs",
+  "compatibility_date": "2026-10-01",
+  // Serve on walnut-docs.<subdomain>.workers.dev alongside docs.walnut.dev, to
+  // check deploys independently of the custom domain.
+  "workers_dev": true,
+  // Lets versions uploaded for pull requests serve on
+  // pr-<number>-walnut-docs.<subdomain>.workers.dev.
+  "preview_urls": true,
+  "routes": [{ "pattern": "docs.walnut.dev", "custom_domain": true }],
+  // The Docusaurus build is fully static, so there is no Worker script: every
+  // request is served from the build output.
+  "assets": {
+    "directory": "build",
+    // Matches `trailingSlash: false` in docusaurus.config.ts, which emits
+    // /foo as foo.html: /foo/ redirects to /foo.
+    "html_handling": "drop-trailing-slash",
+    "not_found_handling": "404-page"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
