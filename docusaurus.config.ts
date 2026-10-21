@@ -212,6 +212,19 @@ const config: Config = {
               },
             ]
           : []),
+        // Without this the mobile main menu only has GitHub and no way back to the docs sidebar.
+        ...(!features.walnut && features.canton
+          ? [
+              {
+                type: 'docSidebar' as const,
+                sidebarId: 'cantonSidebar',
+                docsPluginId: 'canton',
+                label: 'Documentation',
+                position: 'left' as const,
+                className: 'navbar-mobile-only',
+              },
+            ]
+          : []),
         ...(features.walnut && features.canton
           ? [
               {
@@ -260,12 +273,12 @@ const config: Config = {
                    class='social-link'>
                   <img class="social-icon" src="/img/github-logo.svg" alt="GitHub"/>
                 </a>
-                <a href="https://t.me/walnuthq" 
-                   target='_blank' 
+                <a href="https://walnut.dev/contact"
+                   target='_blank'
                    rel="noopener noreferrer"
-                   aria-label="Telegram"
+                   aria-label="Contact"
                    class='social-link'>
-                  <img class="social-icon" src="/img/telegram-logo.svg" alt="Telegram"/>
+                  <img class="social-icon" src="/img/email-icon.svg" alt="Contact"/>
                 </a>
                 <a href="https://x.com/walnut_dev" 
                    target='_blank' 

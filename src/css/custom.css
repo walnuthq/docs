@@ -261,3 +261,7 @@
 .openapi-tabs__code-item--ocaml {
   display: none !important;
 }
+/* Shown only in the mobile sidebar menu */
+.navbar__items .navbar-mobile-only {
+  display: none;
+}
