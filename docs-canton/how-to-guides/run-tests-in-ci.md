@@ -16,9 +16,9 @@ This builds the asset DAR before the test package that depends on it.
 
 Then run the tests in `unittests/`:
 ```bash
-dpm trace test unittests --daml dpm --files daml/Test.daml --no-trees
+dpm trace test unittests --files daml/Test.daml --no-trees
 ```
-`--files daml/Test.daml` runs only the tests in `daml/Test.daml`. The `--daml dpm` flag runs the tests with DPM, because without it `dpm trace test` looks for a `daml` executable and fails with `could not run "daml"` when only DPM is installed. The `--no-trees` flag keeps the output to the summary and the failures:
+`--files daml/Test.daml` runs only the tests in `daml/Test.daml`. The tests run with DPM. The `--no-trees` flag keeps the output to the summary and the failures:
 ```bash
 DPM trace test
   package:  <package-dir>/unittests
@@ -40,7 +40,7 @@ Results
 The header shows:
 
 - `package`: the package whose tests ran
-- `command`: the `daml test` command that `dpm trace test` ran, here through DPM
+- `command`: the `dpm test` command that `dpm trace test` ran
 - `result`: how many tests passed and failed
 
 Under `Results`, each line shows the test result, the test name and the number of transactions (`tx`), with the events they produced. `setup` is listed because every top-level `Script` in the file runs as a test, and it submits no transactions. The event markers are:
@@ -52,7 +52,7 @@ Under `Results`, each line shows the test result, the test name and the number o
 
 To see how a failing test is reported, run `testOverSplitRejected` from `daml/FailureDemo.daml`, a test that fails on purpose by splitting an asset with `splitQuantity = 0`:
 ```bash
-dpm trace test unittests --daml dpm --files daml/FailureDemo.daml -p testOverSplitRejected \
+dpm trace test unittests --files daml/FailureDemo.daml -p testOverSplitRejected \
   --daml-yaml unittests/daml.yaml --daml-yaml daml.yaml \
   --dar .daml/dist/asset-1.0.0.dar --no-trees
 ```
@@ -81,7 +81,7 @@ Output:
 ```
 `message` is the error. The first snippet is the command that was submitted, and the second is the assertion in `Asset.daml` that rejected it, confirmed in the compiled DAR by `damlc inspect`. Without the two `--daml-yaml` flags and `--dar`, only the first snippet is printed:
 ```bash
-dpm trace test unittests --daml dpm --files daml/FailureDemo.daml -p testOverSplitRejected --no-trees
+dpm trace test unittests --files daml/FailureDemo.daml -p testOverSplitRejected --no-trees
 ```
 Output:
 ```bash
@@ -105,7 +105,7 @@ Results
 
 Without `--no-trees` the command also prints the transaction tree of every test after the results. Because `Asset` comes from another package, the tree names it with its package ID. To print the tree of `testSplit` only:
 ```bash
-dpm trace test unittests --daml dpm --files daml/Test.daml -p testSplit
+dpm trace test unittests --files daml/Test.daml -p testSplit
 ```
 Output:
 ```bash
@@ -166,7 +166,6 @@ jobs:
       - name: Run Daml Script tests
         run: |
           dpm-trace test unittests \
-            --daml dpm \
             --files daml/Test.daml \
             --daml-yaml unittests/daml.yaml \
             --daml-yaml daml.yaml \
@@ -194,7 +193,6 @@ Then run the suite with `--integration`. It starts a local Canton, runs a `lit` 
 ```bash
 dpm trace test . --integration itests \
   --canton-jar <path-to-canton.jar> \
-  --daml dpm \
   --parties Alice@1,Bob@2
 ```
 Output:
