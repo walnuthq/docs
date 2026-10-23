@@ -16,6 +16,15 @@ dpm trace --completion-file <file>
 ```
 Add `--visualize` to step through the result, `--export <file>` to save it, and `--print-json` to print the normalized trace as JSON.
 
+`--command-id` searches the participant's completions, so it only finds a failed command that was sequenced. `--completion-file` reads a rejection saved with `submit --export <file>`, so it works for every failure.
+
+| Failure | Example | `--command-id` | `--completion-file` |
+| --- | --- | --- | --- |
+| Before sequencing | a failed `assert` (`DAML_FAILURE`), `CONTRACT_NOT_FOUND`, missing authorization, a reused command ID (`DUPLICATE_COMMAND`) | no completion | yes |
+| After sequencing | the contract is locked by another command (`LOCAL_VERDICT_LOCKED_CONTRACTS`), the contract was archived by another command, a mediator timeout | yes | yes |
+
+The error codes come from Canton, and `dpm trace` prints them as the participant returns them. For the full list, see [Canton error codes](https://docs.canton.network/global-synchronizer/reference/error-codes).
+
 **`submit`**
 
 Submit a command and print the update ID. On failure, it prints the rejection, and `--export <file>` saves it.
