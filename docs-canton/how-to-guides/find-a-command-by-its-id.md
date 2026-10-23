@@ -9,13 +9,13 @@ description: 'Find a command by its ID'
 # a command rejected before sequencing, because an Asset with quantity 0 breaks the template precondition
 dpm trace submit --submitter "$LEDGER" --act-as "$ISSUER" \
   --command-id zero-asset \
-  --template '#asset-tests:Asset:Asset' \
+  --template '#asset:Asset:Asset' \
   --arg issuer="$ISSUER" --arg owner="$ALICE" --arg name=GOLD --arg quantity=0
 
 # a command that succeeds
 dpm trace submit --submitter "$LEDGER" --act-as "$ISSUER" \
   --command-id create-gold-asset \
-  --template '#asset-tests:Asset:Asset' \
+  --template '#asset:Asset:Asset' \
   --arg issuer="$ISSUER" --arg owner="$ALICE" --arg name=GOLD --arg quantity=100
 ```
 Look up the one that failed:
@@ -39,12 +39,12 @@ Output:
 DPM trace completion
   result:     completion committed
   command id: create-gold-asset
-  submission: fedc7511-f7e9-4213-b9de-8f322fa60e77
-  update id:  1220c50a6b3684daeebd6d05e4248bf2241f8d0e13b53448ce34d51b2a1eb9aab9fb
-  offset:     116
+  submission: 783a498c-e616-4bc2-9e26-7e08e2de111e
+  update id:  122084694e3d88dbd6e0b18dace845dea25ae84b79084ee13ddedbd3dde56fda28ea
+  offset:     28
   status:     0
   message:    -
-  parties:    Issuer::1220e92d...89b47e
+  parties:    Issuer::12206747...278dc7
   source:     ledger-json-api
 ```
 The completion is committed, and it gives the update ID of the command.

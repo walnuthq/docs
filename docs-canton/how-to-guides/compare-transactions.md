@@ -9,23 +9,23 @@ Each comparison below uses the update IDs and files from the commands in this bl
 ```bash
 # a GOLD asset with quantity 100
 dpm trace submit --submitter "$LEDGER" --act-as "$ISSUER" \
-  --template '#asset-tests:Asset:Asset' \
+  --template '#asset:Asset:Asset' \
   --arg issuer="$ISSUER" --arg owner="$ALICE" --arg name=GOLD --arg quantity=100
 
 # a SILVER asset with quantity 50
 dpm trace submit --submitter "$LEDGER" --act-as "$ISSUER" \
-  --template '#asset-tests:Asset:Asset' \
+  --template '#asset:Asset:Asset' \
   --arg issuer="$ISSUER" --arg owner="$ALICE" --arg name=SILVER --arg quantity=50
 
 # the GOLD command, prepared and not committed
 dpm trace prepare --submitter "$LEDGER" --act-as "$ISSUER" \
-  --template '#asset-tests:Asset:Asset' \
+  --template '#asset:Asset:Asset' \
   --arg issuer="$ISSUER" --arg owner="$ALICE" --arg name=GOLD --arg quantity=100 \
   --export create.prepared.json
 
 # the GOLD command with quantity 0, which fails and is saved as a completion file
 dpm trace submit --submitter "$LEDGER" --act-as "$ISSUER" \
-  --template '#asset-tests:Asset:Asset' \
+  --template '#asset:Asset:Asset' \
   --arg issuer="$ISSUER" --arg owner="$ALICE" --arg name=GOLD --arg quantity=0 \
   --export failed-create.completion.json
 ```
@@ -38,13 +38,13 @@ Output:
 ```bash
 ✗ 1 difference (1 value)     kind: update-vs-update
 
-  A  update 12200833d...  @ offset 25   (baseline)
-  B  update 122007af7...  @ offset 28   (candidate)
+  A  update 1220eeb66...  @ offset 34   (baseline)
+  B  update 1220fddd4...  @ offset 37   (candidate)
 
   Events
     ~ create Asset:Asset                                 name: GOLD → SILVER, quantity: 100 → 50
 
-  Context   read-as Issuer::1220e92d...89b47e   sync 2026-10-19T10:07:31.035562Z
+  Context   read-as Issuer::12206747...278dc7   sync 2026-10-21T13:01:09.567424Z
 ```
 To check that the ledger committed what you prepared, compare the prepared file with the GOLD update. Use the same `<gold-update-id>` as above.
 ```bash
@@ -58,12 +58,12 @@ Output:
 ✓ no differences     kind: prepared-vs-update
 
   A  command dpm-trace-prepare...   (prepared)
-  B  update 12200833d...  @ offset 25   (committed)
+  B  update 1220eeb66...  @ offset 34   (committed)
 
   Events
     = create Asset:Asset                                 (4 fields match)
 
-  Context   act-as Issuer::1220e92d...89b47e   read-as Issuer::1220e92d...89b47e   sync 2026-10-19T10:07:31.035562Z
+  Context   act-as Issuer::12206747...278dc7   read-as Issuer::12206747...278dc7   sync 2026-10-21T13:01:09.567424Z
 ```
 The prepared command and the committed update match: both create the same `Asset`, and all four fields are equal.
 
@@ -80,7 +80,7 @@ Output:
   A  command dpm-trace-prepare...   (prepared)
   B  completion dpm-trace-submit-...   offset -   DAML_FAILURE
 
-  'Interpretation error: Error: User failure: UNHANDLED_EXCEPTION/DA.Exception.PreconditionFailed:PreconditionFailed (error category 9): Template precondition violated: Asset {issuer = \'Issuer::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e\', owner = \'Alice::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e\', name = "GOLD", quantity = 0}'
+  'Interpretation error: Error: User failure: UNHANDLED_EXCEPTION/DA.Exception.PreconditionFailed:PreconditionFailed (error category 9): Template precondition violated: Asset {issuer = \'Issuer::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7\', owner = \'Alice::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7\', name = "GOLD", quantity = 0}'
 
-  Context   submission 30f6ad7e-b9a0-4b6...
+  Context   submission 5ec51247-1c33-48a...
 ```

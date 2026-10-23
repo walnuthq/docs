@@ -15,36 +15,15 @@ The example used in these docs comes from [examples/asset](https://github.com/wa
 
 To set everything up, run `up.sh`. It builds the DAR, starts a local Canton, uploads the DAR, creates the `Issuer`, `Alice`, and `Bob` parties, and exports their IDs. The network is defined in [examples/devnet-trace.conf](https://github.com/walnuthq/dpm-trace/blob/main/examples/devnet-trace.conf): two participants on one synchronizer, with `Issuer` and `Alice` on `participant1` and `Bob` on `participant2`.
 ```bash
-building the example DAR ...
-Running single package build of asset-tests as no multi-package.yaml was found.
-
-2026-10-19 08:42:04.88 [INFO]  [build]
-Compiling asset-tests to a DAR.
-File:     daml
-Hidden:   no
-Range:    1:1-2:1
-Source:   Daml-LF typechecker
-Severity: DsWarning
-Message:
-warning while type checking package:
-  The following dependencies are not used:
-   - 48c08b5fdedad07e9f4d8033732fa5d36714e2eec849b8b58c112bb2aa5da096 (daml-script, 3.5.1)
-  These dependencies can be removed from your daml.yaml
-  Upgrade this warning to an error -Werror=unused-dependency
-  Disable this warning entirely with -Wno-unused-dependency
-
-2026-10-19 08:42:06.36 [INFO]  [build]
-Created .daml/dist/asset-tests-1.0.0.dar
-starting Canton (pid 38754, log <path-to-dpm-trace>/examples/.up/canton.log) ...
+starting Canton (pid 28225, log <path-to-dpm-trace>/examples/.up/canton.log) ...
 export LEDGER='http://127.0.0.1:6113'
 export LEDGER2='http://127.0.0.1:6123'
-export ISSUER='Issuer::1220943998ef3c20591cb7d919a92935a8c290e3f010cab947845648e1b147ce337f'
-export ALICE='Alice::1220943998ef3c20591cb7d919a92935a8c290e3f010cab947845648e1b147ce337f'
-export BOB='Bob::12203f2834c8e8555dd26a1e0c564fcb76828079e70b89bc6cfea3d20260f633dbf9'
+export ISSUER='Issuer::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7'
+export ALICE='Alice::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7'
+export BOB='Bob::12206f5e34dacf518ca87d87e1fddc5eee2be0f9f879e1694620b51e44a4a976d831'
 Canton is ready: participant1 http://127.0.0.1:6113, participant2 http://127.0.0.1:6123
 To use in another shell run: source examples/.env
-Stop Canton with: ./examples/up.sh down
-
+Stop Canton with: ./up.sh down
 ```
 The variables `LEDGER`, `ISSUER`, `ALICE`, and `BOB` are used in every example below. In a new shell, run `source examples/.env` to set them. When you are done, stop Canton with `up.sh down`.
 
@@ -55,13 +34,13 @@ To create an `Asset` as the issuer, we use `dpm trace submit`:
 dpm trace submit \
   --submitter "$LEDGER" \
   --act-as "$ISSUER" \
-  --template '#asset-tests:Asset:Asset' \
+  --template '#asset:Asset:Asset' \
   --arg issuer="$ISSUER" --arg owner="$ALICE" \
   --arg name=GOLD --arg quantity=100
 ```
 Output is the update ID:
 ```bash
-12200833d9637f296c082ec1f6322f47cc8e7d934c1e27f10c76aa017abba1d14fde
+12208cc4c75617b64417ef7d2b3a5a4352156b1082e6ca2d0569686eecd1e9f82cab
 ```
 - `--submitter`: URL of the participant's JSON Ledger API.
 - `--act-as`: the party that submits the command.
@@ -70,7 +49,7 @@ Output is the update ID:
 ## Trace the update ID
 Pass the update ID and the party to read as.
 ```bash
-dpm trace 12200833d9637f296c082ec1f6322f47cc8e7d934c1e27f10c76aa017abba1d14fde \
+dpm trace 12208cc4c75617b64417ef7d2b3a5a4352156b1082e6ca2d0569686eecd1e9f82cab \
   --submitter "$LEDGER" --read-as "$ISSUER"
 ```
 Both flags are required:
@@ -78,21 +57,21 @@ Both flags are required:
 - `--read-as`: the party whose view of the update you want. Events and data that this party is not allowed to see are left out.
 ```bash
 Canton trace
-  update:       12200833d9637f296c082ec1f6322f47cc8e7d934c1e27f10c76aa017abba1d14fde
+  update:       12208cc4c75617b64417ef7d2b3a5a4352156b1082e6ca2d0569686eecd1e9f82cab
   source:       ledger-json-api (http://127.0.0.1:6113/v2/updates/update-by-id)
   offset:       25
-  record time:  2026-10-19T10:07:31.035562Z
-  synchronizer: local::1220694f7d09ada2d4393803880616b6129f6a381e81dadb9b1c247e7fd00fa27ea5
-  read-as:      Issuer (Issuer::1220e92d...89b47e)
+  record time:  2026-10-21T12:58:13.729004Z
+  synchronizer: local::1220e1a34ed2ad1cdc3fd97d63216fe68977ca385f9d0694b39f6f8221063fd183af
+  read-as:      Issuer (Issuer::12206747...278dc7)
   visibility:   Authorized participant projection. Private data outside these party rights is not available.
   events:       +1 create, >0 exercise, x0 archive
   parties:
-    Alice = Alice::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e
-    Issuer = Issuer::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e
+    Alice = Alice::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7
+    Issuer = Issuer::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7
 
 Trace
 └── [0] CREATE Asset:Asset
-    ├── contract: 00a43a18ee777bbd4ebb3ba11c1fa71ed9d2fcfeced06d0b8504ee3c1487579...
+    ├── contract: 0049e39faff71061552be32eb5b47bd49a014a08072f48416c6acd0a7afe49d...
     ├── signatories: Issuer
     ├── observers: Alice
     ├── witnesses: Issuer
@@ -105,27 +84,27 @@ In this trace there is one `CREATE` event: `Issuer` signs it, and `Alice` sees i
 ## Read the update as another party
 Read the same update as `Alice`.
 ```bash
-dpm trace 12200833d9637f296c082ec1f6322f47cc8e7d934c1e27f10c76aa017abba1d14fde \
+dpm trace 12208cc4c75617b64417ef7d2b3a5a4352156b1082e6ca2d0569686eecd1e9f82cab \
   --submitter "$LEDGER" --read-as "$ALICE"
 ```
 Output:
 ```bash
 Canton trace
-  update:       12200833d9637f296c082ec1f6322f47cc8e7d934c1e27f10c76aa017abba1d14fde
+  update:       12208cc4c75617b64417ef7d2b3a5a4352156b1082e6ca2d0569686eecd1e9f82cab
   source:       ledger-json-api (http://127.0.0.1:6113/v2/updates/update-by-id)
   offset:       25
-  record time:  2026-10-19T10:07:31.035562Z
-  synchronizer: local::1220694f7d09ada2d4393803880616b6129f6a381e81dadb9b1c247e7fd00fa27ea5
-  read-as:      Alice (Alice::1220e92d...89b47e)
+  record time:  2026-10-21T12:58:13.729004Z
+  synchronizer: local::1220e1a34ed2ad1cdc3fd97d63216fe68977ca385f9d0694b39f6f8221063fd183af
+  read-as:      Alice (Alice::12206747...278dc7)
   visibility:   Authorized participant projection. Private data outside these party rights is not available.
   events:       +1 create, >0 exercise, x0 archive
   parties:
-    Alice = Alice::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e
-    Issuer = Issuer::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e
+    Alice = Alice::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7
+    Issuer = Issuer::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7
 
 Trace
 └── [0] CREATE Asset:Asset
-    ├── contract: 00a43a18ee777bbd4ebb3ba11c1fa71ed9d2fcfeced06d0b8504ee3c1487579...
+    ├── contract: 0049e39faff71061552be32eb5b47bd49a014a08072f48416c6acd0a7afe49d...
     ├── signatories: Issuer
     ├── observers: Alice
     ├── witnesses: Alice
@@ -135,17 +114,17 @@ Trace
 
 Now read the same update as `Bob`.
 ```bash
-dpm trace 12200833d9637f296c082ec1f6322f47cc8e7d934c1e27f10c76aa017abba1d14fde \
+dpm trace 12208cc4c75617b64417ef7d2b3a5a4352156b1082e6ca2d0569686eecd1e9f82cab \
   --submitter "$LEDGER" --read-as "$BOB"
 ```
 Output:
 ```bash
-error: POST http://127.0.0.1:6113/v2/updates/update-by-id failed with HTTP 404: {"code":"UPDATE_NOT_FOUND","cause":"Update not found, or not visible.","correlationId":null,"traceId":"644bf607fad306c6fb13a2a58a828e28","context":{"participant":"participant1","definite_answer":"false","tid":"644bf607fad306c6fb13a2a58a828e28","category":"11"},"resources":[["ErrorResource(UPDATE_ID)","12200833d9637f296c082ec1f6322f47cc8e7d934c1e27f10c76aa017abba1d14fde"]],"errorCategory":11,"grpcCodeValue":5,"retryInfo":null,"definiteAnswer":null}
+error: POST http://127.0.0.1:6113/v2/updates/update-by-id failed with HTTP 404: {"code":"UPDATE_NOT_FOUND","cause":"Update not found, or not visible.","correlationId":null,"traceId":"48ceb25a4d9490adf9c59cfe0329dd18","context":{"participant":"participant1","definite_answer":"false","tid":"48ceb25a4d9490adf9c59cfe0329dd18","category":"11"},"resources":[["ErrorResource(UPDATE_ID)","12208cc4c75617b64417ef7d2b3a5a4352156b1082e6ca2d0569686eecd1e9f82cab"]],"errorCategory":11,"grpcCodeValue":5,"retryInfo":null,"definiteAnswer":null}
 ```
 `Bob` is not a stakeholder of the asset, so the ledger returns `UPDATE_NOT_FOUND`: the update is not visible to him.
 `Bob` is hosted on `participant2`, not on the participant behind `LEDGER`. To ask Bob's own participant, use `LEDGER2`:
 ```bash
-dpm trace 12200833d9637f296c082ec1f6322f47cc8e7d934c1e27f10c76aa017abba1d14fde \
+dpm trace 12208cc4c75617b64417ef7d2b3a5a4352156b1082e6ca2d0569686eecd1e9f82cab \
   --submitter "$LEDGER2" --read-as "$BOB"
 ```
 The answer is the same `UPDATE_NOT_FOUND`, now with `"participant":"participant2"` in its context, because even on his own participant `Bob` is not a stakeholder of this asset.

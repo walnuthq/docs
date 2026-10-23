@@ -4,7 +4,7 @@ title: 'Commands'
 description: 'Every dpm trace command and flag'
 ---
 
-Each subcommand has one entry below, and the full `dpm trace --help` output is at the end of this section.
+Each subcommand has one entry below, and the full `dpm trace --help` and `dpm trace test --help` output is at the end of this section.
 
 **`trace`**
 
@@ -49,21 +49,36 @@ dpm trace compare --prepared <file> --completion-file <file>
 
 Run Daml Script tests, print the transaction tree of each one, and exit non-zero when a test fails, as shown in [Run tests in CI](../how-to-guides/run-tests-in-ci.md).
 ```bash
-dpm trace test <package-dir> --daml dpm
+dpm trace test <package-dir>
 ```
 
 | Flag | What it does |
 | --- | --- |
-| `--daml <toolchain>` | Runs the tests with `daml`, `damlc` or `dpm`. It defaults to `daml`. |
+| `--daml <toolchain>` | Runs the tests with `dpm`, `daml` or `damlc`. It defaults to `dpm`. |
 | `-p <pattern>`, `--test-pattern <pattern>` | Runs only the tests that match the pattern. |
 | `--files <path>` | Restricts the run to specific source files. It can be repeated. |
 | `--no-trees` | Prints only the summary and the failures, which keeps CI logs short. |
 | `--junit <file>` | Also writes JUnit XML for the CI system. |
 | `--print-json` | Prints the `dpm-trace/test-report/v0` JSON report and exits. |
-| `--dar <file>` | Checks the failure text against the compiled package with `damlc inspect`. |
-| `--integration <dir>` | Starts a local Canton, runs the `lit` suite in the directory against it and stops it. |
-| `--canton-jar <file>` | Sets the Canton JAR that `--integration` starts. |
-| `--parties Name@N` | Places each party on participant `N`, for example `Alice@1,Bob@2`. It can list several parties separated by commas. |
+| `--daml-yaml <file>` | Sets the `daml.yaml` whose sources are searched for failure locations. It can be repeated and defaults to the package's. |
+| `--source-root <path>` | Adds a local Daml source root for failure locations. It can be repeated. |
+| `--debug-info <file>` | Reads source positions from a `daml-debug-info/v1` file. It can be repeated. |
+| `--dar <file>` | Checks the failure text against the compiled package with `damlc inspect`. It can be repeated. With `--integration`, deploys the first DAR instead of building one. |
+| `--damlc <path>` | Sets the `dpm`, `daml` or `damlc` executable that inspects the DAR. It defaults to the `--daml` value. |
+| `--max-source-locations <n>` | Sets the maximum number of source locations per failure. It defaults to 6. |
+| `--keep-artifacts` | Keeps the temporary run directory. |
+| `--integration <dir>` | Starts a local Canton, runs the integration tests in the directory against it and stops it. |
+| `--canton-jar <file>` | Sets the Canton JAR that `--integration` starts. It defaults to `$DPM_TRACE_CANTON_JAR`. |
+| `--parties Name@N` | Places each party on participant `N`, for example `Alice@1,Bob@2`. It can list several parties separated by commas. It defaults to `Alice,Bob`. |
+| `--lit <path>` | Sets the `lit` executable that `--integration` runs. It defaults to `lit`. |
+| `--sequencer-type <type>` | Sets the sequencer type of the local Canton. It defaults to `bft`. |
+| `--canton-timeout <seconds>` | Sets how long to wait for the local Canton to be ready. It defaults to 180. |
+| `--verbose` | Passes `-vv` to `lit` so each test prints its output. |
+| `--init` | Creates `itests/`, `unittests/` and a CI workflow in the package instead of running tests. |
+| `--no-unittests` | With `--init`, skips `unittests/`. |
+| `--no-ci` | With `--init`, skips the CI workflow. |
+| `--itests-dir <dir>` | With `--init`, sets the integration test directory. It defaults to `itests`. |
+| `--unittests-dir <dir>` | With `--init`, sets the unit test directory. It defaults to `unittests`. |
 
 The command exits with 0 when every test passes, 1 when a test fails, and 2 when it cannot run, for example, when the toolchain is missing.
 
@@ -91,6 +106,7 @@ Commands:
   compare          Compare prepared transactions, updates, or completions.
   prepare          Prepare a command without committing it.
   submit           Submit a command and print the resulting update id.
+  test             Run Daml Script tests, or integration tests against a local Canton.
   install-plugin   Register this binary as a DPM component.
 
 Flags:
@@ -102,7 +118,7 @@ Flags:
   --completion-file PATH     Inspect a captured completion instead of an update.
   --daml-yaml PATH           daml.yaml for local source diagnostics. Repeatable.
   --dar PATH                 Local DAR, verified with damlc inspect. Repeatable.
-  --damlc PATH               damlc or daml executable for inspection. Defaults to daml.
+  --damlc PATH               dpm, daml or damlc executable for inspection. Defaults to dpm.
   --debug-info PATH          daml-debug-info/v1 file for source positions. Repeatable.
   --wait SECONDS             Retry while the update is not yet visible on this participant.
   --visualize                Open the interactive visualizer over the trace.
@@ -130,6 +146,49 @@ Examples:
 Output is participant-scoped: it is one participant's projection, not a
 global Canton transaction. A failed submission has no update id, so those
 workflows use completion data instead.
+```
+
+</details>
+
+<details>
+<summary>Full `dpm trace test --help` output</summary>
+
+```bash
+Run Daml Script unit tests, or lit integration tests against a local Canton, and map failures to source.
+
+Usage:
+  dpm trace test <package-dir> [flags]
+
+Flags:
+  --daml PATH                Toolchain to run: dpm, daml or damlc. Defaults to dpm.
+  -p, --test-pattern PAT     Run only tests matching a pattern.
+  --files PATH               Restrict to specific source files. Repeatable.
+  --junit PATH               Also write JUnit XML for CI.
+  --print-json               Print the dpm-trace/test-report/v0 report and exit.
+  --no-trees                 Summary and failures only, for compact CI logs.
+  --daml-yaml PATH           daml.yaml for source diagnostics. Repeatable. Defaults to the package's.
+  --source-root PATH         Local Daml source root for diagnostics. Repeatable.
+  --debug-info PATH          daml-debug-info/v1 file for source positions. Repeatable.
+  --max-source-locations N   Maximum diagnostics per failure. Defaults to 6.
+  --keep-artifacts           Keep the temporary run directory.
+  --dar PATH                 Local DAR to verify failures with damlc inspect. Repeatable.
+  --damlc PATH               dpm, daml or damlc executable for inspection. Defaults to --daml.
+  --integration DIR          Run the integration tests in DIR against a local Canton that dpm trace starts and stops.
+  --canton-jar PATH          Canton JAR to start for --integration. Defaults to $DPM_TRACE_CANTON_JAR.
+  --dar PATH                 With --integration, deploy the first DAR instead of building.
+  --parties Name@N,...       Parties to allocate and the participant each is placed on, e.g. Alice@1,Bob@2. Defaults to Alice,Bob.
+  --lit PATH                 lit executable for --integration. Defaults to lit.
+  --sequencer-type TYPE      Sequencer type of the local Canton. Defaults to bft.
+  --canton-timeout SECONDS   How long to wait for the local Canton to be ready. Defaults to 180.
+  --verbose                  Pass -vv to lit for per-test output.
+  --init                     Scaffold itests/, unittests/ and a CI workflow in the package instead of running tests.
+  --no-unittests             With --init, skip unittests/.
+  --no-ci                    With --init, skip the CI workflow.
+  --itests-dir DIR           With --init, the integration test directory. Defaults to itests.
+  --unittests-dir DIR        With --init, the unit test directory. Defaults to unittests.
+  --config PATH              Config JSON. Defaults to .dpm-trace.json in this directory or a parent.
+  --color MODE               auto, always or never. Defaults to auto.
+  -h, --help                 Show this help.
 ```
 
 </details>

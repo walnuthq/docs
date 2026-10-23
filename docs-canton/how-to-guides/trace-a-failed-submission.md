@@ -9,18 +9,18 @@ To get a rejection, create an `Asset` with quantity `0`. The template requires a
 dpm trace submit \
   --submitter "$LEDGER" \
   --act-as "$ISSUER" \
-  --template '#asset-tests:Asset:Asset' \
+  --template '#asset:Asset:Asset' \
   --arg issuer="$ISSUER" --arg owner="$ALICE" \
   --arg name=GOLD --arg quantity=0
 ```
 Output:
 ```bash
 ✗ submission failed  DAML_FAILURE
-  'Interpretation error: Error: User failure: UNHANDLED_EXCEPTION/DA.Exception.PreconditionFailed:PreconditionFailed (error category 9): Template precondition violated: Asset {issuer = \'Issuer::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e\', owner = \'Alice::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e\', name = "GOLD", quantity = 0}'
+  'Interpretation error: Error: User failure: UNHANDLED_EXCEPTION/DA.Exception.PreconditionFailed:PreconditionFailed (error category 9): Template precondition violated: Asset {issuer = \'Issuer::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7\', owner = \'Alice::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7\', name = "GOLD", quantity = 0}'
 
   Command                                              (what you sent)
-    create Asset:Asset  issuer=Issuer::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e  owner=Alice::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e  name=GOLD
-    act-as Issuer::1220e92d...89b47e    command id dpm-trace-submit-...    offset -
+    create Asset:Asset  issuer=Issuer::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7  owner=Alice::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7  name=GOLD
+    act-as Issuer::12206747...278dc7    command id dpm-trace-submit-...    offset -
 
   Next
     rerun with --export <file> to capture this rejection, then
@@ -31,7 +31,7 @@ The summary above is not saved anywhere. To keep the rejection, run the same com
 dpm trace submit \
   --submitter "$LEDGER" \
   --act-as "$ISSUER" \
-  --template '#asset-tests:Asset:Asset' \
+  --template '#asset:Asset:Asset' \
   --arg issuer="$ISSUER" --arg owner="$ALICE" \
   --arg name=GOLD --arg quantity=0 \
   --export failed-create.completion.json
@@ -44,21 +44,21 @@ Output:
 ```bash
 DPM trace completion
   result:     completion failed
-  command id: dpm-trace-submit-d23224893203
-  submission: 30f6ad7e-b9a0-4b60-9162-7496fea587ea
+  command id: dpm-trace-submit-97d437258fb3
+  submission: 93d4044d-ceb1-48bc-b116-5b6063e37dbe
   update id:  -
   offset:     -
   status:     DAML_FAILURE
-  message:    Interpretation error: Error: User failure: UNHANDLED_EXCEPTION/DA.Exception.PreconditionFailed:PreconditionFailed (error category 9): Template precondition violated: Asset {issuer = 'Issuer::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e', owner = 'Alice::1220e92d30a9b48e588f55405a4ab8e51a58a08d2ebd7864b58afb6082d5b489b47e', name = "GOLD", quantity = 0}
+  message:    Interpretation error: Error: User failure: UNHANDLED_EXCEPTION/DA.Exception.PreconditionFailed:PreconditionFailed (error category 9): Template precondition violated: Asset {issuer = 'Issuer::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7', owner = 'Alice::12206747c65243c1f7fc92787d5c7d0af50006b160c6231ef19a9125054453278dc7', name = "GOLD", quantity = 0}
   trace:      no committed transaction tree is available for this completion
   category:   9 (gRPC 9)
   error id:   UNHANDLED_EXCEPTION/DA.Exception.PreconditionFailed:PreconditionFailed
   definite:   false
   rejected:   participant1
-  trace id:   e840bfe483ccb95149ae0a3f225c5421
-  corr id:    30f6ad7e-b9a0-4b60-9162-7496fea587ea
+  trace id:   bee941221c6303f4dde66d700c14c027
+  corr id:    93d4044d-ceb1-48bc-b116-5b6063e37dbe
   exercised:
-    in create command 760cbb88:Asset:Asset.
+    in create command bfffc530:Asset:Asset.
 ```
 - `--export`: writes the raw rejection to a file.
 - `--completion-file`: read a saved rejection from a JSON file.
