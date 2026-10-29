@@ -13,7 +13,7 @@ Before you start:
 ## Set up the example ledger
 The example used in these docs comes from [examples/asset](https://github.com/walnuthq/dpm-trace/tree/main/examples/asset). Its `Asset` template has an issuer, an owner, a name, and a quantity. The owner can `Split` it into two assets, `Transfer` it, `Withdraw` part of its quantity, or `Burn` it.
 
-To set everything up, run `up.sh`. It builds the DAR, starts a local Canton, uploads the DAR, creates the `Issuer`, `Alice`, and `Bob` parties, and exports their IDs. The network is defined in [examples/devnet-trace.conf](https://github.com/walnuthq/dpm-trace/blob/main/examples/devnet-trace.conf): two participants on one synchronizer, with `Issuer` and `Alice` on `participant1` and `Bob` on `participant2`.
+To set everything up, run [`examples/up.sh`](https://github.com/walnuthq/dpm-trace/blob/main/examples/up.sh) from the repository root. It builds the DAR, starts a local Canton, uploads the DAR, creates the `Issuer`, `Alice`, and `Bob` parties, and exports their IDs. The network is defined in [examples/devnet-trace.conf](https://github.com/walnuthq/dpm-trace/blob/main/examples/devnet-trace.conf): two participants on one synchronizer, with `Issuer` and `Alice` on `participant1` and `Bob` on `participant2`.
 ```bash
 starting Canton (pid 28225, log <path-to-dpm-trace>/examples/.up/canton.log) ...
 export LEDGER='http://127.0.0.1:6113'
@@ -25,7 +25,7 @@ Canton is ready: participant1 http://127.0.0.1:6113, participant2 http://127.0.0
 To use in another shell run: source examples/.env
 Stop Canton with: ./up.sh down
 ```
-The variables `LEDGER`, `ISSUER`, `ALICE`, and `BOB` are used in every example below. In a new shell, run `source examples/.env` to set them. When you are done, stop Canton with `up.sh down`.
+The variables `LEDGER`, `ISSUER`, `ALICE`, and `BOB` are used in every example below. In a new shell, run `source examples/.env` to set them. When you are done, stop Canton with `examples/up.sh down`.
 
 If you prefer to set this up yourself, start a local ledger with [dpm sandbox](https://docs.canton.network/sdks-tools/development-tools/sandbox) (or [LocalNet](https://docs.canton.network/sdks-tools/development-tools/localnet) for several validators), [upload the DAR](https://docs.canton.network/reference/json-api-reference/post-v2packages), and [create the parties](https://docs.canton.network/reference/json-api-reference/post-v2parties) by following the Canton documentation.
 ## Submit a command
