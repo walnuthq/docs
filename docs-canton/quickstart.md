@@ -7,13 +7,13 @@ description: 'Set up a local ledger, submit a command, and trace it'
 This quickstart takes you from a running ledger to a traced transaction: set up the example ledger, submit a command, trace it, and read it as another party.
 Before you start:
 - `dpm trace` is registered, as described in [Register with DPM](./install.md#register-with-dpm).
-- You have a clone of the [repository](https://github.com/walnuthq/dpm-trace), because the example ledger lives in `examples/`: `git clone https://github.com/walnuthq/dpm-trace.git && cd dpm-trace`.
+- You have the `examples/` directory with the ledger example, which comes with both the release archive and a clone of the [repository](https://github.com/walnuthq/dpm-trace), and you run the commands below from the directory that contains it.
 - Java 17 or newer, `curl`, and `python3` are on your `PATH`.
 - The Canton JAR is in the DPM cache. If it is missing, run `dpm install <sdk-version>`, or set `CANTON_JAR=<path-to-canton.jar>`.
 ## Set up the example ledger
 The example used in these docs comes from [examples/asset](https://github.com/walnuthq/dpm-trace/tree/main/examples/asset). Its `Asset` template has an issuer, an owner, a name, and a quantity. The owner can `Split` it into two assets, `Transfer` it, `Withdraw` part of its quantity, or `Burn` it.
 
-To set everything up, run `up.sh`. It builds the DAR, starts a local Canton, uploads the DAR, creates the `Issuer`, `Alice`, and `Bob` parties, and exports their IDs. The network is defined in [examples/devnet-trace.conf](https://github.com/walnuthq/dpm-trace/blob/main/examples/devnet-trace.conf): two participants on one synchronizer, with `Issuer` and `Alice` on `participant1` and `Bob` on `participant2`.
+To set everything up, run [`examples/up.sh`](https://github.com/walnuthq/dpm-trace/blob/main/examples/up.sh) from the directory that holds `examples/`. It builds the DAR, starts a local Canton, uploads the DAR, creates the `Issuer`, `Alice`, and `Bob` parties, and exports their IDs. The network is defined in [examples/devnet-trace.conf](https://github.com/walnuthq/dpm-trace/blob/main/examples/devnet-trace.conf): two participants on one synchronizer, with `Issuer` and `Alice` on `participant1` and `Bob` on `participant2`.
 ```bash
 starting Canton (pid 28225, log <path-to-dpm-trace>/examples/.up/canton.log) ...
 export LEDGER='http://127.0.0.1:6113'
@@ -25,7 +25,9 @@ Canton is ready: participant1 http://127.0.0.1:6113, participant2 http://127.0.0
 To use in another shell run: source examples/.env
 Stop Canton with: ./up.sh down
 ```
-The variables `LEDGER`, `ISSUER`, `ALICE`, and `BOB` are used in every example below. In a new shell, run `source examples/.env` to set them. When you are done, stop Canton with `up.sh down`.
+The variables `LEDGER`, `ISSUER`, `ALICE`, and `BOB` are used in every example below. In a new shell, run `source examples/.env` to set them. When you are done, stop Canton with `examples/up.sh down`.
+
+The ports are fixed: the synchronizer uses 16101–16103, `participant1` uses 6111–6113, and `participant2` uses 6121–6123. If another ledger already uses them, change the `port` values in `examples/devnet-trace.conf` and the `LEDGER` and `LEDGER2` URLs at the top of `examples/up.sh` to match.
 
 If you prefer to set this up yourself, start a local ledger with [dpm sandbox](https://docs.canton.network/sdks-tools/development-tools/sandbox) (or [LocalNet](https://docs.canton.network/sdks-tools/development-tools/localnet) for several validators), [upload the DAR](https://docs.canton.network/reference/json-api-reference/post-v2packages), and [create the parties](https://docs.canton.network/reference/json-api-reference/post-v2parties) by following the Canton documentation.
 ## Submit a command
@@ -53,7 +55,7 @@ dpm trace 12208cc4c75617b64417ef7d2b3a5a4352156b1082e6ca2d0569686eecd1e9f82cab \
   --submitter "$LEDGER" --read-as "$ISSUER"
 ```
 Both flags are required:
-- `--submitter`: the participant's JSON Ledger API URL, the ledger to read the update from. Without it, `dpm trace` has no source and fails with `choose a source`.
+- `--submitter`: the participant's JSON Ledger API URL, the ledger to read the update from. Without it, `dpm trace` has no source and fails with `choose a source`. That error names `--ledger-url`, which is another name for `--submitter`.
 - `--read-as`: the party whose view of the update you want. Events and data that this party is not allowed to see are left out.
 ```bash
 Canton trace
