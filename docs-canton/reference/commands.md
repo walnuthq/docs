@@ -75,13 +75,15 @@ dpm trace test <package-dir>
 | `--dar <file>` | Checks the failure text against the compiled package with `damlc inspect`. It can be repeated. With `--integration`, deploys the first DAR instead of building one. |
 | `--damlc <path>` | Sets the `dpm`, `daml` or `damlc` executable that inspects the DAR. It defaults to the `--daml` value. |
 | `--max-source-locations <n>` | Sets the maximum number of source locations per failure. It defaults to 6. |
-| `--keep-artifacts` | Keeps the temporary run directory. |
-| `--integration <dir>` | Starts a local Canton, runs the integration tests in the directory against it and stops it. |
+| `--keep-artifacts` | Keeps the temporary run directory. It is ignored with `--ledger-url`. |
+| `--integration <dir>` | Starts a local Canton, runs the integration tests in the directory against it and stops it. With `--ledger-url`, runs them against participants that are already running instead. |
 | `--canton-jar <file>` | Sets the Canton JAR that `--integration` starts. It defaults to `$DPM_TRACE_CANTON_JAR`. |
+| `--ledger-url <url>` | With `--integration`, attaches to an existing participant's JSON Ledger API instead of starting Canton. It can be repeated, once per participant: the Nth `--ledger-url` serves the parties placed with `@N` in `--parties`. It cannot be combined with `--canton-jar`. Only the command line enables it, not `DPM_TRACE_LEDGER_URL` or `.dpm-trace.json`. |
+| `--token-file <file>` | Requires `--ledger-url`. Reads a bearer token from the file on every request. It can be repeated in the same order as `--ledger-url`: give none, or exactly one per URL. |
 | `--parties Name@N` | Places each party on participant `N`, for example `Alice@1,Bob@2`. It can list several parties separated by commas. It defaults to `Alice,Bob`. |
 | `--lit <path>` | Sets the `lit` executable that `--integration` runs. It defaults to `lit`. |
-| `--sequencer-type <type>` | Sets the sequencer type of the local Canton. It defaults to `bft`. |
-| `--canton-timeout <seconds>` | Sets how long to wait for the local Canton to be ready. It defaults to 180. |
+| `--sequencer-type <type>` | Sets the sequencer type of the local Canton. It defaults to `bft`. It is ignored with `--ledger-url`. |
+| `--canton-timeout <seconds>` | Sets how long to wait for the local Canton to be ready or, with `--ledger-url`, for each party to become visible on every participant. It defaults to 180. |
 | `--verbose` | Passes `-vv` to `lit` so each test prints its output. |
 | `--init` | Creates `itests/`, `unittests/` and a CI workflow in the package instead of running tests. |
 | `--no-unittests` | With `--init`, skips `unittests/`. |
@@ -115,7 +117,7 @@ Commands:
   compare          Compare prepared transactions, updates, or completions.
   prepare          Prepare a command without committing it.
   submit           Submit a command and print the resulting update id.
-  test             Run Daml Script tests, or integration tests against a local Canton.
+  test             Run Daml Script tests, or integration tests against a local Canton or existing participants.
   install-plugin   Register this binary as a DPM component.
 
 Flags:
@@ -141,7 +143,7 @@ Flags:
   --completion-limit N       Completions to search. Defaults to 100.
   --max-source-locations N   Maximum diagnostics to resolve. Defaults to 5.
   --explain-apis             Explain Scan API vs Ledger API.
-  --config PATH              Config JSON. Defaults to .dpm-trace.json in this directory or a parent.
+  --config PATH              Config JSON. Defaults to $DPM_TRACE_CONFIG (the integration runner's override), then .dpm-trace.json in this directory or a parent.
   --color MODE               auto, always or never. Defaults to auto.
   -h, --help                 Show this help.
 
@@ -163,7 +165,7 @@ workflows use completion data instead.
 <summary>Full `dpm trace test --help` output</summary>
 
 ```bash
-Run Daml Script unit tests, or lit integration tests against a local Canton, and map failures to source.
+Run Daml Script unit tests, or lit integration tests against a local Canton that dpm trace boots (or persistent participants given by --ledger-url), and map failures to source.
 
 Usage:
   dpm trace test <package-dir> [flags]
@@ -179,23 +181,25 @@ Flags:
   --source-root PATH         Local Daml source root for diagnostics. Repeatable.
   --debug-info PATH          daml-debug-info/v1 file for source positions. Repeatable.
   --max-source-locations N   Maximum diagnostics per failure. Defaults to 6.
-  --keep-artifacts           Keep the temporary run directory.
+  --keep-artifacts           Keep the temporary run directory. Ignored with --ledger-url.
   --dar PATH                 Local DAR to verify failures with damlc inspect. Repeatable.
   --damlc PATH               dpm, daml or damlc executable for inspection. Defaults to --daml.
-  --integration DIR          Run the integration tests in DIR against a local Canton that dpm trace starts and stops.
+  --integration DIR          Run the integration tests in DIR against a local Canton that dpm trace starts and stops, or against persistent participants with --ledger-url.
   --canton-jar PATH          Canton JAR to start for --integration. Defaults to $DPM_TRACE_CANTON_JAR.
   --dar PATH                 With --integration, deploy the first DAR instead of building.
+  --ledger-url URL           With --integration, attach to an existing participant's JSON Ledger API instead of booting Canton. Repeatable, one per participant: the Nth --ledger-url serves the parties placed with @N in --parties. Cannot be combined with --canton-jar.
+  --token-file PATH          Requires --ledger-url. Bearer token file, re-read on every request. Repeatable: give none, or exactly one per --ledger-url in the same order.
   --parties Name@N,...       Parties to allocate and the participant each is placed on, e.g. Alice@1,Bob@2. Defaults to Alice,Bob.
   --lit PATH                 lit executable for --integration. Defaults to lit.
-  --sequencer-type TYPE      Sequencer type of the local Canton. Defaults to bft.
-  --canton-timeout SECONDS   How long to wait for the local Canton to be ready. Defaults to 180.
+  --sequencer-type TYPE      Sequencer type of the local Canton. Defaults to bft. Ignored with --ledger-url.
+  --canton-timeout SECONDS   How long to wait for the local Canton to be ready, or with --ledger-url for each party to become visible on every participant. Defaults to 180.
   --verbose                  Pass -vv to lit for per-test output.
   --init                     Scaffold itests/, unittests/ and a CI workflow in the package instead of running tests.
   --no-unittests             With --init, skip unittests/.
   --no-ci                    With --init, skip the CI workflow.
   --itests-dir DIR           With --init, the integration test directory. Defaults to itests.
   --unittests-dir DIR        With --init, the unit test directory. Defaults to unittests.
-  --config PATH              Config JSON. Defaults to .dpm-trace.json in this directory or a parent.
+  --config PATH              Config JSON. Defaults to $DPM_TRACE_CONFIG (the integration runner's override), then .dpm-trace.json in this directory or a parent.
   --color MODE               auto, always or never. Defaults to auto.
   -h, --help                 Show this help.
 ```

@@ -18,7 +18,7 @@ Set the connection options once in a config file or in environment variables, in
 ```
 `dpm trace` looks for the file in the current directory. If the current directory or a parent contains `.git`, `daml.yaml` or `component.yaml`, it also looks in each parent directory up to the nearest one that does, and stops there.
 
-To use a file in another location, pass `--config <file>`.
+To use a file in another location, pass `--config <file>`. Otherwise `DPM_TRACE_CONFIG` names the file, then the search above applies. `DPM_TRACE_CONFIG` is the integration runner's override, not a setting for users: in attach mode (`test --integration --ledger-url`) it points at a copy of the project config without `token`, `tokenFile`, `ledgerUrl` and `scanUrl`, so those reach test commands only through the flags a suite passes them. The other keys, such as `readAs`, `party`, `damlYaml` and `sourceRoots`, still apply. Like `--config`, a `DPM_TRACE_CONFIG` that cannot be read is an error.
 
 :::warning
 If the file holds a token, do not commit it.
