@@ -193,10 +193,10 @@ The `dpm-trace` binary must be on the `PATH` of the job, so add a step that down
 
 To test against a real ledger instead of the in-memory one, you need:
 
-- A Canton JAR, which DPM keeps under `~/.dpm/cache/components/canton-open-source/<sdk-version>/lib/`
-- Java 17 or newer
 - [`lit`](https://pypi.org/project/lit/)
 - [`FileCheck`](https://pypi.org/project/filecheck/)
+
+To boot a local Canton, which is the default, you also need a Canton JAR, which DPM keeps under `~/.dpm/cache/components/canton-open-source/<sdk-version>/lib/`, and Java 17 or newer. Attaching to participants that are already running needs no local Canton JAR. The example builds the DAR, which needs Java for that step; pass `--dar <file>` to use a prebuilt DAR.
 
 Then run the suite with `--integration`. It starts a local Canton, runs a `lit` suite against it, and stops it. The suite directory, here `itests`, must exist in the package directory and contain a `lit.cfg.py`. `--parties Name@N` places each party on participant `N`, so `Alice@1,Bob@2` puts `Alice` on participant 1 and `Bob` on participant 2:
 ```bash
@@ -220,3 +220,37 @@ Total Discovered Tests: 1
   Passed: 1 (100.00%)
 ```
 The command builds the DAR of the package directory, which does not include `unittests/` and so does not upload `daml-script`, starts Canton with `Alice` on participant 1 and `Bob` on participant 2, runs every test in `itests` against it, and stops Canton when the suite ends.
+
+To run the same suite against participants that are already running, such as a shared test network, pass `--ledger-url` instead of `--canton-jar`. Repeat it once per participant, so the count is the highest `N` in `--parties`, and pass one `--token-file` per URL in the same order:
+```bash
+dpm trace test . --integration itests \
+  --parties Alice@1,Bob@2 \
+  --ledger-url https://<participant1-json-api-url> --token-file ./token1.txt \
+  --ledger-url https://<participant2-json-api-url> --token-file ./token2.txt
+```
+Attach mode works as follows:
+
+- Only `--ledger-url` on the command line turns it on, never `DPM_TRACE_LEDGER_URL` or `.dpm-trace.json`, so a configuration written for `dpm trace` cannot send a test run to a real network. It cannot be combined with `--canton-jar`.
+- Each `--ledger-url` must be an `http` or `https` URL with a host and no `user:password@`. Credentials in a URL are rejected, and never echoed, in favour of `--token-file`. So are a query (`?`) and a fragment (`#`), which are not echoed either, because the API paths are appended to the URL as text. `--canton-jar` is an error with `--ledger-url`, even an empty one. A `DPM_TRACE_CANTON_JAR` in the environment is ignored.
+- `--token-file` is optional, but if you pass it, pass exactly one per `--ledger-url`. Without a token file, a participant is treated as unauthenticated: it has no user, so no rights are granted or revoked. A `--token-file` without `--ledger-url`, an empty `--ledger-url`, and a token file that is unreadable or empty are errors, reported before the DAR is built. The file is read again on every request, so a CI job can refresh an expiring token. A suite command that outlives its token, such as `trace --wait`, reads the file once when it starts and not again while it waits. Replace the file by renaming a new file over it, so a request never reads a half-written token.
+- The setup goes through the JSON Ledger API. It uploads the DAR and allocates the parties, with a per-run suffix on their names so that repeated runs on the same network do not collide. It then grants the token's user the rights to act and read as those parties. With tokens, that user needs participant admin rights.
+- The granted rights are revoked when the run ends, including after a test failure or on `SIGINT`, `SIGTERM`, or `SIGHUP`, or when the output of `dpm trace` closes, for example under `| head`. In that last case the runner's own write gets `EPIPE`, so it revokes the rights and cleans up, and then exits with 141. If the output closes while lit is running, lit 23.1.6 can hang and the rights stay until the run receives a signal, so do not pipe a long run into a command that exits early. A bare `SIGPIPE` raised by a participant that closes a connection early is ignored. A grant request that was already sent is allowed to finish, for up to 30 seconds. If it times out or ends without a usable answer, the participant may still apply it after the revoke has run, so the run revokes anyway and prints a warning that names the user, the parties and the participant as possibly still granted. If a revoke fails, a warning on stderr names the user and parties to clean up. `SIGKILL` cannot be caught, so a killed run leaves its rights behind and you must revoke them by hand. The parties and the DAR stay on the network.
+- `--canton-timeout` is one deadline per party, across all participants, for the party to become visible on each of them. `--keep-artifacts` and `--sequencer-type` are ignored.
+- If you change the DAR, bump `version` in `daml.yaml` and rebuild. Canton refuses a package whose name and version it already has with different content, and `dpm trace` then asks you to bump the version. The change must stay upgrade-compatible.
+- The suite's commands run with the project config minus its `token`, `tokenFile`, `ledgerUrl` and `scanUrl` keys, and without any `DPM_TRACE_IT_*`, `DPM_TRACE_TOKEN*`, `DPM_TRACE_LEDGER_URL` or `DPM_TRACE_SCAN_URL` variable the runner did not set. In both modes, an inherited `DPM_TRACE_IT_TOKEN_FILE*` is dropped, so a stale token path can never become a `--token-file` flag. `DPM_TRACE_CONFIG` is read by every `dpm trace` command when it looks for its configuration, but the runner sets it only in attach mode, to the copy of the project config without those keys. This needs the suite's `lit.cfg.py` to forward `DPM_TRACE_CONFIG`, as the generated one does. The check is a best-effort guard. It reads the one lit configuration that lit would execute, the first that exists of `lit.site.cfg.py`, `lit.site.cfg`, `lit.cfg.py` and `lit.cfg` in the nearest directory that has any, starting at the test directory and going up, and looks for an uncommented mention of `DPM_TRACE_CONFIG`. It does not run the configuration. A suite whose configuration does not mention it, such as one created before attach mode, is refused with exit code 2 and the lines to add, before anything is uploaded. So is a suite with no lit configuration at all, because it cannot be isolated. The guard judges only the suite's own configuration. lit also loads the configuration of any nested suite below it, and the guard does not read those, so every nested suite with its own lit configuration must forward `DPM_TRACE_CONFIG` too.
+- Every token file is exported to the suite as `DPM_TRACE_IT_TOKEN_FILE`, `DPM_TRACE_IT_TOKEN_FILE2`, `DPM_TRACE_IT_TOKEN_FILE3` and so on. The generated `lit.cfg.py` defines only `%auth` and `%auth2`, so a suite with more participants adds its own substitutions for the rest.
+
+In the tests, `%ledger` and `%auth` stand for participant 1, and `%ledger2` and `%auth2` for participant 2. `%auth` expands to `--token-file "$DPM_TRACE_IT_TOKEN_FILE"`, and `%auth2` to the same with `DPM_TRACE_IT_TOKEN_FILE2`. Both expand to nothing when there is no token file or the suite runs against a local Canton. The path travels in the environment of the test commands, so a path that contains text `lit` substitutes, such as `%alice`, arrives unchanged. Pass them next to `--submitter`:
+```bash
+%dpm submit --submitter %ledger2 %auth2 ...
+```
+In GitHub Actions, point the step at an existing participant and read the token from a file written by an earlier step:
+```yaml
+      - name: Run integration tests
+        run: |
+          dpm-trace test . --integration itests \
+            --parties Alice@1 \
+            --ledger-url "$LEDGER_URL" \
+            --token-file "$RUNNER_TEMP/token.txt"
+```
+If you have no participant to attach to, the [LocalNet](https://github.com/peacefulstudio/canton-localnet) project provides a GitHub Action that starts one.
